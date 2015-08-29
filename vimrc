@@ -38,6 +38,10 @@ call plug#end()
 filetype plugin indent on
 syntax on
 
+" set a map leader for more key combos
+let mapleader = ','
+let g:mapleader = ','
+
 let g:airline_theme='base16'
 let g:airline_powerline_fonts = 1
 
@@ -89,7 +93,13 @@ for prefix in ['i', 'n', 'v']
     exe prefix . "noremap " . key . " <Nop>"
   endfor
 endfor
+nnoremap <leader>R :so ~/.vimrc<CR>:AirlineRefresh<CR>
 nnoremap <C-p> :FZF<CR>
+" Textmate style indentation
+vmap <leader>[ <gv
+vmap <leader> ] >gv
+nmap <leader>[ <<
+nmap <leader>] >>
 " -----------------------
 " Colors
 " -----------------------
@@ -126,3 +136,8 @@ augroup ColourSet
   autocmd ColorScheme * hi GitGutterDelete ctermbg=black
   autocmd ColorScheme * hi GitGutterChangeDelete ctermbg=black
 augroup END
+
+function! SourceVimrc()
+  exec "so ~/.vimrc"
+  exec "AirlineRefresh"
+endfunction
