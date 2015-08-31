@@ -75,6 +75,8 @@ set visualbell
 set laststatus=2
 set ttimeoutlen=50
 set diffopt+=vertical
+set scrolloff=10                    " keep cursor relatively centered
+set sidescrolloff=10"
 " syntastic config
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
