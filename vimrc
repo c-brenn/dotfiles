@@ -85,7 +85,9 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-
+let g:syntastic_html_checkers=['']
+let g:syntastic_scss_checkers = []
+let g:syntastic_disabled_filetype = ['scss']
 " -----------------------
 " Key Mappings
 " -----------------------
@@ -102,6 +104,7 @@ vmap <leader>[ <gv
 vmap <leader> ] >gv
 nmap <leader>[ <<
 nmap <leader>] >>
+nnoremap <Leader>tw :call TrimWhitespace()<CR>
 " -----------------------
 " Colors
 " -----------------------
@@ -143,3 +146,8 @@ function! SourceVimrc()
   exec "so ~/.vimrc"
   exec "AirlineRefresh"
 endfunction
+
+function! TrimWhitespace()
+  %s/\s\+$//e
+endfunc
+
