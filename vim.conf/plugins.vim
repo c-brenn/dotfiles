@@ -16,10 +16,12 @@ Plug 'troydm/easybuffer.vim'
 " Wizard Snippets
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-" Wizard Completion
-Plug 'Valloric/YouCompleteMe'
+" Alignment
+Plug 'godlygeek/tabular'
 " Magical Search
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  }
+" Wizard Completion
+Plug 'Valloric/YouCompleteMe'
 " -- Languages --
 Plug 'scrooloose/syntastic'
 Plug 'vim-ruby/vim-ruby'
