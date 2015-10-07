@@ -29,6 +29,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'cakebaker/scss-syntax.vim'
 Plug 'kchmck/vim-coffee-script'
 Plug 'othree/html5.vim'
+Plug 'dag/vim2hs'
 " -- Frameworks --
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-bundler'
