@@ -34,6 +34,7 @@ Plug 'tpope/vim-rails'
 Plug 'tpope/vim-bundler'
 
 " -- COLOURS --
+"    -- Colour Schemes
 Plug 'chriskempson/base16-vim'
 
 " -- MISC --
