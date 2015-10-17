@@ -62,3 +62,4 @@ set ttyfast                         " probably already set but /shruggie
 set encoding=utf-8
 set complete+=kspell
 set hidden"
+set diffopt+=vertical
