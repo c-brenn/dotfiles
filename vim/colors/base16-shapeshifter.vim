@@ -1,5 +1,5 @@
-" Base16 Railscasts (https://github.com/chriskempson/base16)
-" Scheme: Ryan Bates (http://railscasts.com)
+" Base16 shapeshifter (https://github.com/chriskempson/base16)
+" Scheme: Tyler Benziger (http://tybenz.com)
 
 " This enables the coresponding base16-shell script to run so that
 " :colorscheme works in terminals supported by base16-shell scripts
@@ -7,27 +7,27 @@
 "   let g:base16_shell_path=base16-builder/output/shell/
 if !has('gui_running')
   if exists("g:base16_shell_path")
-    execute "silent !/bin/sh ".g:base16_shell_path."/base16-railscasts.".&background.".sh"
+    execute "silent !/bin/sh ".g:base16_shell_path."/base16-shapeshifter.".&background.".sh"
   endif
 endif
 
 " GUI color definitions
-let s:gui00 = "2b2b2b"
-let s:gui01 = "272935"
-let s:gui02 = "3a4055"
-let s:gui03 = "5a647e"
-let s:gui04 = "d4cfc9"
-let s:gui05 = "e6e1dc"
-let s:gui06 = "f4f1ed"
-let s:gui07 = "f9f7f3"
-let s:gui08 = "da4939"
-let s:gui09 = "cc7833"
-let s:gui0A = "ffc66d"
-let s:gui0B = "a5c261"
-let s:gui0C = "519f50"
-let s:gui0D = "6d9cbe"
-let s:gui0E = "b6b3eb"
-let s:gui0F = "bc9458"
+let s:gui00 = "000000"
+let s:gui01 = "040404"
+let s:gui02 = "102015"
+let s:gui03 = "343434"
+let s:gui04 = "555555"
+let s:gui05 = "ababab"
+let s:gui06 = "e0e0e0"
+let s:gui07 = "f9f9f9"
+let s:gui08 = "e92f2f"
+let s:gui09 = "e09448"
+let s:gui0A = "dddd13"
+let s:gui0B = "0ed839"
+let s:gui0C = "23edda"
+let s:gui0D = "3b48e3"
+let s:gui0E = "f996e2"
+let s:gui0F = "69542d"
 
 " Terminal color definitions
 let s:cterm00 = "00"
@@ -59,7 +59,7 @@ endif
 " Theme setup
 hi clear
 syntax reset
-let g:colors_name = "base16-railscasts"
+let g:colors_name = "base16-shapeshifter"
 
 " Highlighting function
 fun <sid>hi(group, guifg, guibg, ctermfg, ctermbg, attr)

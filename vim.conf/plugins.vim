@@ -2,47 +2,48 @@
 " Vim Plug
 " -----------------------
 call plug#begin('~/.vim/plugged')
-" Git
+
+" -- GIT --
+"    -- Gutter
 Plug 'airblade/vim-gitgutter'
+"    -- Git in Vim
 Plug 'tpope/vim-fugitive'
 
-" Status Bar
-Plug 'bling/vim-airline'
-
-" Yum, salad
-Plug 'tpope/vim-vinegar'
-
-" Pair thingies
+" -- COMPLETION --
+"    -- Auto Completion
+Plug 'ajh17/VimCompletesMe'
+"    -- Snippets
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+"    -- Pair thingies
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-endwise'
 
-" Moving Between Buffers
-Plug 'troydm/easybuffer.vim'
-
-" Wizard Snippets
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-
-" Alignment
-Plug 'godlygeek/tabular'
-
-" Magical Search
+" -- MAGICAL SEARCH --
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  }
 
-" Wizard Completion
-Plug 'Valloric/YouCompleteMe'
-
-" -- Languages --
+" -- SYNTAX --
 Plug 'scrooloose/syntastic'
+"    -- languages
 Plug 'vim-ruby/vim-ruby'
 Plug 'pangloss/vim-javascript'
 Plug 'cakebaker/scss-syntax.vim'
 Plug 'kchmck/vim-coffee-script'
-Plug 'othree/html5.vim'
 Plug 'dag/vim2hs'
-
-" -- Frameworks --
+"    -- Frameworks
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-bundler'
+
+" -- COLOURS --
+Plug 'chriskempson/base16-vim'
+
+" -- MISC --
+"    -- Status Bar
+Plug 'bling/vim-airline'
+"    -- Yum, salad
+Plug 'tpope/vim-vinegar'
+"    -- Moving Between Buffers
+Plug 'troydm/easybuffer.vim'
+"    -- Alignment
+Plug 'godlygeek/tabular'
 call plug#end()
 
