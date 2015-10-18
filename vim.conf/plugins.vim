@@ -47,6 +47,8 @@ Plug 'scrooloose/syntastic'
     Plug 'chriskempson/base16-vim'
 
 " -- MISC --
+"   -- IRB in Vim
+    Plug 't9md/vim-ruby-xmpfilter'
 "   -- Status Bar
     Plug 'bling/vim-airline'
 "   -- Yum, salad
