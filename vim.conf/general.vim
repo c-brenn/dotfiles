@@ -10,6 +10,9 @@ set backspace=indent,eol,start      " backspace everything
 set shiftround                      " 'h' and 'l' will wrap around lines
 set whichwrap+=<,>,h,l
 
+" Git commit
+autocmd Filetype gitcommit setlocal spell textwidth=72
+
 " Gutter number
 set relativenumber
 set number
