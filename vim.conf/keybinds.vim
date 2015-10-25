@@ -1,11 +1,6 @@
 " set a map leader for more key combos
-let mapleader = ','
-let g:mapleader = ','
-
-" cycle through buffers
-map <Leader><tab> :bn<CR>
-map <Leader>` :bp<CR>
-map ` :EasyBuffer<CR>"
+let mapleader = ' '
+let g:mapleader = ' '
 
 " Source vimrc
 nnoremap <leader>R :so ~/.vimrc<CR>:AirlineRefresh<CR>
