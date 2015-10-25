@@ -28,6 +28,8 @@ endif
     Plug 'tpope/vim-endwise'
 "   -- Comment thingies
     Plug 'tpope/vim-commentary'
+"   -- Surround thingies
+    Plug 'tpope/vim-surround'
 
 " -- MAGICAL SEARCH --
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  }
