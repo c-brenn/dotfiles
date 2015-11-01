@@ -3,7 +3,7 @@ let mapleader = ' '
 let g:mapleader = ' '
 
 " Source vimrc
-nnoremap <leader>R :so ~/.vimrc<CR>:AirlineRefresh<CR>
+nnoremap <leader>R :so ~/.vimrc<CR>
 
 " Fuzzy search
 nnoremap <silent> <C-p> :FZF<CR>
@@ -25,11 +25,6 @@ autocmd FileType ruby imap <buffer> <leader>l <Plug>(xmpfilter-mark)
 autocmd FileType ruby nmap <buffer> <leader>L <Plug>(xmpfilter-run)
 autocmd FileType ruby xmap <buffer> <leader>L <Plug>(xmpfilter-run)
 autocmd FileType ruby imap <buffer> <leader>L <Plug>(xmpfilter-run)
-
-function! SourceVimrc()
-  exec "so ~/.vimrc"
-  exec "AirlineRefresh"
-endfunction
 
 function! TrimWhitespace()
   %s/\s\+$//e

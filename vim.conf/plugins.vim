@@ -11,7 +11,6 @@ if executable('tmux')
     " -- Ruby tests for vimux
     Plug 'pgr0ss/vimux-ruby-test'
 endif
-
 " -- GIT --
 "   -- Gutter
     Plug 'airblade/vim-gitgutter'
@@ -63,8 +62,6 @@ Plug 'scrooloose/syntastic'
 " -- MISC --
 "   -- IRB in Vim
     Plug 't9md/vim-ruby-xmpfilter'
-"   -- Status Bar
-    Plug 'bling/vim-airline'
 "   -- Yum, salad
     Plug 'tpope/vim-vinegar'
 "   -- Moving Between Buffers
