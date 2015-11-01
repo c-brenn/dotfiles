@@ -10,11 +10,7 @@ set backspace=indent,eol,start      " backspace everything
 set shiftround                      " 'h' and 'l' will wrap around lines
 set whichwrap+=<,>,h,l
 
-" Git commit
-autocmd Filetype gitcommit setlocal spell textwidth=72
-
 " Gutter number
-set relativenumber
 set number
 set cursorline
 
@@ -66,3 +62,22 @@ set encoding=utf-8
 set complete+=kspell
 set hidden"
 set diffopt+=vertical
+
+augroup FileTypeSettings
+  autocmd!
+  autocmd FileType html setlocal ts=2 sw=2 expandtab
+  autocmd FileType ruby setlocal ts=2 sw=2 expandtab
+  autocmd FileType vim setlocal ts=2 sw=2 expandtab keywordprg=:help
+  autocmd FileType haskell setlocal ts=2 sw=2 expandtab
+  autocmd FileType python setlocal ts=4 sw=4 expandtab
+  autocmd FileType rust setlocal ts=4 sw=4 expandtab
+  autocmd FileType javascript setlocal ts=2 sw=2 expandtab
+  autocmd FileType coffee setlocal ts=2 sw=2 expandtab
+  autocmd FileType sh,zsh setlocal ts=2 sw=2 expandtab
+  autocmd FileType go setlocal ts=2 sw=2 noexpandtab
+  autocmd BufNewFile,BufRead *.md set filetype=markdown
+  autocmd BufNewFile,BufRead *.css set filetype=scss
+  autocmd FileType markdown setlocal spell textwidth=72
+  autocmd Filetype gitcommit setlocal spell textwidth=72
+  autocmd FileType text setlocal spell
+augroup END

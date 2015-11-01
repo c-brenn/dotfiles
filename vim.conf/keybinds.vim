@@ -6,7 +6,7 @@ let g:mapleader = ' '
 nnoremap <leader>R :so ~/.vimrc<CR>:AirlineRefresh<CR>
 
 " Fuzzy search
-nnoremap <silent> <C-p> :FZF --color=light,fg:232,bg:255,bg+:116,info:27<CR>
+nnoremap <silent> <C-p> :FZF<CR>
 
 " Does exactly what it says on the tin
 nnoremap <Leader>tw :call TrimWhitespace()<CR>
