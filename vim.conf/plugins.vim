@@ -39,8 +39,6 @@ Plug 'scrooloose/syntastic'
     Plug 'vim-ruby/vim-ruby'
     Plug 'pangloss/vim-javascript'
     Plug 'cakebaker/scss-syntax.vim'
-    Plug 'kchmck/vim-coffee-script'
-    Plug 'dag/vim2hs'
 "   -- Frameworks
     Plug 'tpope/vim-rails'
     Plug 'tpope/vim-bundler'

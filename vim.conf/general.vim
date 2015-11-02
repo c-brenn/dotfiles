@@ -11,7 +11,8 @@ set shiftround                      " 'h' and 'l' will wrap around lines
 set whichwrap+=<,>,h,l
 
 " Gutter number
-set number
+set nonumber
+set relativenumber
 set cursorline
 
 " Tabs
@@ -49,7 +50,7 @@ set scrolloff=10                    " keep cursor relatively centered
 set sidescrolloff=10
 
 " Showing invisible characters
-set listchars=tab:›\ ,eol:¬,trail:⋅ " textmate
+set listchars=tab:›\ ,trail:⋅ " textmate
 set list
 
 " Command tab-completion
