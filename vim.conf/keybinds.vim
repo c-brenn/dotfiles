@@ -11,6 +11,10 @@ nnoremap <silent> <C-p> :FZF<CR>
 " Does exactly what it says on the tin
 nnoremap <Leader>tw :call TrimWhitespace()<CR>
 
+nnoremap ]h :set hls<CR>
+nnoremap [h :set nohls<CR>
+noremap <silent> <ESC> :noh<CR><ESC>
+
 " Run current file specs in tmux
 if exists('$TMUX')
   nnoremap <Leader>vr :RunRailsFocusedTest<CR>

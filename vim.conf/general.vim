@@ -27,7 +27,6 @@ set noswapfile
 set nowritebackup
 
 " Search
-set hlsearch
 set incsearch
 set ignorecase
 set smartcase
@@ -58,7 +57,7 @@ set wildmenu                        " command auto-completion
 set wildmode=list:longest,full
 
 " Misc
-set ttyfast                         " probably already set but /shruggie
+set ttyfast
 set encoding=utf-8
 set complete+=kspell
 set hidden"
