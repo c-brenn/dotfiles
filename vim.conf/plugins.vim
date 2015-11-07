@@ -19,7 +19,7 @@ endif
 
 " -- COMPLETION --
 "   -- Auto Completion
-    Plug 'ajh17/VimCompletesMe'
+    Plug 'ervandew/supertab'
 "    -- Snippets
     Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 "   -- Pair thingies
