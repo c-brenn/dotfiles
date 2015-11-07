@@ -83,4 +83,3 @@ augroup FileTypeSettings
   autocmd FileType text setlocal spell
 augroup END
 
-set statusline=[%n]\ %<%.99f\ %h%w%m%r%{exists('*CapsLockStatusline')?CapsLockStatusline():''}%y%=%-16(\ %l,%c-%v\ %)%P

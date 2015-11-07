@@ -58,6 +58,8 @@ Plug 'scrooloose/syntastic'
     Plug 'kana/vim-textobj-entire'
 
 " -- MISC --
+"   -- Statusline
+    Plug 'bling/vim-airline'
 "   -- IRB in Vim
     Plug 't9md/vim-ruby-xmpfilter'
 "   -- Yum, salad
