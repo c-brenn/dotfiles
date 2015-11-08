@@ -15,7 +15,11 @@ au BufWritePre *.rb :%s/\s\+$//e
 nnoremap ]h :set hls<CR>
 nnoremap [h :set nohls<CR>
 
-let g:rspec_command = "Dispatch bundle exec rspec {spec} --format progress"
+if exists('$TMUX')
+  let g:rspec_command = 'call VimuxRunCommand("bundle exec rspec {spec} --format progress && exit")'
+else
+  let g:rspec_command = "Dispatch bundle exec rspec {spec} --format progress"
+endif
 map <Leader>t :call RunCurrentSpecFile()<CR>
 map <Leader>s :call RunNearestSpec()<CR>
 map <Leader>l :call RunLastSpec()<CR>
