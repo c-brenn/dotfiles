@@ -10,25 +10,16 @@ nnoremap <silent> <C-p> :FZF<CR>
 
 " Does exactly what it says on the tin
 nnoremap <Leader>tw :call TrimWhitespace()<CR>
+au BufWritePre *.rb :%s/\s\+$//e
 
 nnoremap ]h :set hls<CR>
 nnoremap [h :set nohls<CR>
-noremap <silent> <ESC> :noh<CR><ESC>
 
-" Run current file specs in tmux
-if exists('$TMUX')
-  nnoremap <Leader>vr :RunRailsFocusedTest<CR>
-  nnoremap <Leader>vc :RunRubyFocusedContext<CR>
-  nnoremap <Leader>vx :VimuxCloseRunner<CR>
-end
-
-autocmd FileType ruby nmap <buffer> <leader>l <Plug>(xmpfilter-mark)
-autocmd FileType ruby xmap <buffer> <leader>l <Plug>(xmpfilter-mark)
-autocmd FileType ruby imap <buffer> <leader>l <Plug>(xmpfilter-mark)
-
-autocmd FileType ruby nmap <buffer> <leader>L <Plug>(xmpfilter-run)
-autocmd FileType ruby xmap <buffer> <leader>L <Plug>(xmpfilter-run)
-autocmd FileType ruby imap <buffer> <leader>L <Plug>(xmpfilter-run)
+let g:rspec_command = "Dispatch bundle exec rspec {spec} --format progress"
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+map <Leader>a :call RunAllSpecs()<CR>
 
 function! TrimWhitespace()
   %s/\s\+$//e

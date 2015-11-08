@@ -7,15 +7,16 @@ if executable('tmux')
   " -- TMUX --
   "  -- Tmux within VIM :sparkles:
   Plug 'benmills/vimux'
-  "  -- VIMUX --
-    " -- Ruby tests for vimux
-    Plug 'pgr0ss/vimux-ruby-test'
 endif
 " -- GIT --
 "   -- Gutter
     Plug 'airblade/vim-gitgutter'
 "    -- Git in Vim
     Plug 'tpope/vim-fugitive'
+" -- Tests --
+"    -- Rspec
+     Plug 'thoughtbot/vim-rspec'
+     Plug 'tpope/vim-dispatch'
 
 " -- COMPLETION --
 "   -- Auto Completion
@@ -60,8 +61,6 @@ Plug 'scrooloose/syntastic'
 " -- MISC --
 "   -- Statusline
     Plug 'bling/vim-airline'
-"   -- IRB in Vim
-    Plug 't9md/vim-ruby-xmpfilter'
 "   -- Yum, salad
     Plug 'tpope/vim-vinegar'
 "   -- Moving Between Buffers
