@@ -42,6 +42,7 @@ Plug 'scrooloose/syntastic'
   Plug 'vim-ruby/vim-ruby'
   Plug 'pangloss/vim-javascript'
   Plug 'cakebaker/scss-syntax.vim'
+  Plug 'vim-scripts/haskell.vim'
 "   -- Frameworks
   Plug 'tpope/vim-rails'
   Plug 'tpope/vim-bundler'
