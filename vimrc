@@ -62,6 +62,7 @@ Plug 'tpope/vim-vinegar'
 Plug 'troydm/easybuffer.vim'
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-sleuth'
 call plug#end()
 
 " -----------------------
@@ -135,3 +136,11 @@ let g:airline_section_y = ""
 " -----------------------
 
 let g:UltiSnipsEditSplit="vertical"
+
+" -----------------------
+" LOCAL VIMRC
+" -----------------------
+
+if filereadable(glob("~/.vimrc.local"))
+  source ~/.vimrc.local
+endif
