@@ -100,6 +100,24 @@ set sidescrolloff=10"
 set t_Co=256
 set backupdir=~/.tmp
 set directory=~/.tmp
+set expandtab
+
+augroup FileTypeSettings
+  autocmd!
+  autocmd FileType html setlocal ts=2 sw=2 expandtab
+  autocmd FileType ruby setlocal ts=2 sw=2 expandtab
+  autocmd FileType vim setlocal ts=2 sw=2 expandtab keywordprg=:help
+  autocmd FileType haskell setlocal ts=2 sw=2 expandtab
+  autocmd FileType python setlocal ts=4 sw=4 expandtab
+  autocmd FileType javascript setlocal ts=2 sw=2 expandtab
+  autocmd FileType coffee setlocal ts=2 sw=2 expandtab
+  autocmd FileType sh,zsh setlocal ts=2 sw=2 expandtab
+  autocmd BufNewFile,BufRead *.md set filetype=markdown
+  autocmd BufNewFile,BufRead *.css set filetype=scss
+  autocmd FileType markdown setlocal spell
+  autocmd FileType gitcommit setlocal spell
+  autocmd FileType text setlocal spell
+augroup END
 
 " -----------------------
 " SYNTASTIC
