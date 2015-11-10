@@ -51,16 +51,15 @@ Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-unimpaired'
 
 " -- COLOURS --
-Plug 'chriskempson/base16-vim'
+Plug 'altercation/vim-colors-solarized'
 
 " -- TEXT OBJECTS --
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-entire'
 
 " -- MISC --
-Plug 'bling/vim-airline'
+Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-vinegar'
-Plug 'troydm/easybuffer.vim'
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-sleuth'
@@ -117,20 +116,19 @@ let g:syntastic_html_checkers=['']
 let g:syntastic_disabled_filetype = ['html']
 
 " -----------------------
+" STATUSLINE
+" -----------------------
+
+let g:lightline= {
+      \ 'colorscheme' : 'jellybeans',
+      \ }
+
+" -----------------------
 " COLOURS
 " -----------------------
 
-let base16colorspace=256
 set background=dark
-colorscheme base16-solarized
-
-" -----------------------
-" AIRLINE
-" -----------------------
-
-let g:solarized_termcolors=256
-let g:airline_theme='hybrid'
-let g:airline_section_y = ""
+colorscheme solarized
 
 " -----------------------
 " ULTISNIPS
