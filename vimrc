@@ -23,8 +23,6 @@ Plug 'airblade/vim-gitgutter'
 " -- COMPLETION --
 "   -- Auto Completion
     Plug 'ervandew/supertab'
-"    -- Snippets
-    Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 "   -- Pair thingies
     Plug 'jiangmiao/auto-pairs'
     Plug 'tpope/vim-endwise'
@@ -43,6 +41,7 @@ Plug 'scrooloose/syntastic'
   Plug 'pangloss/vim-javascript'
   Plug 'cakebaker/scss-syntax.vim'
   Plug 'vim-scripts/haskell.vim'
+  Plug 'elixir-lang/vim-elixir'
 "   -- Frameworks
   Plug 'tpope/vim-rails'
   Plug 'tpope/vim-bundler'
@@ -119,6 +118,12 @@ augroup FileTypeSettings
   autocmd FileType text setlocal spell
 augroup END
 
+autocmd FileType *
+  \ if &omnifunc != '' |
+  \   call SuperTabChain(&omnifunc, "<c-p>") |
+  \   call SuperTabSetDefaultCompletionType("<c-x><c-u>") |
+  \ endif
+
 " -----------------------
 " SYNTASTIC
 " -----------------------
@@ -147,12 +152,6 @@ let g:lightline= {
 
 set background=dark
 colorscheme solarized
-
-" -----------------------
-" ULTISNIPS
-" -----------------------
-
-let g:UltiSnipsEditSplit="vertical"
 
 " -----------------------
 " LOCAL VIMRC
