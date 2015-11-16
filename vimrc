@@ -14,22 +14,24 @@ endif
 "   -- Gutter
 Plug 'airblade/vim-gitgutter'
 "    -- Git in Vim
-  Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 " -- Tests --
-"    -- Rspec
-  Plug 'thoughtbot/vim-rspec'
-  Plug 'tpope/vim-dispatch'
+Plug 'thoughtbot/vim-rspec'
+Plug 'c-brenn/mix-test.vim'
+Plug 'tpope/vim-dispatch'
 
 " -- COMPLETION --
 "   -- Auto Completion
-    Plug 'ervandew/supertab'
+Plug 'ervandew/supertab'
 "   -- Pair thingies
-    Plug 'jiangmiao/auto-pairs'
-    Plug 'tpope/vim-endwise'
+Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-endwise'
 "   -- Comment thingies
-    Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-commentary'
 "   -- Surround thingies
-    Plug 'tpope/vim-surround'
+Plug 'tpope/vim-surround'
+" -- Swizzle Statements
+Plug 'AndrewRadev/splitjoin.vim'
 
 " -- MAGICAL SEARCH --
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  }
@@ -37,14 +39,14 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  }
 " -- SYNTAX --
 Plug 'scrooloose/syntastic'
 "   -- languages
-  Plug 'vim-ruby/vim-ruby'
-  Plug 'pangloss/vim-javascript'
-  Plug 'cakebaker/scss-syntax.vim'
-  Plug 'vim-scripts/haskell.vim'
-  Plug 'elixir-lang/vim-elixir'
+Plug 'vim-ruby/vim-ruby'
+Plug 'pangloss/vim-javascript'
+Plug 'cakebaker/scss-syntax.vim'
+Plug 'vim-scripts/haskell.vim'
+Plug 'elixir-lang/vim-elixir'
 "   -- Frameworks
-  Plug 'tpope/vim-rails'
-  Plug 'tpope/vim-bundler'
+Plug 'tpope/vim-rails'
+Plug 'tpope/vim-bundler'
 
 " -- NAVIGATION --
 Plug 'tpope/vim-unimpaired'
@@ -76,14 +78,22 @@ nnoremap <leader>R :so ~/.vimrc<CR>
 nnoremap <silent> <C-p> :FZF<CR>
 
 nnoremap <Leader>tw :call TrimWhitespace()<CR>
-au BufWritePre *.rb :%s/\s\+$//e
+au BufWritePre *.rb :call TrimWhitespace()
 
-let g:rspec_command = "Dispatch bundle exec rspec {spec} --format progress"
-map <Leader>t :call RunCurrentSpecFile()<CR>
-map <Leader>s :call RunNearestSpec()<CR>
-map <Leader>l :call RunLastSpec()<CR>
-map <Leader>a :call RunAllSpecs()<CR>
+let g:rspec_command = "Dispatch bundle exec rspec {spec}"
+let g:mix_test_command = "Dispatch mix test {test}"
+" Ruby
+map <Leader>rt :call RunCurrentSpecFile()<CR>
+map <Leader>rs :call RunNearestSpec()<CR>
+map <Leader>rl :call RunLastSpec()<CR>
+map <Leader>ra :call RunAllSpec()<CR>
+" Elixir
+map <Leader>et :call RunCurrentTestFile()<CR>
+map <Leader>el :call RunLastTest()<CR>
+map <Leader>ea :call RunAllTests()<CR>
+
 map <Leader>d :Dispatch<CR>
+autocmd FileType elixir let b:dispatch = 'mix test %'
 
 function! TrimWhitespace()
   %s/\s\+$//e
@@ -100,6 +110,8 @@ set t_Co=256
 set backupdir=~/.tmp
 set directory=~/.tmp
 set expandtab
+set smartcase
+set ignorecase
 
 augroup FileTypeSettings
   autocmd!
@@ -119,10 +131,10 @@ augroup FileTypeSettings
 augroup END
 
 autocmd FileType *
-  \ if &omnifunc != '' |
-  \   call SuperTabChain(&omnifunc, "<c-p>") |
-  \   call SuperTabSetDefaultCompletionType("<c-x><c-u>") |
-  \ endif
+      \ if &omnifunc != '' |
+      \   call SuperTabSetDefaultCompletionType("<c-x><c-u>") |
+      \   call SuperTabChain(&omnifunc, "<c-p>") |
+      \ endif
 
 " -----------------------
 " SYNTASTIC
@@ -137,6 +149,8 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_html_checkers=['']
 let g:syntastic_disabled_filetype = ['html']
+let g:syntastic_elixir_checkers=['elixir']
+let g:syntastic_enable_elixir_checker = 1
 
 " -----------------------
 " STATUSLINE
