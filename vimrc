@@ -85,16 +85,42 @@ au BufWritePre *.rb :call TrimWhitespace()
 
 let g:rspec_command = "Dispatch bundle exec rspec {spec}"
 let g:mix_test_command = "Dispatch mix test {test}"
-" Ruby
-map <Leader>rt :call RunCurrentSpecFile()<CR>
-map <Leader>rs :call RunNearestSpec()<CR>
-map <Leader>rl :call RunLastSpec()<CR>
-map <Leader>ra :call RunAllSpec()<CR>
-" Elixir
-map <Leader>et :call RunCurrentTestFile()<CR>
-map <Leader>es :call RunCurrentTest()<CR>
-map <Leader>el :call RunLastTest()<CR>
-map <Leader>ea :call RunAllTests()<CR>
+map <Leader>t :call TestCurrentFile()<CR>
+map <Leader>s :call TestNearest()<CR>
+map <Leader>a :call TestAll()<CR>
+map <Leader>l :call TestLast()<CR>
+
+function! TestCurrentFile()
+  if InMixTestFile()
+    call MixRunCurrentTestFile()
+  else
+    call RunCurrentSpecFile()
+  endif
+endfunction
+
+function! TestNearest()
+  if InMixTestFile()
+    call MixRunCurrentTest()
+  else
+    call RunNearestSpec()
+  endif
+endfunction
+
+function! TestAll()
+  if InMixProject()
+    call MixRunAllTests()
+  else
+    call RunAllSpecs()
+  endif
+endfunction
+
+function! TestLast()
+  if InMixProject()
+    call MixRunLastTest()
+  else
+    call RunLastSpec()
+  endif
+endfunction
 
 map <Leader>d :Dispatch<CR>
 autocmd FileType elixir let b:dispatch = 'mix test %'
