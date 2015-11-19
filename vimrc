@@ -73,6 +73,9 @@ call plug#end()
 let mapleader = ' '
 let g:mapleader = ' '
 
+map <C-s> <esc>:w<CR>
+imap <C-s> <esc>:w<CR>
+
 nnoremap <leader>R :so ~/.vimrc<CR>
 
 nnoremap <silent> <C-p> :FZF<CR>
