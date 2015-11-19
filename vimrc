@@ -89,6 +89,7 @@ map <Leader>rl :call RunLastSpec()<CR>
 map <Leader>ra :call RunAllSpec()<CR>
 " Elixir
 map <Leader>et :call RunCurrentTestFile()<CR>
+map <Leader>es :call RunCurrentTest()<CR>
 map <Leader>el :call RunLastTest()<CR>
 map <Leader>ea :call RunAllTests()<CR>
 
