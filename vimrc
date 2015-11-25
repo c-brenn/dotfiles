@@ -1,6 +1,5 @@
 set nocompatible
 filetype off
-runtime macros/matchit.vim
 
 " -----------------------
 " Vim Plug
@@ -21,8 +20,8 @@ Plug 'c-brenn/mix-test.vim'
 Plug 'tpope/vim-dispatch'
 
 " -- COMPLETION --
-"   -- Auto Completion
-Plug 'ervandew/supertab'
+"   -- Tab Completion
+Plug 'ajh17/VimCompletesMe'
 "   -- Pair thingies
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-endwise'
@@ -50,21 +49,23 @@ Plug 'tpope/vim-bundler'
 
 " -- NAVIGATION --
 Plug 'tpope/vim-unimpaired'
+Plug 'unblevable/quick-scope'
 
 " -- COLOURS --
-Plug 'altercation/vim-colors-solarized'
+Plug 'nanotech/jellybeans.vim'
 
 " -- TEXT OBJECTS --
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-entire'
 
 " -- MISC --
-Plug 'itchyny/lightline.vim'
 Plug 'tpope/vim-vinegar'
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-sensible'
-Plug 'tpope/vim-sleuth'
 call plug#end()
+
+filetype plugin indent on
+runtime macros/matchit.vim
 
 " -----------------------
 " KEY BINDINGS
@@ -132,6 +133,7 @@ endfunc
 " -----------------------
 "  GENERAL
 " -----------------------
+syntax on
 set relativenumber
 set hidden
 set scrolloff=10
@@ -142,10 +144,12 @@ set directory=~/.tmp
 set expandtab
 set smartcase
 set ignorecase
+set omnifunc=syntaxcomplete#Complete
 
 augroup FileTypeSettings
   autocmd!
-  autocmd FileType html setlocal ts=2 sw=2 expandtab
+  autocmd BufNewFile,BufRead *.html.erb setlocal filetype=html
+  autocmd FileType html setlocal ts=2 sw=2 sts=2 expandtab
   autocmd FileType ruby setlocal ts=2 sw=2 expandtab
   autocmd FileType vim setlocal ts=2 sw=2 expandtab keywordprg=:help
   autocmd FileType haskell setlocal ts=2 sw=2 expandtab
@@ -158,44 +162,32 @@ augroup FileTypeSettings
   autocmd FileType markdown setlocal spell
   autocmd FileType gitcommit setlocal spell
   autocmd FileType text setlocal spell
+  autocmd FileType scss setlocal ts=2 sw=2 expandtab
 augroup END
-
-autocmd FileType *
-      \ if &omnifunc != '' |
-      \   call SuperTabSetDefaultCompletionType("<c-x><c-u>") |
-      \   call SuperTabChain(&omnifunc, "<c-p>") |
-      \ endif
 
 " -----------------------
 " SYNTASTIC
 " -----------------------
 
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_html_checkers=['']
 let g:syntastic_disabled_filetype = ['html']
+let g:syntastic_scss_checkers = []
+let g:syntastic_disabled_filetype = ['scss']
 let g:syntastic_elixir_checkers=['elixir']
 let g:syntastic_enable_elixir_checker = 1
-
-" -----------------------
-" STATUSLINE
-" -----------------------
-
-let g:lightline= {
-      \ 'colorscheme' : 'jellybeans',
-      \ }
 
 " -----------------------
 " COLOURS
 " -----------------------
 
 set background=dark
-colorscheme solarized
+colorscheme jellybeans
+
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
 " -----------------------
 " LOCAL VIMRC
@@ -204,3 +196,27 @@ colorscheme solarized
 if filereadable(glob("~/.vimrc.local"))
   source ~/.vimrc.local
 endif
+
+
+set statusline=
+set statusline +=%1*\ %n\ %*            "buffer number
+set statusline +=%5*%{&ff}%*            "file format
+set statusline +=%3*%y%*                "file type
+set statusline +=%4*\ %<%F%*            "full path
+set statusline +=%2*%m%*                "modified flag
+set statusline +=%1*%=%5l%*             "current line
+set statusline +=%2*/%L%*               "total lines
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+highlight User1 ctermfg=216 ctermbg=236
+highlight User2 ctermfg=244 ctermbg=236
+highlight User3 ctermfg=253 ctermbg=236
+highlight User4 ctermfg=103 ctermbg=236
+highlight User5 ctermfg=213 ctermbg=236
+
+hi TabLineFill ctermfg=236 ctermbg=236
+hi TabLine ctermfg=216 ctermbg=236
+hi TabLineSel ctermfg=240 ctermbg=213
+
