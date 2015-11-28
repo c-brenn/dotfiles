@@ -1,0 +1,4 @@
+alias vi="mvim -v"
+alias vim="mvim -v"
+alias emacs="mvim -v"
+alias es="elasticsearch"

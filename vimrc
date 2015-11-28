@@ -74,6 +74,9 @@ runtime macros/matchit.vim
 let mapleader = ' '
 let g:mapleader = ' '
 
+map <Leader>n :tabnew %<CR>
+map <Leader>bd :bd<CR>
+
 map <C-s> <esc>:w<CR>
 imap <C-s> <esc>:w<CR>
 
@@ -83,6 +86,10 @@ nnoremap <silent> <C-p> :FZF<CR>
 
 nnoremap <Leader>tw :call TrimWhitespace()<CR>
 au BufWritePre *.rb :call TrimWhitespace()
+
+cnoremap <expr> %% expand('%:h').'/'
+map <leader>e :edit %%
+map <leader>v :view %%
 
 let g:rspec_command = "Dispatch bundle exec rspec {spec}"
 let g:mix_test_command = "Dispatch mix test {test}"
@@ -159,7 +166,7 @@ augroup FileTypeSettings
   autocmd FileType sh,zsh setlocal ts=2 sw=2 expandtab
   autocmd BufNewFile,BufRead *.md set filetype=markdown
   autocmd BufNewFile,BufRead *.css set filetype=scss
-  autocmd FileType markdown setlocal spell
+  autocmd FileType markdown setlocal spell textwidth=80
   autocmd FileType gitcommit setlocal spell
   autocmd FileType text setlocal spell
   autocmd FileType scss setlocal ts=2 sw=2 expandtab
@@ -197,26 +204,6 @@ if filereadable(glob("~/.vimrc.local"))
   source ~/.vimrc.local
 endif
 
-
-set statusline=
-set statusline +=%1*\ %n\ %*            "buffer number
-set statusline +=%5*%{&ff}%*            "file format
-set statusline +=%3*%y%*                "file type
-set statusline +=%4*\ %<%F%*            "full path
-set statusline +=%2*%m%*                "modified flag
-set statusline +=%1*%=%5l%*             "current line
-set statusline +=%2*/%L%*               "total lines
-set statusline+=%#warningmsg#
+set statusline=%<%f\ (%{&ft})\ %-4(%m%)%=%-19(%3l,%02c%03V%)
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
-
-highlight User1 ctermfg=216 ctermbg=236
-highlight User2 ctermfg=244 ctermbg=236
-highlight User3 ctermfg=253 ctermbg=236
-highlight User4 ctermfg=103 ctermbg=236
-highlight User5 ctermfg=213 ctermbg=236
-
-hi TabLineFill ctermfg=236 ctermbg=236
-hi TabLine ctermfg=216 ctermbg=236
-hi TabLineSel ctermfg=240 ctermbg=213
-
