@@ -74,8 +74,14 @@ runtime macros/matchit.vim
 let mapleader = ' '
 let g:mapleader = ' '
 
-map <Leader>n :tabnew %<CR>
+" Tabs/Windows
+map <Leader>e :e <C-R>=escape(expand("%:p:h"),' ') . '/'<CR>
+map <Leader>s :split <C-R>=escape(expand("%:p:h"), ' ') . '/'<CR>
+map <Leader>v :vnew <C-R>=escape(expand("%:p:h"), ' ') . '/'<CR>
+map <Leader>tn :tabnew<CR>
+map <Leader>tc :tabclose<CR>
 map <Leader>bd :bd<CR>
+map <Leader>rs :vsp <C-r>#<cr><C-w>w
 
 map <C-s> <esc>:w<CR>
 imap <C-s> <esc>:w<CR>
@@ -91,12 +97,17 @@ cnoremap <expr> %% expand('%:h').'/'
 map <leader>e :edit %%
 map <leader>v :view %%
 
+command! Q q
+command! Qall qall
+command! QA qall
+command! E e
+
 let g:rspec_command = "Dispatch bundle exec rspec {spec}"
 let g:mix_test_command = "Dispatch mix test {test}"
-map <Leader>t :call TestCurrentFile()<CR>
-map <Leader>s :call TestNearest()<CR>
-map <Leader>a :call TestAll()<CR>
-map <Leader>l :call TestLast()<CR>
+map <Leader>tt :call TestCurrentFile()<CR>
+map <Leader>ts :call TestNearest()<CR>
+map <Leader>ta :call TestAll()<CR>
+map <Leader>tl :call TestLast()<CR>
 
 function! TestCurrentFile()
   if InMixTestFile()
