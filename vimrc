@@ -14,8 +14,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 
 " -- Tests --
-Plug 'thoughtbot/vim-rspec'
-Plug 'c-brenn/mix-test.vim'
+Plug 'janko-m/vim-test'
 Plug 'tpope/vim-dispatch'
 
 " -- COMPLETION --
@@ -37,7 +36,7 @@ Plug 'vim-ruby/vim-ruby'
 Plug 'pangloss/vim-javascript'
 Plug 'cakebaker/scss-syntax.vim'
 Plug 'vim-scripts/haskell.vim'
-Plug 'elixir-lang/vim-elixir'
+Plug 'elixir-lang/vim-elixir/'
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-bundler'
 
@@ -47,6 +46,7 @@ Plug 'unblevable/quick-scope'
 
 " -- COLOURS --
 Plug 'tomasr/molokai'
+Plug 'itchyny/lightline.vim'
 
 " -- TEXT OBJECTS --
 Plug 'kana/vim-textobj-user'
@@ -54,7 +54,7 @@ Plug 'kana/vim-textobj-entire'
 
 " -- MISC --
 Plug 'tpope/vim-vinegar'
-Plug 'godlygeek/tabular'
+Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-sensible'
 Plug 'junegunn/vim-emoji'
 
@@ -71,12 +71,11 @@ let mapleader = ' '
 let g:mapleader = ' '
 
 " Tabs/Windows
-map <Leader>sp :split <C-R>=escape(expand("%:p:h"), ' ') . '/'<CR>
-map <Leader>vp :vsp <C-R>=escape(expand("%:p:h"), ' ') . '/'<CR>
-map <Leader>tn :tabnew<CR>
+map <Leader>sp :split %<CR>
+map <Leader>vp :vsp %<CR>
+map <C-t> :tabnew<CR>
 map <Leader>tc :tabclose<CR>
 map <Leader>bd :bd<CR>
-map <Leader>rs :vsp <C-r>#<cr><C-w>w
 
 " Errors
 autocmd! BufWritePost * Neomake
@@ -84,13 +83,11 @@ let g:neomake_open_list = 2
 
 map <C-s> <esc>:w<CR>
 imap <C-s> <esc>:w<CR>
+imap ;; <esc>
 
 nnoremap <leader>R :so ~/.config/nvim/init.vim<CR>
 
 nnoremap <silent> <C-p> :FZF<CR>
-
-nnoremap <Leader>tw :call TrimWhitespace()<CR>
-au BufWritePre *.rb :call TrimWhitespace()
 
 cnoremap <expr> %% expand('%:h').'/'
 
@@ -103,48 +100,18 @@ command! E e
 " ---------------------------
 "  Tests
 "  --------------------------
-let g:rspec_command = "Dispatch bundle exec rspec {spec}"
-let g:mix_test_command = "Dispatch mix test {test}"
-map <Leader>tt :call TestCurrentFile()<CR>
-map <Leader>ts :call TestNearest()<CR>
-map <Leader>ta :call TestAll()<CR>
-map <Leader>tl :call TestLast()<CR>
-
-function! TestCurrentFile()
-  if InMixTestFile()
-    call MixRunCurrentTestFile()
-  else
-    call RunCurrentSpecFile()
-  endif
-endfunction
-
-function! TestNearest()
-  if InMixTestFile()
-    call MixRunCurrentTest()
-  else
-    call RunNearestSpec()
-  endif
-endfunction
-
-function! TestAll()
-  if InMixProject()
-    call MixRunAllTests()
-  else
-    call RunAllSpecs()
-  endif
-endfunction
-
-function! TestLast()
-  if InMixProject()
-    call MixRunLastTest()
-  else
-    call RunLastSpec()
-  endif
-endfunction
+let test#strategy = "dispatch"
+nmap <silent> <leader>tT :TestNearest<CR>
+nmap <silent> <leader>tt :TestFile<CR>
+nmap <silent> <leader>ta :TestSuite<CR>
+nmap <silent> <leader>tl :TestLast<CR>
+nmap <silent> <leader>tg :TestVisit<CR>
+let test#ruby#rspec#options = '--format progress'
 
 map <Leader>d :Dispatch<CR>
-autocmd FileType elixir let b:dispatch = 'mix test %'
 
+nnoremap <Leader>tw :call TrimWhitespace()<CR>
+au BufWritePre *.rb :call TrimWhitespace()
 function! TrimWhitespace()
   %s/\s\+$//e
 endfunc
@@ -164,6 +131,7 @@ set smartcase
 set ignorecase
 set timeoutlen=500
 set completefunc=emoji#complete
+set mouse -=a
 
 augroup FileTypeSettings
   autocmd!
@@ -200,86 +168,25 @@ let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 " -----------------------
 " Statusline
 " -----------------------
-set statusline=%<[%n]\ %F\ %m%r%y\ %{exists('g:loaded_fugitive')?fugitive#statusline():''}\ %=%-14.(%l,%c%V%)\ %P
-silent! if emoji#available()
-  let s:ft_emoji = map({
-    \ 'c':          'baby_chick',
-    \ 'coffee':     'coffee',
-    \ 'cpp':        'chicken',
-    \ 'css':        'art',
-    \ 'eruby':      'ring',
-    \ 'gitcommit':  'soon',
-    \ 'haml':       'hammer',
-    \ 'help':       'angel',
-    \ 'html':       'herb',
-    \ 'java':       'older_man',
-    \ 'javascript': 'monkey',
-    \ 'make':       'seedling',
-    \ 'markdown':   'book',
-    \ 'python':     'snake',
-    \ 'ruby':       'gem',
-    \ 'sh':         'shell',
-    \ 'text':       'books',
-    \ 'vim':        'poop',
-    \ 'vim-plug':   'electric_plug',
-    \ 'yaml':       'yum',
-  \ }, 'emoji#for(v:val)')
-
-  function! S_filetype()
-    if empty(&filetype)
-      return emoji#for('grey_question')
-    else
-      return get(s:ft_emoji, &filetype, '['.&filetype.']')
-    endif
-  endfunction
-
-  function! S_modified()
-    if &modified
-      return emoji#for('kiss').' '
-    elseif !&modifiable
-      return emoji#for('construction').' '
-    else
-      return ''
-    endif
-  endfunction
-
-  function! S_fugitive()
-    if !exists('g:loaded_fugitive')
-      return ''
-    endif
-    let head = fugitive#head()
-    if empty(head)
-      return ''
-    else
-      return head == 'master' ? emoji#for('crown') : emoji#for('dango').'='.head
-    endif
-  endfunction
-
-  let s:braille = split('"⠉⠒⠤⣀', '\zs')
-  function! Braille()
-    let len = len(s:braille)
-    let [cur, max] = [line('.'), line('$')]
-    let pos  = min([len * (cur - 1) / max([1, max - 1]), len - 1])
-    return s:braille[pos]
-  endfunction
-
-  hi def link User1 TablineFill
-  let s:woman = emoji#for('older_woman')
-  function! MyStatusLine()
-    let mod = '%{S_modified()}'
-    let ro  = "%{&readonly ? emoji#for('lock') . ' ' : ''}"
-    let ft  = '%{S_filetype()}'
-    let fug = ' %{S_fugitive()}'
-    let sep = ' %= '
-    let pos = ' %l,%c%V '
-    let pct = ' %P '
-
-    return s:woman.' [%n] %F %<'.mod.ro.ft.fug.sep.pos.'%{Braille()}%*'.pct.s:woman
-  endfunction
-
-  set statusline=%!MyStatusLine()
-endif
-
+let g:lightline = {
+      \ 'colorscheme': 'jellybeans',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'fugitive', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component': {
+      \   'readonly': '%{&filetype=="help"?"":&readonly?"":""}',
+      \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
+      \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
+      \ },
+      \ 'component_visible_condition': {
+      \   'readonly': '(&filetype!="help"&& &readonly)',
+      \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
+      \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
+      \ },
+      \ 'separator': { 'left': '', 'right': '' },
+      \ 'subseparator': { 'left': '', 'right': '' }
+      \ }
 " -----------------------
 " LOCAL VIMRC
 " -----------------------
