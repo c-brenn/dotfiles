@@ -37,7 +37,7 @@ Plug 'vim-ruby/vim-ruby'
 Plug 'pangloss/vim-javascript'
 Plug 'cakebaker/scss-syntax.vim'
 Plug 'vim-scripts/haskell.vim'
-Plug 'elixir-lang/vim-elixir/'
+Plug 'c-brenn/vim-elixir', { 'branch': 'nvim-rplugin' }
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-bundler'
 
@@ -76,6 +76,7 @@ map <Leader>vp :vsp %<CR>
 map <C-t> :tabnew<CR>
 map <Leader>tc :tabclose<CR>
 map <Leader>bd :bd<CR>
+map <Leader>pc :pc<CR>
 
 " Errors
 autocmd! BufWritePost * Neomake
@@ -104,6 +105,10 @@ command! E e
 " Terminal Mode
 tnoremap <Esc> <C-\><C-n>
 map <Leader>ot :terminal<CR>
+
+" Elixir
+nnoremap <Leader>ee V:ElixirExec<CR>
+xnoremap <Leader>ee :ElixirExec<CR>
 
 
 " ---------------------------
