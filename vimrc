@@ -16,6 +16,7 @@ Plug 'tpope/vim-fugitive'
 " -- Tests --
 Plug 'janko-m/vim-test'
 Plug 'tpope/vim-dispatch'
+Plug 'radenling/vim-dispatch-neovim'
 
 " -- COMPLETION --
 Plug 'ajh17/VimCompletesMe'
@@ -46,7 +47,6 @@ Plug 'unblevable/quick-scope'
 
 " -- COLOURS --
 Plug 'tomasr/molokai'
-Plug 'itchyny/lightline.vim'
 
 " -- TEXT OBJECTS --
 Plug 'kana/vim-textobj-user'
@@ -177,25 +177,8 @@ let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 " -----------------------
 " Statusline
 " -----------------------
-let g:lightline = {
-      \ 'colorscheme': 'jellybeans',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'fugitive', 'readonly', 'filename', 'modified' ] ]
-      \ },
-      \ 'component': {
-      \   'readonly': '%{&filetype=="help"?"":&readonly?"":""}',
-      \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
-      \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
-      \ },
-      \ 'component_visible_condition': {
-      \   'readonly': '(&filetype!="help"&& &readonly)',
-      \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
-      \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
-      \ },
-      \ 'separator': { 'left': '', 'right': '' },
-      \ 'subseparator': { 'left': '', 'right': '' }
-      \ }
+set statusline=%<[%n]\ %F\ %m%r%y\ %{exists('g:loaded_fugitive')?fugitive#statusline():''}\ %=%-14.(%l,%c%V%)\ %P
+
 " -----------------------
 " LOCAL VIMRC
 " -----------------------
