@@ -28,7 +28,7 @@ Plug 'tpope/vim-surround'
 Plug 'AndrewRadev/splitjoin.vim'
 
 " -- MAGICAL SEARCH --
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  }
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  } | Plug 'junegunn/fzf.vim'
 
 " -- SYNTAX --
 Plug 'benekastah/neomake'
@@ -87,7 +87,12 @@ imap ;; <esc>
 
 nnoremap <leader>R :so ~/.config/nvim/init.vim<CR>
 
-nnoremap <silent> <C-p> :FZF<CR>
+" FZF
+let g:fzf_command_prefix = 'Fzf'
+nnoremap <C-p> :FzfFiles<CR>
+nnoremap <Leader><Tab> :FzfBuffers<CR>
+nnoremap <Leader>fb :FzfBTags<CR>
+nnoremap <Leader>ft :FzfTags<CR>
 
 cnoremap <expr> %% expand('%:h').'/'
 
@@ -95,6 +100,10 @@ command! Q q
 command! Qall qall
 command! QA qall
 command! E e
+
+" Terminal Mode
+tnoremap <Esc> <C-\><C-n>
+map <Leader>ot :terminal<CR>
 
 
 " ---------------------------
