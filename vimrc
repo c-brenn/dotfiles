@@ -19,7 +19,7 @@ Plug 'tpope/vim-dispatch'
 Plug 'radenling/vim-dispatch-neovim'
 
 " -- COMPLETION --
-Plug 'ajh17/VimCompletesMe'
+Plug 'Shougo/deoplete.nvim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-commentary'
@@ -51,6 +51,7 @@ Plug 'tomasr/molokai'
 " -- TEXT OBJECTS --
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-entire'
+Plug 'tommcdo/vim-exchange'
 
 " -- MISC --
 Plug 'tpope/vim-vinegar'
@@ -110,12 +111,20 @@ map <Leader>ot :terminal<CR>
 nnoremap <Leader>ee V:ElixirExec<CR>
 xnoremap <Leader>ee :ElixirExec<CR>
 
+" Completion
+
+let g:deoplete#enable_at_startup = 1
+" <TAB>: completion
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+
+" Close popup by <Space>
+inoremap <expr><Space> pumvisible() ? deoplete#mappings#close_popup() : "\<Space>"
 
 " ---------------------------
 "  Tests
 "  --------------------------
 let test#strategy = "dispatch"
-nmap <silent> <leader>tT :TestNearest<CR>
+nmap <silent> <leader>tn :TestNearest<CR>
 nmap <silent> <leader>tt :TestFile<CR>
 nmap <silent> <leader>ta :TestSuite<CR>
 nmap <silent> <leader>tl :TestLast<CR>

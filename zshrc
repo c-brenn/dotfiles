@@ -4,7 +4,7 @@ fi
 
 autoload -Uz promptinit
 promptinit
-prompt minimal
+prompt damoekri
 
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
