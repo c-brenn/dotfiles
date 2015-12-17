@@ -1,4 +1,4 @@
 alias vi="nvim"
 alias vim="nvim"
-alias emacs="nvim"
 alias tms="tmux new -s"
+alias scheme="rlwrap -r -c -f ~/Documents/misc/sicp/mit_scheme_bindings.txt scheme"

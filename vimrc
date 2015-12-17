@@ -4,11 +4,6 @@ filetype off
 " Vim Plug
 " -----------------------
 call plug#begin('~/.vim/plugged')
-if executable('tmux')
-  " -- TMUX --
-  Plug 'benmills/vimux'
-endif
-
 " -- GIT --
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
@@ -35,8 +30,6 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  } | Plug 'june
 Plug 'benekastah/neomake'
 Plug 'vim-ruby/vim-ruby'
 Plug 'pangloss/vim-javascript'
-Plug 'cakebaker/scss-syntax.vim'
-Plug 'vim-scripts/haskell.vim'
 Plug 'c-brenn/vim-elixir', { 'branch': 'nvim-rplugin' }
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-bundler'
@@ -51,13 +44,13 @@ Plug 'tomasr/molokai'
 " -- TEXT OBJECTS --
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-entire'
-Plug 'tommcdo/vim-exchange'
 
 " -- MISC --
 Plug 'tpope/vim-vinegar'
 Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-sensible'
 Plug 'junegunn/vim-emoji'
+Plug 'ntpeters/vim-better-whitespace'
 
 call plug#end()
 
@@ -78,10 +71,15 @@ map <C-t> :tabnew<CR>
 map <Leader>tc :tabclose<CR>
 map <Leader>bd :bd<CR>
 map <Leader>pc :pc<CR>
+map <Leader>lo :lopen<CR>
+map <Leader>lc :lcl<CR>
 
 " Errors
 autocmd! BufWritePost * Neomake
-let g:neomake_open_list = 2
+
+let g:neomake_javascript_jshint_maker = {
+    \ 'args': ['--esnext'],
+    \ }
 
 map <C-s> <esc>:w<CR>
 imap <C-s> <esc>:w<CR>
@@ -105,11 +103,13 @@ command! E e
 
 " Terminal Mode
 tnoremap <Esc> <C-\><C-n>
-map <Leader>ot :terminal<CR>
+map <Leader>ot :15sp<CR>:terminal<CR>
 
 " Elixir
 nnoremap <Leader>ee V:ElixirExec<CR>
 xnoremap <Leader>ee :ElixirExec<CR>
+
+nnoremap ; :
 
 " Completion
 
@@ -133,11 +133,7 @@ let test#ruby#rspec#options = '--format progress'
 
 map <Leader>d :Dispatch<CR>
 
-nnoremap <Leader>tw :call TrimWhitespace()<CR>
-au BufWritePre *.rb :call TrimWhitespace()
-function! TrimWhitespace()
-  %s/\s\+$//e
-endfunc
+nnoremap <Leader>tw :StripWhitespace<CR>
 
 " -----------------------
 "  GENERAL
@@ -155,25 +151,15 @@ set ignorecase
 set timeoutlen=500
 set completefunc=emoji#complete
 set mouse -=a
-
-augroup FileTypeSettings
-  autocmd!
-  autocmd BufNewFile,BufRead *.html.erb setlocal filetype=html
-  autocmd FileType html setlocal ts=2 sw=2 sts=2 expandtab
-  autocmd FileType ruby setlocal ts=2 sw=2 expandtab
-  autocmd FileType vim setlocal ts=2 sw=2 expandtab keywordprg=:help
-  autocmd FileType haskell setlocal ts=2 sw=2 expandtab
-  autocmd FileType python setlocal ts=4 sw=4 expandtab
-  autocmd FileType javascript setlocal ts=2 sw=2 expandtab
-  autocmd FileType coffee setlocal ts=2 sw=2 expandtab
-  autocmd FileType sh,zsh setlocal ts=2 sw=2 expandtab
-  autocmd BufNewFile,BufRead *.md set filetype=markdown
-  autocmd BufNewFile,BufRead *.css set filetype=scss
-  autocmd FileType markdown setlocal spell textwidth=80
-  autocmd FileType gitcommit setlocal spell
-  autocmd FileType text setlocal spell
-  autocmd FileType scss setlocal ts=2 sw=2 expandtab
-augroup END
+set splitbelow
+set list listchars=tab:▸\ ,trail:·,nbsp:·,eol:¬
+set smarttab
+set expandtab
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+noremap h <nop>
+noremap l <nop>
 
 " -----------------------
 " COLOURS
@@ -191,8 +177,33 @@ let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 " -----------------------
 " Statusline
 " -----------------------
-set statusline=%<[%n]\ %F\ %m%r%y\ %{exists('g:loaded_fugitive')?fugitive#statusline():''}\ %=%-14.(%l,%c%V%)\ %P
+function! S_modified()
+  if !&modifiable || &readonly
+    return ' '.emoji#for('lock').' '
+  elseif &modified
+    return ' '.emoji#for('pencil').' '
+  else
+    return ''
+  endif
+endfunction
 
+function! S_fugitive()
+  if exists('*figutive#head') && strlen(fugitive#head())
+    return fugitive#head()
+  else
+    return ''
+  endif
+endfunction
+
+set statusline=                                                            " clear upon load
+set statusline+=\ %{emoji#available()?emoji#for('sparkles').'\ ':''}       " sparkles
+set statusline+=\ %n:\ %f                                                  " buffer + filename
+set statusline+=%{S_modified()}                                            " modification
+set statusline+=%{strlen(&filetype)?'\ ['.&filetype.']\ ':''}              " file info
+set statusline+=%{S_fugitive()}                                            " git
+set statusline+=%=%-30.(line:\ %l\ of\ %L,\ col:\ %c%V%)                   " position
+set statusline+=\ %P\                                                      " percent
+set statusline+=\ %{emoji#available()?emoji#for('sparkles').'\ ':''}       " sparkles
 " -----------------------
 " LOCAL VIMRC
 " -----------------------
