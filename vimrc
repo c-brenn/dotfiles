@@ -11,7 +11,6 @@ Plug 'tpope/vim-fugitive'
 " -- Tests --
 Plug 'janko-m/vim-test'
 Plug 'tpope/vim-dispatch'
-Plug 'radenling/vim-dispatch-neovim'
 
 " -- COMPLETION --
 Plug 'Shougo/deoplete.nvim'
@@ -30,7 +29,8 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  } | Plug 'june
 Plug 'benekastah/neomake'
 Plug 'vim-ruby/vim-ruby'
 Plug 'pangloss/vim-javascript'
-Plug 'c-brenn/vim-elixir', { 'branch': 'nvim-rplugin' }
+Plug 'elixir-lang/vim-elixir'
+Plug 'https://github.com/archSeer/elixir.nvim.git'
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-bundler'
 
@@ -109,8 +109,6 @@ map <Leader>ot :15sp<CR>:terminal<CR>
 nnoremap <Leader>ee V:ElixirExec<CR>
 xnoremap <Leader>ee :ElixirExec<CR>
 
-nnoremap ; :
-
 " Completion
 
 let g:deoplete#enable_at_startup = 1
@@ -149,7 +147,7 @@ set expandtab
 set smartcase
 set ignorecase
 set timeoutlen=500
-set completefunc=emoji#complete
+set completeopt-=preview
 set mouse -=a
 set splitbelow
 set list listchars=tab:▸\ ,trail:·,nbsp:·,eol:¬
