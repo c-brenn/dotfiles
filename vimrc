@@ -4,45 +4,46 @@ filetype off
 " Vim Plug
 " -----------------------
 call plug#begin('~/.vim/plugged')
-" -- GIT --
-Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter' " Git gutter
+Plug 'tpope/vim-fugitive'     " Git in vim
 
-" -- Tests --
-Plug 'janko-m/vim-test'
-Plug 'tpope/vim-dispatch'
+Plug 'janko-m/vim-test'       " Run tests
 
-" -- COMPLETION --
-Plug 'Shougo/deoplete.nvim'
-Plug 'jiangmiao/auto-pairs'
-Plug 'tpope/vim-endwise'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-surround'
+Plug 'tpope/vim-dispatch'     " Async tasks
 
-" -- MOVING THINGS --
+Plug 'Shougo/deoplete.nvim'   " completion
+Plug 'Shougo/neosnippet.vim'  " snipets
+Plug 'Shougo/neosnippet-snippets'
+
+Plug 'jiangmiao/auto-pairs'   " Pair brackets etc
+Plug 'tpope/vim-endwise'      " Pair do .. end
+
+Plug 'tpope/vim-commentary'   " Comment things easily
+Plug 'tpope/vim-surround'     " Should be built in
+
 Plug 'AndrewRadev/splitjoin.vim'
 
-" -- MAGICAL SEARCH --
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  } | Plug 'junegunn/fzf.vim'
+Plug 'mhinz/vim-grepper'                           " Async grepprg
+Plug 'romainl/vim-qf'                              " Tame quickfix
 
-" -- SYNTAX --
-Plug 'benekastah/neomake'
-Plug 'vim-ruby/vim-ruby'
+Plug 'benekastah/neomake'     " Make checkers
+
+Plug 'vim-ruby/vim-ruby'      " Languages
 Plug 'pangloss/vim-javascript'
 Plug 'elixir-lang/vim-elixir'
 Plug 'https://github.com/archSeer/elixir.nvim.git'
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-bundler'
+Plug 'elmcast/elm-vim'
 
-" -- NAVIGATION --
-Plug 'tpope/vim-unimpaired'
-Plug 'unblevable/quick-scope'
+Plug 'tpope/vim-unimpaired'   " Pairs of useful keybinds
 
-" -- COLOURS --
-Plug 'tomasr/molokai'
+Plug 'unblevable/quick-scope' " f/t/F/T on steroids
 
-" -- TEXT OBJECTS --
-Plug 'kana/vim-textobj-user'
+Plug 'tomasr/molokai'         " colors
+
+Plug 'kana/vim-textobj-user'  " some nice text objects
 Plug 'kana/vim-textobj-entire'
 
 " -- MISC --
@@ -57,45 +58,90 @@ call plug#end()
 filetype plugin indent on
 runtime macros/matchit.vim
 
-" -----------------------
-" KEY BINDINGS
-" -----------------------
-
+"
+" == Key Bindings ==
+"
 let mapleader = ' '
 let g:mapleader = ' '
 
-" Tabs/Windows
-map <Leader>sp :split %<CR>
-map <Leader>vp :vsp %<CR>
+" -- vimrc
+nnoremap <leader>R :so ~/.config/nvim/init.vim<CR>
+
+" -- splits
+map <Leader>sh :split<CR>
+map <Leader>sv :vsp<CR>
+
+" -- windows SPC-w
+map <Leader>wc :close<CR>
+map <Leader>wac :only<CR>
+map <Leader>wpc :pc<CR>
+
+" -- tabs   SPC-t
 map <C-t> :tabnew<CR>
 map <Leader>tc :tabclose<CR>
+nnoremap ]t gt
+nnoremap [t gT
+
+" -- buffers SPC-b
 map <Leader>bd :bd<CR>
-map <Leader>pc :pc<CR>
+map <Leader>bad :bufdo bd<CR>
+
+
+" -- Location list SPC-l
 map <Leader>lo :lopen<CR>
 map <Leader>lc :lcl<CR>
 
-" Errors
-autocmd! BufWritePost * Neomake
 
-let g:neomake_javascript_jshint_maker = {
-    \ 'args': ['--esnext'],
-    \ }
-
-map <C-s> <esc>:w<CR>
-imap <C-s> <esc>:w<CR>
-imap ;; <esc>
-
-nnoremap <leader>R :so ~/.config/nvim/init.vim<CR>
-
-" FZF
+" -- FZF SPC-f
 let g:fzf_command_prefix = 'Fzf'
 nnoremap <C-p> :FzfFiles<CR>
-nnoremap <Leader><Tab> :FzfBuffers<CR>
+nnoremap <Leader>f<Tab> :FzfBuffers<CR>
 nnoremap <Leader>fb :FzfBTags<CR>
 nnoremap <Leader>ft :FzfTags<CR>
+nnoremap <Leader>fa :FzfAg<CR>
 
+" -- Grep SPC-g
+let g:grepper = {
+  \ 'quickfix': 1,
+  \ 'open': 1,
+  \ 'switch': 1,
+  \ 'jump': 0,
+  \ 'tools': ['ag'],
+  \ }
+
+if executable('ag')
+  " Integrate with Ag
+  set grepprg=ag\ --nogroup\ --nocolor\ --ignore-case\ --column\ --vimgrep
+  set grepformat=%f:%l:%c:%m,%f:%l:%m
+
+  nmap gs  <plug>(GrepperOperator)
+  xmap gs  <plug>(GrepperOperator)
+
+  noremap <Leader>gs :Grepper! -noswitch -tool ag -query '\b<C-r><C-w>\b'<CR>
+  nnoremap <Leader>gg :Grepper! -tool ag -query ''<Left>
+  command! -nargs=* Ag Grepper -tool ag -query <args>
+  command! Grep Grepper! -tool ag
+  command! GRep Grep
+endif
+
+" --  Tests SPC-t
+nmap <silent> <leader>tn :TestNearest<CR>
+nmap <silent> <leader>tt :TestFile<CR>
+nmap <silent> <leader>ta :TestSuite<CR>
+nmap <silent> <leader>tl :TestLast<CR>
+nmap <silent> <leader>tv :TestVisit<CR>
+let test#strategy = "dispatch"
+let test#ruby#rspec#options = '--format progress'
+
+" -- Yank/Paste SPC-y SPC-p
+nmap <Leader>yg "*y
+nmap <Leader>pg "*p
+nmap Y y$
+
+" file path in ex mode
 cnoremap <expr> %% expand('%:h').'/'
 
+" shift is hard sometimes
 command! Q q
 command! Qall qall
 command! QA qall
@@ -109,33 +155,27 @@ map <Leader>ot :15sp<CR>:terminal<CR>
 nnoremap <Leader>ee V:ElixirExec<CR>
 xnoremap <Leader>ee :ElixirExec<CR>
 
-" Completion
-
-let g:deoplete#enable_at_startup = 1
 " <TAB>: completion
+let g:deoplete#enable_at_startup = 1
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
 
 " Close popup by <Space>
 inoremap <expr><Space> pumvisible() ? deoplete#mappings#close_popup() : "\<Space>"
 
-" ---------------------------
-"  Tests
-"  --------------------------
-let test#strategy = "dispatch"
-nmap <silent> <leader>tn :TestNearest<CR>
-nmap <silent> <leader>tt :TestFile<CR>
-nmap <silent> <leader>ta :TestSuite<CR>
-nmap <silent> <leader>tl :TestLast<CR>
-nmap <silent> <leader>tg :TestVisit<CR>
-let test#ruby#rspec#options = '--format progress'
 
 map <Leader>d :Dispatch<CR>
 
 nnoremap <Leader>tw :StripWhitespace<CR>
 
-" -----------------------
-"  GENERAL
-" -----------------------
+
+map <C-s> <esc>:w<CR>
+imap <C-s> <esc>:w<CR>
+imap ;; <esc>
+
+" --  General
 syntax on
 set relativenumber
 set hidden
@@ -150,7 +190,6 @@ set timeoutlen=500
 set completeopt-=preview
 set mouse -=a
 set splitbelow
-set list listchars=tab:▸\ ,trail:·,nbsp:·,eol:¬
 set smarttab
 set expandtab
 set tabstop=2
@@ -159,10 +198,13 @@ set shiftwidth=2
 noremap h <nop>
 noremap l <nop>
 
-" -----------------------
-" COLOURS
-" -----------------------
+" -- Neomake
+autocmd! BufWritePost * Neomake
+let g:neomake_javascript_jshint_maker = {
+    \ 'args': ['--esnext'],
+    \ }
 
+" -- Colours
 set background=dark
 colorscheme molokai
 highlight LineNr ctermbg=NONE
@@ -172,9 +214,7 @@ highlight SignColumn ctermbg=NONE
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
 
-" -----------------------
-" Statusline
-" -----------------------
+" -- Statusline
 function! S_modified()
   if !&modifiable || &readonly
     return ' '.emoji#for('lock').' '
@@ -202,10 +242,8 @@ set statusline+=%{S_fugitive()}                                            " git
 set statusline+=%=%-30.(line:\ %l\ of\ %L,\ col:\ %c%V%)                   " position
 set statusline+=\ %P\                                                      " percent
 set statusline+=\ %{emoji#available()?emoji#for('sparkles').'\ ':''}       " sparkles
-" -----------------------
-" LOCAL VIMRC
-" -----------------------
 
+" -- Local vimrc
 if filereadable(glob("~/.vimrc.local"))
   source ~/.vimrc.local
 endif
