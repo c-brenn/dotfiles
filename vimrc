@@ -32,7 +32,8 @@ Plug 'benekastah/neomake'     " Make checkers
 Plug 'vim-ruby/vim-ruby'      " Languages
 Plug 'pangloss/vim-javascript'
 Plug 'elixir-lang/vim-elixir'
-Plug 'https://github.com/archSeer/elixir.nvim.git'
+Plug 'thinca/vim-ref'
+Plug 'awetzel/elixir.nvim', { 'do': './install.sh' }
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-bundler'
 Plug 'elmcast/elm-vim'
@@ -85,7 +86,16 @@ nnoremap [t gT
 " -- buffers SPC-b
 map <Leader>bd :bd<CR>
 map <Leader>bad :bufdo bd<CR>
-
+map <Leader>brn :call RenameFile()<cr>
+function! RenameFile()
+    let old_name = expand('%')
+    let new_name = input('New file name: ', expand('%'), 'file')
+    if new_name != '' && new_name != old_name
+        exec ':saveas ' . new_name
+        exec ':silent !rm ' . old_name
+        redraw!
+    endif
+endfunction
 
 " -- Location list SPC-l
 map <Leader>lo :lopen<CR>
@@ -154,6 +164,7 @@ map <Leader>ot :15sp<CR>:terminal<CR>
 " Elixir
 nnoremap <Leader>ee V:ElixirExec<CR>
 xnoremap <Leader>ee :ElixirExec<CR>
+let g:elixir_autobuild = 1
 
 " <TAB>: completion
 let g:deoplete#enable_at_startup = 1
