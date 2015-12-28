@@ -11,7 +11,7 @@ Plug 'janko-m/vim-test'       " Run tests
 
 Plug 'tpope/vim-dispatch'     " Async tasks
 
-Plug 'Shougo/deoplete.nvim'   " completion
+Plug 'ajh17/VimCompletesMe'
 Plug 'Shougo/neosnippet.vim'  " snipets
 Plug 'Shougo/neosnippet-snippets'
 
@@ -31,9 +31,9 @@ Plug 'benekastah/neomake'     " Make checkers
 
 Plug 'vim-ruby/vim-ruby'      " Languages
 Plug 'pangloss/vim-javascript'
-Plug 'elixir-lang/vim-elixir'
-Plug 'thinca/vim-ref'
-Plug 'awetzel/elixir.nvim', { 'do': './install.sh' }
+Plug 'elixir-lang/vim-elixir' " Base elixir bits
+Plug 'thinca/vim-ref'         " Documentation
+Plug 'awetzel/elixir.nvim', { 'do': './install.sh' } " Fancier elixir things
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-bundler'
 Plug 'elmcast/elm-vim'
@@ -65,8 +65,15 @@ runtime macros/matchit.vim
 let mapleader = ' '
 let g:mapleader = ' '
 
+" -- FZF SPC-f
+let g:fzf_command_prefix = 'Fzf'
+nnoremap <Leader>ff :FzfFiles<CR>
+nnoremap <Leader>fb :FzfBTags<CR>
+nnoremap <Leader>ft :FzfTags<CR>
+nnoremap <Leader>fa :FzfAg<CR>
+
 " -- vimrc
-nnoremap <leader>R :so ~/.config/nvim/init.vim<CR>
+nnoremap <leader>rr :so ~/.config/nvim/init.vim<CR>
 
 " -- splits
 map <Leader>sh :split<CR>
@@ -80,13 +87,14 @@ map <Leader>wpc :pc<CR>
 " -- tabs   SPC-t
 map <C-t> :tabnew<CR>
 map <Leader>tc :tabclose<CR>
-nnoremap ]t gt
-nnoremap [t gT
+map <Leader>tac :tabonly<CR>
 
 " -- buffers SPC-b
+map <Leader>bb :FzfBuffers<CR>
 map <Leader>bd :bd<CR>
 map <Leader>bad :bufdo bd<CR>
 map <Leader>brn :call RenameFile()<cr>
+
 function! RenameFile()
     let old_name = expand('%')
     let new_name = input('New file name: ', expand('%'), 'file')
@@ -101,14 +109,10 @@ endfunction
 map <Leader>lo :lopen<CR>
 map <Leader>lc :lcl<CR>
 
+" -- Quickfix list SPC-c
+map <Leader>co :Copen<CR>
+map <Leader>cl :ccl<CR>
 
-" -- FZF SPC-f
-let g:fzf_command_prefix = 'Fzf'
-nnoremap <C-p> :FzfFiles<CR>
-nnoremap <Leader>f<Tab> :FzfBuffers<CR>
-nnoremap <Leader>fb :FzfBTags<CR>
-nnoremap <Leader>ft :FzfTags<CR>
-nnoremap <Leader>fa :FzfAg<CR>
 
 " -- Grep SPC-g
 let g:grepper = {
@@ -167,17 +171,11 @@ xnoremap <Leader>ee :ElixirExec<CR>
 let g:elixir_autobuild = 1
 
 " <TAB>: completion
-let g:deoplete#enable_at_startup = 1
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 imap <C-k>     <Plug>(neosnippet_expand_or_jump)
 smap <C-k>     <Plug>(neosnippet_expand_or_jump)
 xmap <C-k>     <Plug>(neosnippet_expand_target)
 
-" Close popup by <Space>
-inoremap <expr><Space> pumvisible() ? deoplete#mappings#close_popup() : "\<Space>"
-
-
-map <Leader>d :Dispatch<CR>
+map <Leader>d :Dispatch
 
 nnoremap <Leader>tw :StripWhitespace<CR>
 
@@ -206,8 +204,8 @@ set expandtab
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
-noremap h <nop>
-noremap l <nop>
+" noremap h <nop>
+" noremap l <nop>
 
 " -- Neomake
 autocmd! BufWritePost * Neomake
