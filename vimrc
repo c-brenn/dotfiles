@@ -42,7 +42,7 @@ Plug 'tpope/vim-unimpaired'   " Pairs of useful keybinds
 
 Plug 'unblevable/quick-scope' " f/t/F/T on steroids
 
-Plug 'tomasr/molokai'         " colors
+Plug 'morhetz/gruvbox'         " colors
 
 Plug 'kana/vim-textobj-user'  " some nice text objects
 Plug 'kana/vim-textobj-entire'
@@ -215,10 +215,7 @@ let g:neomake_javascript_jshint_maker = {
 
 " -- Colours
 set background=dark
-colorscheme molokai
-highlight LineNr ctermbg=NONE
-let g:gitgutter_override_sign_column_highlight = 0
-highlight SignColumn ctermbg=NONE
+colorscheme gruvbox
 
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
@@ -243,14 +240,32 @@ function! S_fugitive()
 endfunction
 
 set statusline=                                                            " clear upon load
+set statusline+=%1*
 set statusline+=\ %{emoji#available()?emoji#for('sparkles').'\ ':''}       " sparkles
+set statusline+=%2*
 set statusline+=\ %n:\ %f                                                  " buffer + filename
 set statusline+=%{S_modified()}                                            " modification
+set statusline+=%3*
 set statusline+=%{strlen(&filetype)?'\ ['.&filetype.']\ ':''}              " file info
+set statusline+=%2*
 set statusline+=%{S_fugitive()}                                            " git
 set statusline+=%=%-30.(line:\ %l\ of\ %L,\ col:\ %c%V%)                   " position
+set statusline+=%3*
 set statusline+=\ %P\                                                      " percent
 set statusline+=\ %{emoji#available()?emoji#for('sparkles').'\ ':''}       " sparkles
+
+highlight User1 ctermfg=110 ctermbg=236 guifg=#83a598 guibg=#282828
+highlight User2 ctermfg=203 ctermbg=236 guibg=#282828 guifg=#fb4934
+highlight User3 ctermfg=213 ctermbg=236 guibg=#282828 guifg=#d3869b
+highlight User4 guibg=#282828 guifg=#fe8019
+
+highlight SignColumn ctermbg=black guibg=#1d2021
+highlight lineNr ctermbg=black guibg=#1d2021
+highlight GitGutterAdd ctermbg=black guibg=#1d2021 guifg=#b8bb26
+highlight GitGutterChange ctermbg=black guibg=#1d2021 guifg=#83a598
+highlight GitGutterDelete ctermbg=black guibg=#1d2021 guifg=#fb4934
+highlight GitGutterChangeDelete ctermbg=black guibg=#1d2021 guifg=#fe8019
+highlight ModeMsg ctermfg=213 guifg=#b8bb26
 
 " -- Local vimrc
 if filereadable(glob("~/.vimrc.local"))
