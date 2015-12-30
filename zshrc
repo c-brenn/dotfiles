@@ -15,6 +15,8 @@ source $(brew --prefix nvm)/nvm.sh
 export PATH="$HOME/.exenv/bin:$PATH"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# fzf honours gitignores and agignores
+export FZF_DEFAULT_COMMAND='ag -g ""'
 
 source $HOME/.zsh/aliases
 source $HOME/.bin/tmuxinator.zsh

@@ -12,8 +12,6 @@ Plug 'janko-m/vim-test'       " Run tests
 Plug 'tpope/vim-dispatch'     " Async tasks
 
 Plug 'ajh17/VimCompletesMe'
-Plug 'Shougo/neosnippet.vim'  " snipets
-Plug 'Shougo/neosnippet-snippets'
 
 Plug 'jiangmiao/auto-pairs'   " Pair brackets etc
 Plug 'tpope/vim-endwise'      " Pair do .. end
@@ -26,17 +24,19 @@ Plug 'AndrewRadev/splitjoin.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  } | Plug 'junegunn/fzf.vim'
 Plug 'mhinz/vim-grepper'                           " Async grepprg
 Plug 'romainl/vim-qf'                              " Tame quickfix
+Plug 'godlygeek/tabular'      " arrange things
 
 Plug 'benekastah/neomake'     " Make checkers
 
-Plug 'vim-ruby/vim-ruby'      " Languages
-Plug 'pangloss/vim-javascript'
-Plug 'elixir-lang/vim-elixir' " Base elixir bits
-Plug 'thinca/vim-ref'         " Documentation
-Plug 'awetzel/elixir.nvim', { 'do': './install.sh' } " Fancier elixir things
-Plug 'tpope/vim-rails'
-Plug 'tpope/vim-bundler'
-Plug 'elmcast/elm-vim'
+Plug 'vim-ruby/vim-ruby',       { 'for': 'ruby' }
+Plug 'tpope/vim-rails',         { 'for': 'ruby' }
+Plug 'tpope/vim-bundler',       { 'for': 'ruby' }
+Plug 'pangloss/vim-javascript', { 'for': 'javascript'}
+Plug 'elixir-lang/vim-elixir',  { 'for': 'elixir' }
+Plug 'awetzel/elixir.nvim',     { 'for': 'elixir', 'do': './install.sh' }
+Plug 'c-brenn/vim-phoenix'
+Plug 'elmcast/elm-vim',         { 'for': 'elm' }
+Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 
 Plug 'tpope/vim-unimpaired'   " Pairs of useful keybinds
 
@@ -47,12 +47,14 @@ Plug 'morhetz/gruvbox'         " colors
 Plug 'kana/vim-textobj-user'  " some nice text objects
 Plug 'kana/vim-textobj-entire'
 
+Plug 'tpope/vim-projectionist' " project navigation
+
 " -- MISC --
 Plug 'tpope/vim-vinegar'
-Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-sensible'
 Plug 'junegunn/vim-emoji'
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'thinca/vim-ref'
 
 call plug#end()
 
@@ -104,6 +106,17 @@ function! RenameFile()
         redraw!
     endif
 endfunction
+
+" -- project navigation SPC-p
+map <Leader>paa :A<CR>
+map <Leader>pas :AS<CR>
+map <Leader>pav :AV<CR>
+map <Leader>pat :AT<CR>
+" rails/phoenix
+map <Leader>pec :Econtroller<Space>
+map <Leader>pem :Emodel<Space>
+map <Leader>pev :Eview<Space>
+map <Leader>pet :Etest<Space>
 
 " -- Location list SPC-l
 map <Leader>lo :lopen<CR>
@@ -209,9 +222,7 @@ set shiftwidth=2
 
 " -- Neomake
 autocmd! BufWritePost * Neomake
-let g:neomake_javascript_jshint_maker = {
-    \ 'args': ['--esnext'],
-    \ }
+let g:neomake_javascript_enabled_makers = ['eslint']
 
 " -- Colours
 set background=dark
