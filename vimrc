@@ -32,7 +32,7 @@ Plug 'vim-ruby/vim-ruby',       { 'for': 'ruby' }
 Plug 'tpope/vim-rails',         { 'for': 'ruby' }
 Plug 'tpope/vim-bundler',       { 'for': 'ruby' }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript'}
-Plug 'elixir-lang/vim-elixir',  { 'for': 'elixir' }
+Plug 'elixir-lang/vim-elixir'
 Plug 'awetzel/elixir.nvim',     { 'for': 'elixir', 'do': './install.sh' }
 Plug 'c-brenn/vim-phoenix'
 Plug 'elmcast/elm-vim',         { 'for': 'elm' }
@@ -47,7 +47,7 @@ Plug 'morhetz/gruvbox'         " colors
 Plug 'kana/vim-textobj-user'  " some nice text objects
 Plug 'kana/vim-textobj-entire'
 
-Plug 'tpope/vim-projectionist' " project navigation
+Plug 'tpope/vim-projectionist'
 
 " -- MISC --
 Plug 'tpope/vim-vinegar'
@@ -223,6 +223,25 @@ set shiftwidth=2
 " -- Neomake
 autocmd! BufWritePost * Neomake
 let g:neomake_javascript_enabled_makers = ['eslint']
+
+" -- Filetype settings
+augroup FileTypeSettings
+  autocmd!
+  autocmd BufNewFile,BufRead *.html.erb setlocal filetype=html
+  autocmd FileType html setlocal ts=2 sw=2 sts=2 expandtab
+  autocmd FileType ruby setlocal ts=2 sw=2 expandtab
+  autocmd FileType vim setlocal ts=2 sw=2 expandtab keywordprg=:help
+  autocmd FileType haskell setlocal ts=2 sw=2 expandtab
+  autocmd FileType python setlocal ts=4 sw=4 expandtab
+  autocmd FileType javascript setlocal ts=2 sw=2 expandtab
+  autocmd FileType coffee setlocal ts=2 sw=2 expandtab
+  autocmd BufNewFile,BufRead *.md set filetype=markdown
+  autocmd BufNewFile,BufRead *.css set filetype=scss
+  autocmd FileType markdown setlocal spell textwidth=80
+  autocmd FileType gitcommit setlocal spell
+  autocmd FileType text setlocal spell
+  autocmd FileType scss setlocal ts=2 sw=2 expandtab
+augroup END
 
 " -- Colours
 set background=dark
