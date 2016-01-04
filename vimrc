@@ -26,7 +26,7 @@ Plug 'mhinz/vim-grepper'                           " Async grepprg
 Plug 'romainl/vim-qf'                              " Tame quickfix
 Plug 'godlygeek/tabular'      " arrange things
 
-Plug 'benekastah/neomake'     " Make checkers
+Plug 'c-brenn/neomake', { 'branch': 'elm-maker' }     " Make checkers
 
 Plug 'vim-ruby/vim-ruby',       { 'for': 'ruby' }
 Plug 'tpope/vim-rails',         { 'for': 'ruby' }
@@ -67,6 +67,23 @@ runtime macros/matchit.vim
 let mapleader = ' '
 let g:mapleader = ' '
 
+" -- General
+" easy esc
+inoremap jk <Esc>
+inoremap JK <Esc>
+inoremap Jk <Esc>
+inoremap jK <Esc>
+
+" easy EX mode
+nnoremap ; :
+vnoremap ; :
+
+" save ; motion
+nnoremap , ;
+vnoremap , ;
+nnoremap <S-,> ,
+vnoremap <S-,> ,
+
 " -- FZF SPC-f
 let g:fzf_command_prefix = 'Fzf'
 nnoremap <Leader>ff :FzfFiles<CR>
@@ -78,24 +95,24 @@ nnoremap <Leader>fa :FzfAg<CR>
 nnoremap <leader>rr :so ~/.config/nvim/init.vim<CR>
 
 " -- splits
-map <Leader>sh :split<CR>
-map <Leader>sv :vsp<CR>
+nnoremap <Leader>sh :split<CR>
+nnoremap <Leader>sv :vsp<CR>
 
 " -- windows SPC-w
-map <Leader>wc :close<CR>
-map <Leader>wac :only<CR>
-map <Leader>wpc :pc<CR>
+nnoremap <Leader>wc :close<CR>
+nnoremap <Leader>wac :only<CR>
+nnoremap <Leader>wpc :pc<CR>
 
 " -- tabs   SPC-t
 map <C-t> :tabnew<CR>
-map <Leader>tc :tabclose<CR>
-map <Leader>tac :tabonly<CR>
+nnoremap <Leader>tc :tabclose<CR>
+nnoremap <Leader>tac :tabonly<CR>
 
 " -- buffers SPC-b
-map <Leader>bb :FzfBuffers<CR>
-map <Leader>bd :bd<CR>
-map <Leader>bad :bufdo bd<CR>
-map <Leader>brn :call RenameFile()<cr>
+nnoremap <Leader>bb :FzfBuffers<CR>
+nnoremap <Leader>bd :bd<CR>
+nnoremap <Leader>bad :bufdo bd<CR>
+nnoremap <Leader>brn :call RenameFile()<cr>
 
 function! RenameFile()
     let old_name = expand('%')
@@ -107,24 +124,26 @@ function! RenameFile()
     endif
 endfunction
 
-" -- project navigation SPC-p
-map <Leader>paa :A<CR>
-map <Leader>pas :AS<CR>
-map <Leader>pav :AV<CR>
-map <Leader>pat :AT<CR>
+" -- project navigation
+"  - SPC-a -> alternate files
+"  - SPC-e -> edit files
+nnoremap <Leader>aa :A<CR>
+nnoremap <Leader>as :AS<CR>
+nnoremap <Leader>av :AV<CR>
+nnoremap <Leader>at :AT<CR>
 " rails/phoenix
-map <Leader>pec :Econtroller<Space>
-map <Leader>pem :Emodel<Space>
-map <Leader>pev :Eview<Space>
-map <Leader>pet :Etest<Space>
+nnoremap <Leader>ec :Econtroller<Space>
+nnoremap <Leader>em :Emodel<Space>
+nnoremap <Leader>ev :Eview<Space>
+nnoremap <Leader>et :Etest<Space>
 
 " -- Location list SPC-l
-map <Leader>lo :lopen<CR>
-map <Leader>lc :lcl<CR>
+nnoremap <Leader>lo :lopen<CR>
+nnoremap <Leader>lc :lcl<CR>
 
 " -- Quickfix list SPC-c
-map <Leader>co :Copen<CR>
-map <Leader>cl :ccl<CR>
+nnoremap <Leader>co :Copen<CR>
+nnoremap <Leader>cl :ccl<CR>
 
 
 " -- Grep SPC-g
@@ -176,19 +195,14 @@ command! E e
 
 " Terminal Mode
 tnoremap <Esc> <C-\><C-n>
-map <Leader>ot :15sp<CR>:terminal<CR>
-
-" Elixir
-nnoremap <Leader>ee V:ElixirExec<CR>
-xnoremap <Leader>ee :ElixirExec<CR>
-let g:elixir_autobuild = 1
+nnoremap <Leader>ot :15sp<CR>:terminal<CR>
 
 " <TAB>: completion
 imap <C-k>     <Plug>(neosnippet_expand_or_jump)
 smap <C-k>     <Plug>(neosnippet_expand_or_jump)
 xmap <C-k>     <Plug>(neosnippet_expand_target)
 
-map <Leader>d :Dispatch
+nnoremap <Leader>d :Dispatch<Space>
 
 nnoremap <Leader>tw :StripWhitespace<CR>
 
@@ -217,8 +231,9 @@ set expandtab
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
-" noremap h <nop>
-" noremap l <nop>
+
+" -- Elixir
+let g:elixir_autobuild = 0
 
 " -- Neomake
 autocmd! BufWritePost * Neomake
@@ -241,6 +256,7 @@ augroup FileTypeSettings
   autocmd FileType gitcommit setlocal spell
   autocmd FileType text setlocal spell
   autocmd FileType scss setlocal ts=2 sw=2 expandtab
+  autocmd FileType qf setlocal wrap linebreak
 augroup END
 
 " -- Colours

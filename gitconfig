@@ -1,0 +1,16 @@
+[core]
+  editor = nvim
+	excludesfile = ~/.gitignore
+[user]
+	email = brennc27@tcd.ie
+	name = c-brenn
+[alias]
+	undo-commit = reset --soft HEAD^
+	unstage = reset HEAD --
+	ctags = !.git/hooks/ctags
+[push]
+	default = current
+[pull]
+	default = current
+[init]
+	templatedir = ~/.git_template
