@@ -240,6 +240,7 @@ let g:elixir_autobuild = 0
 " -- Neomake
 autocmd! BufWritePost * Neomake
 let g:neomake_javascript_enabled_makers = ['eslint']
+let g:neomake_ruby_enabled_makers = ['rubocop']
 
 " -- Filetype settings
 augroup FileTypeSettings
@@ -287,10 +288,17 @@ function! S_fugitive()
   endif
 endfunction
 
+function! S_noemake()
+  if neomake#statusline#LoclistStatus() != ''
+    return ' ' . neomake#statusline#LoclistStatus(' neomake: ')
+  else
+    return ''
+  endif
+endfunction
+
 set statusline=                                                            " clear upon load
 set statusline+=%1*
 set statusline+=\ %{emoji#available()?emoji#for('sparkles').'\ ':''}       " sparkles
-set statusline+=%2*
 set statusline+=\ %n:\ %f                                                  " buffer + filename
 set statusline+=%{S_modified()}                                            " modification
 set statusline+=%3*
@@ -298,6 +306,8 @@ set statusline+=%{strlen(&filetype)?'\ ['.&filetype.']\ ':''}              " fil
 set statusline+=%4*
 set statusline+=%{S_fugitive()}                                   " git
 set statusline+=%2*
+set statusline+=%{S_noemake()}
+set statusline+=%1*
 set statusline+=%=%-30.(line:\ %l\ of\ %L,\ col:\ %c%V%)                   " position
 set statusline+=%3*
 set statusline+=\ %P\                                                      " percent
@@ -306,15 +316,12 @@ set statusline+=\ %{emoji#available()?emoji#for('sparkles').'\ ':''}       " spa
 highlight User1 ctermfg=110 ctermbg=236 guifg=#83a598 guibg=#282828
 highlight User2 ctermfg=203 ctermbg=236 guibg=#282828 guifg=#fb4934
 highlight User3 ctermfg=213 ctermbg=236 guibg=#282828 guifg=#d3869b
-highlight User4 guibg=#282828 guifg=#fe8019
 
-highlight SignColumn ctermbg=black guibg=#1d2021
-highlight lineNr ctermbg=black guibg=#1d2021
-highlight GitGutterAdd ctermbg=black guibg=#1d2021 guifg=#b8bb26
-highlight GitGutterChange ctermbg=black guibg=#1d2021 guifg=#83a598
-highlight GitGutterDelete ctermbg=black guibg=#1d2021 guifg=#fb4934
-highlight GitGutterChangeDelete ctermbg=black guibg=#1d2021 guifg=#fe8019
-highlight ModeMsg ctermfg=213 guifg=#b8bb26
+highlight SignColumn ctermbg=black
+highlight lineNr ctermbg=black
+highlight GitGutterAdd ctermbg=black ctermfg=142
+highlight GitGutterChange ctermbg=black ctermfg=109
+highlight GitGutterDelete ctermbg=black ctermfg=167
 
 " -- Local vimrc
 if filereadable(glob("~/.vimrc.local"))
