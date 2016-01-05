@@ -8,8 +8,6 @@ prompt damoekri
 
 export EDITOR=nvim
 
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
 export NVM_DIR=~/.nvm
 source $(brew --prefix nvm)/nvm.sh
 export PATH="$HOME/.exenv/bin:$PATH"
@@ -24,3 +22,6 @@ source $HOME/.bin/tmuxinator.zsh
 # disable C-s so I can save in vim
 stty start undef
 stty stop undef
+
+export PATH="$HOME/.rvm/bin:$PATH" # Add RVM to PATH for scripting
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
