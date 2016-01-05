@@ -37,6 +37,7 @@ Plug 'awetzel/elixir.nvim',     { 'for': 'elixir', 'do': './install.sh' }
 Plug 'c-brenn/vim-phoenix'
 Plug 'elmcast/elm-vim',         { 'for': 'elm' }
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+Plug 'neovimhaskell/haskell-vim'
 
 Plug 'tpope/vim-unimpaired'   " Pairs of useful keybinds
 
@@ -145,8 +146,12 @@ nnoremap <Leader>lc :lcl<CR>
 nnoremap <Leader>co :Copen<CR>
 nnoremap <Leader>cl :ccl<CR>
 
+" -- Git SPC-g
+nnoremap <Leader>gs :Gstatus<CR>
+nnoremap <Leader>gb :Gblame<CR>
 
-" -- Grep SPC-g
+
+" -- Grep SPC-/
 let g:grepper = {
   \ 'quickfix': 1,
   \ 'open': 1,
@@ -160,11 +165,8 @@ if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor\ --ignore-case\ --column\ --vimgrep
   set grepformat=%f:%l:%c:%m,%f:%l:%m
 
-  nmap gs  <plug>(GrepperOperator)
-  xmap gs  <plug>(GrepperOperator)
-
-  noremap <Leader>gs :Grepper! -noswitch -tool ag -query '\b<C-r><C-w>\b'<CR>
-  nnoremap <Leader>gg :Grepper! -tool ag -query ''<Left>
+  noremap <Leader>/s :Grepper! -noswitch -tool ag -query '\b<C-r><C-w>\b'<CR>
+  nnoremap <Leader>// :Grepper! -tool ag -query ''<Left>
   command! -nargs=* Ag Grepper -tool ag -query <args>
   command! Grep Grepper! -tool ag
   command! GRep Grep
@@ -278,8 +280,8 @@ function! S_modified()
 endfunction
 
 function! S_fugitive()
-  if exists('*figutive#head') && strlen(fugitive#head())
-    return fugitive#head()
+  if fugitive#head() != ''
+    return fugitive#statusline()
   else
     return ''
   endif
@@ -293,8 +295,9 @@ set statusline+=\ %n:\ %f                                                  " buf
 set statusline+=%{S_modified()}                                            " modification
 set statusline+=%3*
 set statusline+=%{strlen(&filetype)?'\ ['.&filetype.']\ ':''}              " file info
+set statusline+=%4*
+set statusline+=%{S_fugitive()}                                   " git
 set statusline+=%2*
-set statusline+=%{S_fugitive()}                                            " git
 set statusline+=%=%-30.(line:\ %l\ of\ %L,\ col:\ %c%V%)                   " position
 set statusline+=%3*
 set statusline+=\ %P\                                                      " percent
