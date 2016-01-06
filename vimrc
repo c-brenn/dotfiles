@@ -85,35 +85,35 @@ vnoremap , ;
 nnoremap <S-,> ,
 vnoremap <S-,> ,
 
-" -- FZF SPC-f
 let g:fzf_command_prefix = 'Fzf'
+
+" -- Files SPC-f
+nnoremap <Leader>fr :call RenameFile()<cr>
 nnoremap <Leader>ff :FzfFiles<CR>
-nnoremap <Leader>fb :FzfBTags<CR>
-nnoremap <Leader>ft :FzfTags<CR>
-nnoremap <Leader>fa :FzfAg<CR>
 
-" -- vimrc
-nnoremap <leader>rr :so ~/.config/nvim/init.vim<CR>
-
-" -- splits
-nnoremap <Leader>sh :split<CR>
-nnoremap <Leader>sv :vsp<CR>
-
-" -- windows SPC-w
+" -- Windows SPC-w
+nnoremap <Leader>wh :split<CR>
+nnoremap <Leader>wv :vsp<CR>
 nnoremap <Leader>wc :close<CR>
-nnoremap <Leader>wac :only<CR>
-nnoremap <Leader>wpc :pc<CR>
-
-" -- tabs   SPC-t
-map <C-t> :tabnew<CR>
-nnoremap <Leader>tc :tabclose<CR>
-nnoremap <Leader>tac :tabonly<CR>
+nnoremap <Leader>wo :only<CR>
+nnoremap <Leader>wlo :lopen<CR>
+nnoremap <Leader>wlc :lcl<CR>
+nnoremap <Leader>wco :Copen<CR>
+nnoremap <Leader>wcl :ccl<CR>
 
 " -- buffers SPC-b
 nnoremap <Leader>bb :FzfBuffers<CR>
 nnoremap <Leader>bd :bd<CR>
-nnoremap <Leader>bad :bufdo bd<CR>
-nnoremap <Leader>brn :call RenameFile()<cr>
+nnoremap <Leader>bo :bufdo bd<CR>
+
+" -- vimrc
+nnoremap <leader>rr :so ~/.config/nvim/init.vim<CR>
+
+" -- tabs   SPC-t
+map <C-t> :tabnew<CR>
+nnoremap <Leader>tc :tabclose<CR>
+nnoremap <Leader>to :tabonly<CR>
+
 
 function! RenameFile()
     let old_name = expand('%')
@@ -125,26 +125,35 @@ function! RenameFile()
     endif
 endfunction
 
-" -- project navigation
-"  - SPC-a -> alternate files
-"  - SPC-e -> edit files
-nnoremap <Leader>aa :A<CR>
-nnoremap <Leader>as :AS<CR>
-nnoremap <Leader>av :AV<CR>
-nnoremap <Leader>at :AT<CR>
-" rails/phoenix
-nnoremap <Leader>ec :Econtroller<Space>
-nnoremap <Leader>em :Emodel<Space>
-nnoremap <Leader>ev :Eview<Space>
-nnoremap <Leader>et :Etest<Space>
+" Behaviour that differs based on filetype/project
+" SPC-m
+" --- goto SPC-mg
+nnoremap <Leader>mga :A<CR>
+" --- repl SPC-md
+nnoremap <Leader>mrr :Console<CR>
+nnoremap <Leader>mrs :Start<CR>
+" -- build tool SPC-mb
+nnoremap <Leader>mb  :<C-R>=M_BuildTool()<CR>
+function! M_BuildTool()
+  if &filetype == 'ruby'
+    return 'Bundle '
+  else
+    return 'Mix '
+  endif
+endfunction
 
-" -- Location list SPC-l
-nnoremap <Leader>lo :lopen<CR>
-nnoremap <Leader>lc :lcl<CR>
+" --- tests SPC-mt
+let test#strategy = "dispatch"
+let test#ruby#rspec#options = '--format progress'
+nmap <silent> <leader>mtt :TestFile<CR>
+nmap <silent> <leader>mtn :TestNearest<CR>
+nmap <silent> <leader>mta :TestSuite<CR>
+nmap <silent> <leader>mtl :TestLast<CR>
+nmap <silent> <leader>mtv :TestVisit<CR>
 
-" -- Quickfix list SPC-c
-nnoremap <Leader>co :Copen<CR>
-nnoremap <Leader>cl :ccl<CR>
+" -- Text Manipulation SPC-x
+nnoremap <Leader>xw :StripWhitespace<CR>
+
 
 " -- Git SPC-g
 nnoremap <Leader>gs :Gstatus<CR>
@@ -172,15 +181,6 @@ if executable('ag')
   command! GRep Grep
 endif
 
-" --  Tests SPC-t
-nmap <silent> <leader>tn :TestNearest<CR>
-nmap <silent> <leader>tt :TestFile<CR>
-nmap <silent> <leader>ta :TestSuite<CR>
-nmap <silent> <leader>tl :TestLast<CR>
-nmap <silent> <leader>tv :TestVisit<CR>
-let test#strategy = "dispatch"
-let test#ruby#rspec#options = '--format progress'
-
 " -- Yank/Paste SPC-y SPC-p
 nmap <Leader>yg "*y
 nmap <Leader>pg "*p
@@ -197,25 +197,15 @@ command! E e
 
 " Terminal Mode
 tnoremap <Esc> <C-\><C-n>
-nnoremap <Leader>ot :15sp<CR>:terminal<CR>
-
-" <TAB>: completion
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
 
 nnoremap <Leader>d :Dispatch<Space>
 
-nnoremap <Leader>tw :StripWhitespace<CR>
-
-
 map <C-s> <esc>:w<CR>
 imap <C-s> <esc>:w<CR>
-imap ;; <esc>
 
 " --  General
 syntax on
-set relativenumber
+set number
 set hidden
 set scrolloff=10
 set sidescrolloff=10"
@@ -268,61 +258,7 @@ colorscheme gruvbox
 
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
-
-" -- Statusline
-function! S_modified()
-  if !&modifiable || &readonly
-    return ' '.emoji#for('lock').' '
-  elseif &modified
-    return ' '.emoji#for('pencil').' '
-  else
-    return ''
-  endif
-endfunction
-
-function! S_fugitive()
-  if fugitive#head() != ''
-    return fugitive#statusline()
-  else
-    return ''
-  endif
-endfunction
-
-function! S_noemake()
-  if neomake#statusline#LoclistStatus() != ''
-    return ' ' . neomake#statusline#LoclistStatus(' neomake: ')
-  else
-    return ''
-  endif
-endfunction
-
-set statusline=                                                            " clear upon load
-set statusline+=%1*
-set statusline+=\ %{emoji#available()?emoji#for('sparkles').'\ ':''}       " sparkles
-set statusline+=\ %n:\ %f                                                  " buffer + filename
-set statusline+=%{S_modified()}                                            " modification
-set statusline+=%3*
-set statusline+=%{strlen(&filetype)?'\ ['.&filetype.']\ ':''}              " file info
-set statusline+=%4*
-set statusline+=%{S_fugitive()}                                   " git
-set statusline+=%2*
-set statusline+=%{S_noemake()}
-set statusline+=%1*
-set statusline+=%=%-30.(line:\ %l\ of\ %L,\ col:\ %c%V%)                   " position
-set statusline+=%3*
-set statusline+=\ %P\                                                      " percent
-set statusline+=\ %{emoji#available()?emoji#for('sparkles').'\ ':''}       " sparkles
-
-highlight User1 ctermfg=110 ctermbg=236 guifg=#83a598 guibg=#282828
-highlight User2 ctermfg=203 ctermbg=236 guibg=#282828 guifg=#fb4934
-highlight User3 ctermfg=213 ctermbg=236 guibg=#282828 guifg=#d3869b
-
-highlight SignColumn ctermbg=black
-highlight lineNr ctermbg=black
-highlight GitGutterAdd ctermbg=black ctermfg=142
-highlight GitGutterChange ctermbg=black ctermfg=109
-highlight GitGutterDelete ctermbg=black ctermfg=167
-
+source ~/dotfiles/vim/appearance.vim
 " -- Local vimrc
 if filereadable(glob("~/.vimrc.local"))
   source ~/.vimrc.local
