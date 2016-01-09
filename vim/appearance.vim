@@ -34,10 +34,13 @@ set statusline+=%3*
 set statusline+=%{strlen(&filetype)?'\ ['.&filetype.']\ ':''}              " file info
 set statusline+=%4*
 set statusline+=%{S_fugitive()}                                   " git
+set statusline+=%#NeotermTestRunning#%{neoterm#test#status('running')}%*
+set statusline+=%#NeotermTestSuccess#%{neoterm#test#status('success')}%*
+set statusline+=%#NeotermTestFailed#%{neoterm#test#status('failed')}%*
 set statusline+=%2*
-set statusline+=%{S_noemake()}
+set statusline+=%=%{S_noemake()}\ |
 set statusline+=%1*
-set statusline+=%=%-30.(line:\ %l\ of\ %L,\ col:\ %c%V%)                   " position
+set statusline+=%(line:\ %l\ of\ %L,\ col:\ %c%V%)                   " position
 set statusline+=%3*
 set statusline+=\ %P\                                                      " percent
 set statusline+=\ %{emoji#available()?emoji#for('sparkles').'\ ':''}       " sparkles

@@ -7,9 +7,8 @@ call plug#begin('~/.vim/plugged')
 Plug 'airblade/vim-gitgutter' " Git gutter
 Plug 'tpope/vim-fugitive'     " Git in vim
 
-Plug 'janko-m/vim-test'       " Run tests
-
 Plug 'tpope/vim-dispatch'     " Async tasks
+Plug 'kassio/neoterm'         " send tasks to terminal
 
 Plug 'ajh17/VimCompletesMe'
 
@@ -36,7 +35,6 @@ Plug 'elixir-lang/vim-elixir'
 Plug 'awetzel/elixir.nvim',     { 'for': 'elixir', 'do': './install.sh' }
 Plug 'c-brenn/vim-phoenix'
 Plug 'elmcast/elm-vim',         { 'for': 'elm' }
-Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 Plug 'neovimhaskell/haskell-vim'
 
 Plug 'tpope/vim-unimpaired'   " Pairs of useful keybinds
@@ -55,8 +53,11 @@ Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-sensible'
 Plug 'junegunn/vim-emoji'
 Plug 'ntpeters/vim-better-whitespace'
-Plug 'thinca/vim-ref'
 
+" -- WIP
+Plug '~/Documents/misc/vim-projects/plugins/fzf-projectionist'
+
+Plug 'easymotion/vim-easymotion'
 call plug#end()
 
 filetype plugin indent on
@@ -127,9 +128,16 @@ endfunction
 
 " Behaviour that differs based on filetype/project
 " SPC-m
-" --- goto SPC-mg
-nnoremap <Leader>mga :A<CR>
-" --- repl SPC-md
+" --- alternates SPC-ma
+nnoremap <Leader>maa :A<CR>
+nnoremap <Leader>mav :AV<CR>
+nnoremap <Leader>mat :AT<CR>
+" --- fzf{type} SPC-mf
+nnoremap <Leader>mfm :FZFmodel<CR>
+nnoremap <Leader>mfc :FZFcontroller<CR>
+nnoremap <Leader>mfv :FZFview<CR>
+nnoremap <Leader>mfh :FZFchannel<CR>
+" --- repl SPC-mr
 nnoremap <Leader>mrr :Console<CR>
 nnoremap <Leader>mrs :Start<CR>
 " -- build tool SPC-mb
@@ -143,13 +151,38 @@ function! M_BuildTool()
 endfunction
 
 " --- tests SPC-mt
-let test#strategy = "dispatch"
-let test#ruby#rspec#options = '--format progress'
-nmap <silent> <leader>mtt :TestFile<CR>
-nmap <silent> <leader>mtn :TestNearest<CR>
-nmap <silent> <leader>mta :TestSuite<CR>
-nmap <silent> <leader>mtl :TestLast<CR>
-nmap <silent> <leader>mtv :TestVisit<CR>
+let test#strategy = "neoterm"
+let g:neoterm_run_tests_bg=1
+let g:neoterm_raise_when_tests_fail=1
+let g:neoterm_close_when_tests_succeed=1
+let g:neoterm_test_status = {
+  \ 'running' : emoji#for('running'),
+  \ 'success' : emoji#for('tada'),
+  \ 'failed'  : emoji#for('fire')
+  \ }
+nmap <silent> <leader>mtt :call neoterm#test#run('file')<CR>
+nmap <silent> <leader>mtn :call neoterm#test#run('current')<CR>
+nmap <silent> <leader>mta :call neoterm#test#run('all')<CR>
+nmap <silent> <leader>mtl :call neoterm#test#rerun()<CR>
+
+" -- shell SPC-s
+nnoremap <leader>sn :Tnew<CR>
+nnoremap <leader>ss :call M_send_command()<CR>
+nnoremap <leader>sl :call M_send_last_command()<CR>
+nnoremap <leader>sc :Tclose<CR>
+nnoremap <leader>so :Topen<CR>
+function! M_send_command() abort
+  call inputsave()
+  let g:m_last_command = input('Enter command: ')
+  call inputrestore()
+  exe 'T ' . g:m_last_command
+endfunction
+function! M_send_last_command() abort
+  if exists('g:m_last_command') && g:m_last_command != ''
+    exe 'T ' . g:m_lat_command
+  endif
+endfunction
+let g:neoterm_size=15
 
 " -- Text Manipulation SPC-x
 nnoremap <Leader>xw :StripWhitespace<CR>
@@ -214,7 +247,8 @@ set directory=~/.tmp
 set expandtab
 set smartcase
 set ignorecase
-set timeoutlen=500
+set notimeout
+set ttimeout
 set completeopt-=preview
 set mouse -=a
 set splitbelow
@@ -263,41 +297,3 @@ source ~/dotfiles/vim/appearance.vim
 if filereadable(glob("~/.vimrc.local"))
   source ~/.vimrc.local
 endif
-
-function! M_fzf_proj(type) abort
-  let projections = projectionist#navigation_commands()
-  if projections != {}
-    if has_key(projections, a:type)
-      let subset =  projections[a:type]
-      let cwd = getcwd()
-      for pair in subset
-        if cwd =~ pair[0]
-          let str = fnamemodify(pair[1], ":p:h")
-          exe 'FZF ' . str
-          return
-        endif
-      endfor
-      echo 'no projections of that type were found in this project'
-    else
-      echo 'no projections of that type were found'
-    endif
-  else
-    echo 'no projections found'
-  endif
-endfunction
-
-function! M_load_projections() abort
-  let projections = projectionist#navigation_commands()
-  if projections != {}
-    for [type, stuff] in items(projections)
-      execute 'command! '
-            \ 'FZF' . type
-            \ " call M_fzf_proj('" . type ."')"
-    endfor
-  endif
-endfunction
-
-augroup fzf_projections
-  autocmd!
-  autocmd User ProjectionistActivate call M_load_projections()
-augroup END
