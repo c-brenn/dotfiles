@@ -29,13 +29,13 @@ Plug 'c-brenn/neomake', { 'branch': 'elm-maker' }     " Make checkers
 
 Plug 'vim-ruby/vim-ruby',       { 'for': 'ruby' }
 Plug 'tpope/vim-rails',         { 'for': 'ruby' }
-Plug 'tpope/vim-bundler',       { 'for': 'ruby' }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript'}
 Plug 'elixir-lang/vim-elixir'
 Plug 'awetzel/elixir.nvim',     { 'for': 'elixir', 'do': './install.sh' }
 Plug 'c-brenn/vim-phoenix'
 Plug 'elmcast/elm-vim',         { 'for': 'elm' }
 Plug 'neovimhaskell/haskell-vim'
+Plug 'junegunn/vim-xmark', { 'do': 'make' }
 
 Plug 'tpope/vim-unimpaired'   " Pairs of useful keybinds
 
@@ -55,7 +55,7 @@ Plug 'junegunn/vim-emoji'
 Plug 'ntpeters/vim-better-whitespace'
 
 " -- WIP
-Plug '~/Documents/misc/vim-projects/plugins/fzf-projectionist'
+Plug 'c-brenn/fzf-projectionist.vim'
 
 Plug 'easymotion/vim-easymotion'
 call plug#end()
@@ -75,6 +75,11 @@ inoremap jk <Esc>
 inoremap JK <Esc>
 inoremap Jk <Esc>
 inoremap jK <Esc>
+
+tnoremap jk <C-\><C-n>
+tnoremap JK <C-\><C-n>
+tnoremap Jk <C-\><C-n>
+tnoremap jK <C-\><C-n>
 
 " easy EX mode
 nnoremap ; :
@@ -99,8 +104,8 @@ nnoremap <Leader>wc :close<CR>
 nnoremap <Leader>wo :only<CR>
 nnoremap <Leader>wlo :lopen<CR>
 nnoremap <Leader>wlc :lcl<CR>
-nnoremap <Leader>wco :Copen<CR>
-nnoremap <Leader>wcl :ccl<CR>
+nnoremap <Leader>wqo :Copen<CR>
+nnoremap <Leader>wql :ccl<CR>
 
 " -- buffers SPC-b
 nnoremap <Leader>bb :FzfBuffers<CR>
@@ -179,7 +184,7 @@ function! M_send_command() abort
 endfunction
 function! M_send_last_command() abort
   if exists('g:m_last_command') && g:m_last_command != ''
-    exe 'T ' . g:m_lat_command
+    exe 'T ' . g:m_last_command
   endif
 endfunction
 let g:neoterm_size=15
@@ -207,10 +212,10 @@ if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor\ --ignore-case\ --column\ --vimgrep
   set grepformat=%f:%l:%c:%m,%f:%l:%m
 
-  noremap <Leader>/s :Grepper! -noswitch -tool ag -query '\b<C-r><C-w>\b'<CR>
-  nnoremap <Leader>// :Grepper! -tool ag -query ''<Left>
+  noremap <Leader>/s :Grepper -noswitch -tool ag -query '\b<C-r><C-w>\b'<CR>
+  nnoremap <Leader>// :Grepper -tool ag -query ''<Left>
   command! -nargs=* Ag Grepper -tool ag -query <args>
-  command! Grep Grepper! -tool ag
+  command! Grep Grepper -tool ag
   command! GRep Grep
 endif
 
@@ -257,6 +262,7 @@ set expandtab
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
+set showcmd
 
 " -- Elixir
 let g:elixir_autobuild = 0
