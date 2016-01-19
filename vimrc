@@ -1,32 +1,43 @@
 filetype off
 
-" -----------------------
-" Vim Plug
-" -----------------------
+" == Vim Plug ==
 call plug#begin('~/.vim/plugged')
+
+" == Workflow
 Plug 'airblade/vim-gitgutter' " Git gutter
 Plug 'tpope/vim-fugitive'     " Git in vim
-
 Plug 'tpope/vim-dispatch'     " Async tasks
 Plug 'kassio/neoterm'         " send tasks to terminal
+Plug 'benekastah/neomake'     " maker/linter
+if $TMUX == ""
+  " if not in tmux use :terminal for dispatch
+  Plug 'radenling/vim-dispatch-neovim'
+endif
 
-Plug 'ajh17/VimCompletesMe'
-
+" == Text
+Plug 'ajh17/VimCompletesMe'   " tab completion
 Plug 'jiangmiao/auto-pairs'   " Pair brackets etc
 Plug 'tpope/vim-endwise'      " Pair do .. end
-
 Plug 'tpope/vim-commentary'   " Comment things easily
 Plug 'tpope/vim-surround'     " Should be built in
-
 Plug 'AndrewRadev/splitjoin.vim'
-
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  } | Plug 'junegunn/fzf.vim'
-Plug 'mhinz/vim-grepper'                           " Async grepprg
-Plug 'romainl/vim-qf'                              " Tame quickfix
 Plug 'godlygeek/tabular'      " arrange things
+Plug 'junegunn/vim-emoji'
+Plug 'ntpeters/vim-better-whitespace'
 
-Plug 'c-brenn/neomake', { 'branch': 'elm-maker' }     " Make checkers
+" == Text Objects
+Plug 'kana/vim-textobj-user'
+Plug 'kana/vim-textobj-entire'
 
+" == Searching
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  } | Plug 'junegunn/fzf.vim'
+Plug 'mhinz/vim-grepper'       " Async grepprg
+Plug 'romainl/vim-qf'          " Tame quickfix
+Plug 'tpope/vim-projectionist' " project navigation
+Plug 'unblevable/quick-scope'  " f/t/F/T on steroids
+Plug 'c-brenn/fuzzy-projectionist.vim' " WIP
+
+" == Languages/Frameworks
 Plug 'vim-ruby/vim-ruby',       { 'for': 'ruby' }
 Plug 'tpope/vim-rails',         { 'for': 'ruby' }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript'}
@@ -35,29 +46,13 @@ Plug 'awetzel/elixir.nvim',     { 'for': 'elixir', 'do': './install.sh' }
 Plug 'c-brenn/vim-phoenix'
 Plug 'elmcast/elm-vim',         { 'for': 'elm' }
 Plug 'neovimhaskell/haskell-vim'
-Plug 'junegunn/vim-xmark', { 'do': 'make' }
 
+" == Misc
 Plug 'tpope/vim-unimpaired'   " Pairs of useful keybinds
-
-Plug 'unblevable/quick-scope' " f/t/F/T on steroids
-
-Plug 'morhetz/gruvbox'         " colors
-
-Plug 'kana/vim-textobj-user'  " some nice text objects
-Plug 'kana/vim-textobj-entire'
-
-Plug 'tpope/vim-projectionist'
-
-" -- MISC --
+Plug 'morhetz/gruvbox'        " colors
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-sensible'
-Plug 'junegunn/vim-emoji'
-Plug 'ntpeters/vim-better-whitespace'
 
-" -- WIP
-Plug 'c-brenn/fzf-projectionist.vim'
-
-Plug 'easymotion/vim-easymotion'
 call plug#end()
 
 filetype plugin indent on
@@ -88,14 +83,25 @@ vnoremap ; :
 " save ; motion
 nnoremap , ;
 vnoremap , ;
-nnoremap <S-,> ,
-vnoremap <S-,> ,
+nnoremap \ ,
+vnoremap \ ,
 
 let g:fzf_command_prefix = 'Fzf'
 
 " -- Files SPC-f
 nnoremap <Leader>fr :call RenameFile()<cr>
 nnoremap <Leader>ff :FzfFiles<CR>
+nnoremap <Leader>fs :w<CR>
+
+function! RenameFile()
+    let old_name = expand('%')
+    let new_name = input('New file name: ', expand('%'), 'file')
+    if new_name != '' && new_name != old_name
+        exec ':saveas ' . new_name
+        exec ':silent !rm ' . old_name
+        redraw!
+    endif
+endfunction
 
 " -- Windows SPC-w
 nnoremap <Leader>wh :split<CR>
@@ -120,17 +126,6 @@ map <C-t> :tabnew<CR>
 nnoremap <Leader>tc :tabclose<CR>
 nnoremap <Leader>to :tabonly<CR>
 
-
-function! RenameFile()
-    let old_name = expand('%')
-    let new_name = input('New file name: ', expand('%'), 'file')
-    if new_name != '' && new_name != old_name
-        exec ':saveas ' . new_name
-        exec ':silent !rm ' . old_name
-        redraw!
-    endif
-endfunction
-
 " Behaviour that differs based on filetype/project
 " SPC-m
 " --- alternates SPC-ma
@@ -138,10 +133,11 @@ nnoremap <Leader>maa :A<CR>
 nnoremap <Leader>mav :AV<CR>
 nnoremap <Leader>mat :AT<CR>
 " --- fzf{type} SPC-mf
-nnoremap <Leader>mfm :FZFmodel<CR>
-nnoremap <Leader>mfc :FZFcontroller<CR>
-nnoremap <Leader>mfv :FZFview<CR>
-nnoremap <Leader>mfh :FZFchannel<CR>
+nnoremap <Leader>mff :call fuzzy_projectionist#choose_projection()<CR>
+nnoremap <Leader>mfm :call fuzzy_projectionist#projection_for_type('model')<CR>
+nnoremap <Leader>mfc :call fuzzy_projectionist#projection_for_type('controller')<CR>
+nnoremap <Leader>mfv :call fuzzy_projectionist#projection_for_type('view')<CR>
+nnoremap <Leader>mfh :call fuzzy_projectionist#projection_for_type('channel')<CR>
 " --- repl SPC-mr
 nnoremap <Leader>mrr :Console<CR>
 nnoremap <Leader>mrs :Start<CR>
@@ -157,8 +153,6 @@ endfunction
 
 " --- tests SPC-mt
 let test#strategy = "neoterm"
-let g:neoterm_run_tests_bg=1
-let g:neoterm_raise_when_tests_fail=1
 let g:neoterm_close_when_tests_succeed=1
 let g:neoterm_test_status = {
   \ 'running' : emoji#for('running'),
