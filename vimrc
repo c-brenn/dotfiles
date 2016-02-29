@@ -21,7 +21,6 @@ Plug 'tpope/vim-endwise'      " Pair do .. end
 Plug 'tpope/vim-commentary'   " Comment things easily
 Plug 'tpope/vim-surround'     " Should be built in
 Plug 'AndrewRadev/splitjoin.vim'
-Plug 'godlygeek/tabular'      " arrange things
 Plug 'junegunn/vim-emoji'
 Plug 'ntpeters/vim-better-whitespace'
 
@@ -35,7 +34,7 @@ Plug 'mhinz/vim-grepper'       " Async grepprg
 Plug 'romainl/vim-qf'          " Tame quickfix
 Plug 'tpope/vim-projectionist' " project navigation
 Plug 'unblevable/quick-scope'  " f/t/F/T on steroids
-Plug 'c-brenn/fuzzy-projectionist.vim' " WIP
+Plug 'c-brenn/fuzzy-projectionist.vim'
 
 " == Languages/Frameworks
 Plug 'vim-ruby/vim-ruby',       { 'for': 'ruby' }
@@ -45,7 +44,7 @@ Plug 'elixir-lang/vim-elixir'
 Plug 'awetzel/elixir.nvim',     { 'for': 'elixir', 'do': './install.sh' }
 Plug 'c-brenn/vim-phoenix'
 Plug 'elmcast/elm-vim',         { 'for': 'elm' }
-Plug 'neovimhaskell/haskell-vim'
+Plug 'othree/html5.vim'
 
 " == Misc
 Plug 'tpope/vim-unimpaired'   " Pairs of useful keybinds
@@ -110,7 +109,7 @@ nnoremap <Leader>wc :close<CR>
 nnoremap <Leader>wo :only<CR>
 nnoremap <Leader>wlo :lopen<CR>
 nnoremap <Leader>wlc :lcl<CR>
-nnoremap <Leader>wqo :Copen<CR>
+nnoremap <Leader>wqo :copen<CR>
 nnoremap <Leader>wql :ccl<CR>
 
 " -- buffers SPC-b
@@ -152,7 +151,6 @@ function! M_BuildTool()
 endfunction
 
 " --- tests SPC-mt
-let test#strategy = "neoterm"
 let g:neoterm_close_when_tests_succeed=1
 let g:neoterm_test_status = {
   \ 'running' : emoji#for('running'),
@@ -237,7 +235,7 @@ imap <C-s> <esc>:w<CR>
 
 " --  General
 syntax on
-set number
+set relativenumber
 set hidden
 set scrolloff=10
 set sidescrolloff=10"
@@ -248,7 +246,6 @@ set smartcase
 set ignorecase
 set notimeout
 set ttimeout
-set completeopt-=preview
 set mouse -=a
 set splitbelow
 set smarttab
@@ -257,6 +254,7 @@ set tabstop=2
 set softtabstop=2
 set shiftwidth=2
 set showcmd
+set completeopt-=preview
 
 " -- Elixir
 let g:elixir_autobuild = 0
@@ -264,7 +262,6 @@ let g:elixir_autobuild = 0
 " -- Neomake
 autocmd! BufWritePost * Neomake
 let g:neomake_javascript_enabled_makers = ['eslint']
-let g:neomake_ruby_enabled_makers = ['rubocop']
 
 " -- Filetype settings
 augroup FileTypeSettings

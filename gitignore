@@ -1,3 +1,6 @@
 .tags
 tags
 .DS_Store
+vendor/bundle
+.projections.json
+
