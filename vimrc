@@ -78,12 +78,12 @@ tnoremap jK <C-\><C-n>
 " easy EX mode
 nnoremap ; :
 vnoremap ; :
+xnoremap ; :
+nnoremap : ;
+vnoremap : ;
+xnoremap : ;
 
 " save ; motion
-nnoremap , ;
-vnoremap , ;
-nnoremap \ ,
-vnoremap \ ,
 
 let g:fzf_command_prefix = 'Fzf'
 
@@ -121,7 +121,7 @@ nnoremap <Leader>bo :bufdo bd<CR>
 nnoremap <leader>rr :so ~/.config/nvim/init.vim<CR>
 
 " -- tabs   SPC-t
-map <C-t> :tabnew<CR>
+nnoremap <Leader>tt :tabnew<CR>
 nnoremap <Leader>tc :tabclose<CR>
 nnoremap <Leader>to :tabonly<CR>
 
@@ -229,10 +229,6 @@ command! E e
 tnoremap <Esc> <C-\><C-n>
 
 nnoremap <Leader>d :Dispatch<Space>
-
-map <C-s> <esc>:w<CR>
-imap <C-s> <esc>:w<CR>
-
 " --  General
 syntax on
 set relativenumber

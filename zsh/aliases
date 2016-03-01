@@ -1,6 +1,13 @@
+# == vim == #
 alias vi="nvim"
 alias vim="nvim"
+
+# == tmux == #
 alias tms="tmux new -s"
-alias scheme="rlwrap -r -c -f ~/Documents/misc/sicp/mit_scheme_bindings.txt scheme"
+
+# == elixir == #
 alias iem="iex -S mix"
+
+# == shell == #
 alias psg="ps aux | grep "
+alias es="exec $SHELL"
