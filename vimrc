@@ -259,26 +259,6 @@ let g:elixir_autobuild = 0
 autocmd! BufWritePost * Neomake
 let g:neomake_javascript_enabled_makers = ['eslint']
 
-" -- Filetype settings
-augroup FileTypeSettings
-  autocmd!
-  autocmd BufNewFile,BufRead *.html.erb setlocal filetype=html
-  autocmd FileType html setlocal ts=2 sw=2 sts=2 expandtab
-  autocmd FileType ruby setlocal ts=2 sw=2 expandtab
-  autocmd FileType vim setlocal ts=2 sw=2 expandtab keywordprg=:help
-  autocmd FileType haskell setlocal ts=2 sw=2 expandtab
-  autocmd FileType python setlocal ts=4 sw=4 expandtab
-  autocmd FileType javascript setlocal ts=2 sw=2 expandtab
-  autocmd FileType coffee setlocal ts=2 sw=2 expandtab
-  autocmd BufNewFile,BufRead *.md set filetype=markdown
-  autocmd BufNewFile,BufRead *.css set filetype=scss
-  autocmd FileType markdown setlocal spell textwidth=80
-  autocmd FileType gitcommit setlocal spell
-  autocmd FileType text setlocal spell
-  autocmd FileType scss setlocal ts=2 sw=2 expandtab
-  autocmd FileType qf setlocal wrap linebreak
-augroup END
-
 " -- Colours
 set background=dark
 colorscheme gruvbox
