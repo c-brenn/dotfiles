@@ -5,10 +5,12 @@ inoremap JK <Esc>
 inoremap Jk <Esc>
 inoremap jK <Esc>
 
-tnoremap jk <C-\><C-n>
-tnoremap JK <C-\><C-n>
-tnoremap Jk <C-\><C-n>
-tnoremap jK <C-\><C-n>
+if has('nvim')
+  tnoremap jk <C-\><C-n>
+  tnoremap JK <C-\><C-n>
+  tnoremap Jk <C-\><C-n>
+  tnoremap jK <C-\><C-n>
+end
 
 " easy EX mode - swap ; and :
 nnoremap ; :
