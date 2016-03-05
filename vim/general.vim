@@ -50,3 +50,4 @@ set completeopt=menu,menuone
 set switchbuf=useopen
 
 set showmode
+set showcmd
