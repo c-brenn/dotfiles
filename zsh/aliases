@@ -11,3 +11,4 @@ alias iem="iex -S mix"
 # == shell == #
 alias psg="ps aux | grep "
 alias es="exec $SHELL"
+alias c="clear"

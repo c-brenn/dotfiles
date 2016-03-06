@@ -30,8 +30,8 @@ Plug 'tpope/vim-commentary'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  } | Plug 'junegunn/fzf.vim'
 
 
-Plug 'vim-ruby/vim-ruby',       { 'for': 'ruby' }
-Plug 'tpope/vim-rails',         { 'for': 'ruby' }
+Plug 'vim-ruby/vim-ruby',       { 'for': ['ruby', 'eruby'] }
+Plug 'tpope/vim-rails',         { 'for': ['ruby', 'eruby'] }
 Plug 'elixir-lang/vim-elixir'
 if has('nvim')
   Plug 'awetzel/elixir.nvim',     { 'for': 'elixir', 'do': './install.sh' }
