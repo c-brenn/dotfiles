@@ -13,6 +13,9 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
 Plug 'benekastah/neomake'
+Plug 'tpope/vim-dispatch'
+
+Plug 'janko-m/vim-test'
 
 Plug 'ajh17/VimCompletesMe'
 Plug 'SirVer/ultisnips'
@@ -21,11 +24,14 @@ Plug 'unblevable/quick-scope'
 Plug 'junegunn/vim-pseudocl' | Plug 'junegunn/vim-oblique'
 
 Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-repeat'
 
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-commentary'
+Plug 'tommcdo/vim-lion'
+Plug 'bronson/vim-trailing-whitespace'
 
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  } | Plug 'junegunn/fzf.vim'
 
@@ -33,12 +39,17 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  } | Plug 'june
 Plug 'vim-ruby/vim-ruby',       { 'for': ['ruby', 'eruby'] }
 Plug 'tpope/vim-rails',         { 'for': ['ruby', 'eruby'] }
 Plug 'elixir-lang/vim-elixir'
-if has('nvim')
-  Plug 'awetzel/elixir.nvim',     { 'for': 'elixir', 'do': './install.sh' }
-endif
+Plug 'slashmili/alchemist.vim'
+Plug 'powerman/vim-plugin-AnsiEsc'
+
+Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+Plug 'ElmCast/elm-vim', { 'for': 'elm' }
 
 Plug 'IanConnolly/gruvbox'
 Plug 'junegunn/vim-emoji'
+Plug 'romainl/vim-qf'
+Plug 'adimit/prolog.vim'
 call plug#end()
 
 if filereadable(glob("~/dotfiles/vim/helpers.vim"))
@@ -55,7 +66,8 @@ let config_files = [
   \ "colours.vim",
   \ "statusline.vim",
   \ "plugin_config.vim",
-  \ "leader.vim"
+  \ "leader.vim",
+  \ "neo.vim"
   \]
 for config_file in config_files
   call Load(ConfigFilePath(config_file))

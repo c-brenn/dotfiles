@@ -46,7 +46,7 @@ function! LeftSide()
 endfunction
 
 function! RightSide()
-  let rs = ''
+  let rs = '%=%-30.(line: %l/%L, col: %c%V%)'
 
   if get(g:, 'vs_open', 0)
     let rs .= '%5*'

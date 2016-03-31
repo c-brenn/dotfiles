@@ -28,3 +28,9 @@ imap <Tab> <Plug>vim_completes_me_forward
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 let g:qs_first_occurrence_highlight_color = 155
 let g:qs_second_occurrence_highlight_color = 81
+
+" Vim-Test
+let test#strategy = "dispatch"
+
+" Elm
+" let g:elm_format_autosave = 1
