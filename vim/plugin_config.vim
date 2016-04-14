@@ -4,9 +4,8 @@
 let ruby_operators    = 1
 let ruby_no_expensive = 1
 
-" elixir.nvim
-let g:elixir_autobuild = 0
 
+" Fzf
 let g:fzf_command_prefix = 'Fzf'
 
 " UltiSnips
@@ -29,8 +28,20 @@ let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 let g:qs_first_occurrence_highlight_color = 155
 let g:qs_second_occurrence_highlight_color = 81
 
-" Vim-Test
-let test#strategy = "dispatch"
+" Airline
+let g:airline_powerline_fonts = 1
 
-" Elm
-" let g:elm_format_autosave = 1
+" Neoterm
+let g:neoterm_size = 15
+
+" Alignment
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+
+" haskell
+let g:haskell_enable_quantification = 1
+let g:haskell_enable_recursivedo = 1
+let g:haskell_enable_arrowsyntax = 1
+let g:haskell_enable_pattern_synonyms = 1
+let g:haskell_enable_typeroles = 1
+let g:haskell_enable_static_pointers = 1

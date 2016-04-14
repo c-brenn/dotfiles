@@ -9,62 +9,81 @@ else
 endif
 
 call plug#begin(g:plugin_path)
+" Shrine to Tpope
 Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
-
-Plug 'benekastah/neomake'
-Plug 'tpope/vim-dispatch'
-
-Plug 'janko-m/vim-test'
-
-Plug 'ajh17/VimCompletesMe'
-Plug 'SirVer/ultisnips'
-
-Plug 'unblevable/quick-scope'
-Plug 'junegunn/vim-pseudocl' | Plug 'junegunn/vim-oblique'
-
+Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-repeat'
-
-Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-surround'
-Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-commentary'
-Plug 'tommcdo/vim-lion'
-Plug 'bronson/vim-trailing-whitespace'
+if !has('nvim')
+  Plug 'tpope/vim-dispatch'
+endif
 
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  } | Plug 'junegunn/fzf.vim'
-
-
-Plug 'vim-ruby/vim-ruby',       { 'for': ['ruby', 'eruby'] }
-Plug 'tpope/vim-rails',         { 'for': ['ruby', 'eruby'] }
-Plug 'elixir-lang/vim-elixir'
-Plug 'slashmili/alchemist.vim'
-Plug 'powerman/vim-plugin-AnsiEsc'
-
-Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
-Plug 'rust-lang/rust.vim', { 'for': 'rust' }
-Plug 'ElmCast/elm-vim', { 'for': 'elm' }
-
-Plug 'IanConnolly/gruvbox'
+" Shrine to Junegun
+Plug 'junegunn/vim-pseudocl' | Plug 'junegunn/vim-oblique'
 Plug 'junegunn/vim-emoji'
-Plug 'romainl/vim-qf'
-Plug 'adimit/prolog.vim'
+
+" Git Gutter
+Plug 'airblade/vim-gitgutter'
+Plug 'vim-airline/vim-airline'
+
+" Linting/Testing
+Plug 'benekastah/neomake'
+Plug 'janko-m/vim-test'
+
+" Shell
+if has('nvim')
+  Plug 'kassio/neoterm'
+endif
+
+" Auto-completion
+Plug 'ajh17/VimCompletesMe'
+Plug 'jiangmiao/auto-pairs'
+
+" Searching
+Plug 'unblevable/quick-scope'
+
+" Text Manipulation
+Plug 'junegunn/vim-easy-align'
+Plug 'mbbill/undotree'
+
+" Navigation
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  } | Plug 'junegunn/fzf.vim'
+Plug 'c-brenn/phoenix.vim'
+" Plug '~/Documents/vim/phoenix.vim/'
+Plug 'tpope/vim-projectionist'
+
+
+" Daily languages
+Plug 'vim-ruby/vim-ruby',        { 'for': ['ruby', 'eruby'] }
+Plug 'tpope/vim-rails',          { 'for': ['ruby', 'eruby'] }
+Plug 'elixir-lang/vim-elixir',   { 'for': ['elixir', 'eelixir'] }
+Plug 'slashmili/alchemist.vim/'
+" Plug '~/Documents/vim/alchemist.vim/'
+Plug 'powerman/vim-plugin-AnsiEsc' " alchemist uses this for pretty docs
+
+" on-the-side languages
+Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+Plug 'tpope/vim-markdown'
+Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
+
+" Colors
+Plug 'IanConnolly/gruvbox'
 call plug#end()
 
 if filereadable(glob("~/dotfiles/vim/helpers.vim"))
   source ~/dotfiles/vim/helpers.vim
 endif
 
-filetype plugin indent on
 syntax on
+filetype plugin indent on
 
 let mapleader="\<Space>"
 let config_files = [
   \ "general.vim",
   \ "keybinds.vim",
   \ "colours.vim",
-  \ "statusline.vim",
   \ "plugin_config.vim",
   \ "leader.vim",
   \ "neo.vim"
@@ -72,3 +91,4 @@ let config_files = [
 for config_file in config_files
   call Load(ConfigFilePath(config_file))
 endfor
+

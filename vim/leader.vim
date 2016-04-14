@@ -7,11 +7,13 @@ nnoremap <leader>fr :call RenameCurrentFile()<cr>
 nnoremap <leader>bb :FzfBuffers<cr>
 
 " Tests
-nnoremap <leader>tn :TestNearest<CR>
-nnoremap <leader>tt :TestFile<CR>
-nnoremap <leader>ta :TestSuite<CR>
-nnoremap <leader>tl :TestLast<CR>
-nnoremap <leader>tg :TestVisit<CR>
+if has('nvim')
+  nnoremap <leader>tn :call neoterm#test#run('current')<cr>
+  nnoremap <leader>tt :call neoterm#test#run('file')<cr>
+  nnoremap <leader>ta :call neoterm#test#run('all')<cr>
+  nnoremap <leader>tl :call neoterm#test#rerun()<cr>
+  let g:neoterm_close_when_tests_succeed = 1
+endif
 
 " Text
 nnoremap <leader>xw :call TrimWhiteSpace()<cr>

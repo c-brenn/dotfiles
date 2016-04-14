@@ -12,15 +12,6 @@ if has('nvim')
   tnoremap jK <C-\><C-n>
 end
 
-" easy EX mode - swap ; and :
-nnoremap ; :
-vnoremap ; :
-xnoremap ; :
-nnoremap : ;
-vnoremap : ;
-xnoremap : ;
-
-
 map Y y$
 
 " Move up and down visual lines, not real (but not when given a count)

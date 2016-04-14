@@ -1,6 +1,7 @@
 set hidden
 set nocursorline
 set relativenumber
+set number
 
 set shiftround
 set whichwrap+=<,>,h,l
@@ -51,3 +52,8 @@ set switchbuf=useopen
 
 set showmode
 set showcmd
+
+if has("persistent_undo")
+    set undodir=~/.undodir/
+    set undofile
+endif
