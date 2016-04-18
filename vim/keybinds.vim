@@ -1,4 +1,6 @@
-command! Reload :so ~/dotfiles/vim/vimrc
+command! Reload
+      \ exec 'source ' ConfigFilePath("vimrc") |
+      \ if exists(':AirlineRefresh') |AirlineRefresh |endif
 " easy esc
 inoremap jk <Esc>
 inoremap JK <Esc>
@@ -13,10 +15,6 @@ if has('nvim')
 end
 
 map Y y$
-
-" Move up and down visual lines, not real (but not when given a count)
-nnoremap <expr> j v:count ? 'j' : 'gj'
-nnoremap <expr> k v:count ? 'k' : 'gk'
 
 nnoremap Q <NOP>
 command! Wq wq

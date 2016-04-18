@@ -27,6 +27,7 @@ Plug 'junegunn/vim-emoji'
 " Git Gutter
 Plug 'airblade/vim-gitgutter'
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 " Linting/Testing
 Plug 'benekastah/neomake'
@@ -51,7 +52,6 @@ Plug 'mbbill/undotree'
 " Navigation
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  } | Plug 'junegunn/fzf.vim'
 Plug 'c-brenn/phoenix.vim'
-" Plug '~/Documents/vim/phoenix.vim/'
 Plug 'tpope/vim-projectionist'
 
 
@@ -69,8 +69,17 @@ Plug 'tpope/vim-markdown'
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 
 " Colors
-Plug 'IanConnolly/gruvbox'
+Plug 'w0ng/vim-hybrid'
+
+" Kill bad habits
+Plug 'takac/vim-hardtime'
+
+" Dev
+Plug 'c-brenn/repel.nvim'
 call plug#end()
+
+" until I learn how to behave
+let g:hardtime_default_on = 1
 
 if filereadable(glob("~/dotfiles/vim/helpers.vim"))
   source ~/dotfiles/vim/helpers.vim
