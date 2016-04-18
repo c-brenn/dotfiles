@@ -1,18 +1,14 @@
 command! Reload
       \ exec 'source ' ConfigFilePath("vimrc") |
       \ if exists(':AirlineRefresh') |AirlineRefresh |endif
-" easy esc
-inoremap jk <Esc>
-inoremap JK <Esc>
-inoremap Jk <Esc>
-inoremap jK <Esc>
-
-if has('nvim')
-  tnoremap jk <C-\><C-n>
-  tnoremap JK <C-\><C-n>
-  tnoremap Jk <C-\><C-n>
-  tnoremap jK <C-\><C-n>
-end
+" Navigate EX commands easily
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
+"Navigate windows easily
+map <C-h>  <C-w>h
+map <C-j>  <C-w>j
+map <C-k>  <C-w>k
+map <C-l>  <C-w>l
 
 map Y y$
 
