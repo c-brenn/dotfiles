@@ -31,7 +31,6 @@ Plug 'vim-airline/vim-airline-themes'
 
 " Linting/Testing
 Plug 'benekastah/neomake'
-Plug 'janko-m/vim-test'
 
 " Shell
 if has('nvim')
@@ -60,7 +59,6 @@ Plug 'vim-ruby/vim-ruby',        { 'for': ['ruby', 'eruby'] }
 Plug 'tpope/vim-rails',          { 'for': ['ruby', 'eruby'] }
 Plug 'elixir-lang/vim-elixir',   { 'for': ['elixir', 'eelixir'] }
 Plug 'slashmili/alchemist.vim/'
-" Plug '~/Documents/vim/alchemist.vim/'
 Plug 'powerman/vim-plugin-AnsiEsc' " alchemist uses this for pretty docs
 
 " on-the-side languages
@@ -75,7 +73,7 @@ Plug 'w0ng/vim-hybrid'
 Plug 'takac/vim-hardtime'
 
 " Dev
-Plug 'c-brenn/repel.nvim'
+Plug 'c-brenn/repel.nvim', { 'branch' : 'tests' }
 call plug#end()
 
 " until I learn how to behave
