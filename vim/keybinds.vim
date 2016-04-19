@@ -1,9 +1,9 @@
-command! Reload
-      \ exec 'source ' ConfigFilePath("vimrc") |
-      \ if exists(':AirlineRefresh') |AirlineRefresh |endif
+command! Reload exec 'source ' ConfigFilePath("vimrc") |
 " Navigate EX commands easily
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
+cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
+
 "Navigate windows easily
 map <C-h>  <C-w>h
 map <C-j>  <C-w>j

@@ -26,8 +26,6 @@ Plug 'junegunn/vim-emoji'
 
 " Git Gutter
 Plug 'airblade/vim-gitgutter'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 
 " Linting/Testing
 Plug 'benekastah/neomake'
@@ -73,7 +71,8 @@ Plug 'w0ng/vim-hybrid'
 Plug 'takac/vim-hardtime'
 
 " Dev
-Plug 'c-brenn/repel.nvim', { 'branch' : 'tests' }
+" Plug 'c-brenn/repel.nvim', { 'branch' : 'tests' }
+Plug '~/Documents/vim/repel.vim/'
 call plug#end()
 
 " until I learn how to behave
@@ -93,6 +92,7 @@ let config_files = [
   \ "colours.vim",
   \ "plugin_config.vim",
   \ "leader.vim",
+  \ "statusline.vim",
   \ "neo.vim"
   \]
 for config_file in config_files
