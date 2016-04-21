@@ -36,7 +36,7 @@ if has('nvim')
 endif
 
 " Auto-completion
-Plug 'ajh17/VimCompletesMe'
+" Plug 'ajh17/VimCompletesMe'
 Plug 'jiangmiao/auto-pairs'
 
 " Searching

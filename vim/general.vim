@@ -20,6 +20,7 @@ set nohlsearch
 set incsearch
 set ignorecase
 set smartcase
+set infercase
 
 set noerrorbells
 set visualbell
