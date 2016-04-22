@@ -49,6 +49,8 @@ set wildignore+=*.pdf,*.jpg,*.dmg,*.zip,*.png,*.gif,*DS_Store*
 set complete+=kspell
 set completeopt=menu,menuone
 
+set diffopt=vertical
+
 set switchbuf=useopen
 
 set showmode

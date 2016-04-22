@@ -16,13 +16,9 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
-if !has('nvim')
-  Plug 'tpope/vim-dispatch'
-endif
 
 " Shrine to Junegun
 Plug 'junegunn/vim-pseudocl' | Plug 'junegunn/vim-oblique'
-Plug 'junegunn/vim-emoji'
 
 " Git Gutter
 Plug 'airblade/vim-gitgutter'
@@ -30,26 +26,14 @@ Plug 'airblade/vim-gitgutter'
 " Linting/Testing
 Plug 'benekastah/neomake'
 
-" Shell
-if has('nvim')
-  Plug 'kassio/neoterm'
-endif
-
 " Auto-completion
-" Plug 'ajh17/VimCompletesMe'
 Plug 'jiangmiao/auto-pairs'
 
 " Searching
 Plug 'unblevable/quick-scope'
 
-" Text Manipulation
-Plug 'junegunn/vim-easy-align'
-Plug 'mbbill/undotree'
-
 " Navigation
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  } | Plug 'junegunn/fzf.vim'
-Plug 'c-brenn/phoenix.vim'
-Plug 'tpope/vim-projectionist'
 
 
 " Daily languages
@@ -67,12 +51,14 @@ Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 " Colors
 Plug 'w0ng/vim-hybrid'
 
+" Quickfix
+Plug 'romainl/vim-qf'
+
 " Kill bad habits
 Plug 'takac/vim-hardtime'
 
 " Dev
-" Plug 'c-brenn/repel.nvim', { 'branch' : 'tests' }
-Plug '~/Documents/vim/repel.vim/'
+Plug 'c-brenn/repel.nvim', { 'branch' : 'tests' }
 call plug#end()
 
 " until I learn how to behave
