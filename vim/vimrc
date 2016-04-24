@@ -19,15 +19,19 @@ Plug 'tpope/vim-commentary'
 
 " Shrine to Junegun
 Plug 'junegunn/vim-pseudocl' | Plug 'junegunn/vim-oblique'
+Plug 'junegunn/vim-easy-align'
 
 " Git Gutter
 Plug 'airblade/vim-gitgutter'
 
 " Linting/Testing
 Plug 'benekastah/neomake'
+" Nicer Quickfix
+Plug 'romainl/vim-qf'
 
 " Auto-completion
 Plug 'jiangmiao/auto-pairs'
+Plug 'SirVer/ultisnips'
 
 " Searching
 Plug 'unblevable/quick-scope'
@@ -51,18 +55,9 @@ Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 " Colors
 Plug 'w0ng/vim-hybrid'
 
-" Quickfix
-Plug 'romainl/vim-qf'
-
-" Kill bad habits
-Plug 'takac/vim-hardtime'
-
 " Dev
-Plug 'c-brenn/repel.nvim', { 'branch' : 'tests' }
+Plug 'kassio/neoterm'
 call plug#end()
-
-" until I learn how to behave
-let g:hardtime_default_on = 1
 
 if filereadable(glob("~/dotfiles/vim/helpers.vim"))
   source ~/dotfiles/vim/helpers.vim

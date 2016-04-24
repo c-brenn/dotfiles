@@ -1,4 +1,4 @@
-command! Reload exec 'source ' ConfigFilePath("vimrc") |
+command! -bar Reload exec 'source ' ConfigFilePath("vimrc")
 " Navigate EX commands easily
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
@@ -17,3 +17,8 @@ command! Wq wq
 command! WQ wq
 command! W w
 command! Q q
+
+" Insert mode completion
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)

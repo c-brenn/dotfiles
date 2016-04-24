@@ -8,11 +8,6 @@ let ruby_no_expensive = 1
 " Fzf
 let g:fzf_command_prefix = 'Fzf'
 
-" UltiSnips
-let g:UltiSnipsExpandTrigger="<c-j>"
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-
 " Only use my snippets and keep them in version control
 set rtp+=~/dotfiles/vim
 let g:UltiSnipsSnippetsDir=ConfigFilePath('vim-snippets')
