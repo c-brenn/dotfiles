@@ -1,4 +1,5 @@
 command! -bar Reload exec 'source ' ConfigFilePath("vimrc")
+
 " Navigate EX commands easily
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>

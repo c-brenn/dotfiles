@@ -1,5 +1,8 @@
 if has('nvim')
   tnoremap <Esc> <C-\><C-n>
+  augroup Terminal
+    au WinEnter term://* startinsert
+  augroup END
 
 
   augroup Neomake

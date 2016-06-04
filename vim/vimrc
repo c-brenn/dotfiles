@@ -41,7 +41,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  } | Plug 'june
 
 
 " Daily languages
-Plug 'vim-ruby/vim-ruby',        { 'for': ['ruby', 'eruby'] }
+Plug 'vim-ruby/vim-ruby'
 Plug 'tpope/vim-rails',          { 'for': ['ruby', 'eruby'] }
 Plug 'elixir-lang/vim-elixir',   { 'for': ['elixir', 'eelixir'] }
 Plug 'slashmili/alchemist.vim/'
@@ -50,7 +50,6 @@ Plug 'powerman/vim-plugin-AnsiEsc' " alchemist uses this for pretty docs
 " on-the-side languages
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'tpope/vim-markdown'
-Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 
 " Colors
 Plug 'w0ng/vim-hybrid'
@@ -75,7 +74,7 @@ let config_files = [
   \ "leader.vim",
   \ "statusline.vim",
   \ "neo.vim"
-  \]
+  \ ]
 for config_file in config_files
   call Load(ConfigFilePath(config_file))
 endfor

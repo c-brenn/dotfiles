@@ -2,8 +2,6 @@
 
 " vim-ruby
 let ruby_operators    = 1
-let ruby_no_expensive = 1
-
 
 " Fzf
 let g:fzf_command_prefix = 'Fzf'

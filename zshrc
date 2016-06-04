@@ -16,4 +16,4 @@ export NVM_DIR="$HOME/.nvm"
 export FZF_DEFAULT_COMMAND='ag -g ""'
 
 source $HOME/dotfiles/zsh/aliases
-export PATH=$PATH:~/.local/bin/
+export PATH=$PATH:~/.local/bin
