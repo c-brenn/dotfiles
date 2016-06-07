@@ -79,3 +79,5 @@ for config_file in config_files
   call Load(ConfigFilePath(config_file))
 endfor
 
+call Load("~/.vimrc.local")
+
