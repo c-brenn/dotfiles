@@ -14,3 +14,5 @@
 	default = current
 [init]
 	templatedir = ~/.git_template
+[url "https://"]
+	insteadOf = git://
