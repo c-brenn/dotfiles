@@ -14,6 +14,9 @@ export NVM_DIR="$HOME/.nvm"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git/*"'
 
+[ -f /usr/local/etc/profile.d/autojump.sh  ] && source /usr/local/etc/profile.d/autojump.sh
+
+
 source $HOME/dotfiles/zsh/aliases
 source $HOME/dotfiles/zsh/fzf_git.zsh
 

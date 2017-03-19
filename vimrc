@@ -35,14 +35,11 @@ set updatetime=250
 
 " Linting/Testing
 Plug 'benekastah/neomake'
-let g:neomake_elixir_mix_maker = {
-      \ 'exe': 'mix',
-      \ 'args': ['compile'],
-      \ 'cwd': getcwd(),
-      \ 'errorformat':
-      \ '** %s %f:%l: %m,' .
-      \ '%Wwarning: %m,%Z%f:%l'
-      \ }
+
+Plug 'kassio/neoterm'
+Plug 'janko-m/vim-test'
+let test#strategy = "neoterm"
+
 
 " Searching
 Plug 'unblevable/quick-scope'
@@ -56,17 +53,19 @@ let g:fzf_command_prefix = 'Fzf'
 nnoremap <leader>ff :FzfFiles<cr>
 nnoremap <leader>fs :w<cr>
 nnoremap <leader>fr :call RenameCurrentFile()<cr>
-nnoremap <leader>b :FzfBuffers<cr>
+nnoremap <leader>bb :FzfBuffers<cr>
 nnoremap <leader>fc :FzfCommands<cr>
 imap <c-x><c-k> <plug>(fzf-complete-word)
 imap <c-x><c-f> <plug>(fzf-complete-path)
 
 
 Plug 'vim-ruby/vim-ruby'
-Plug 'tpope/vim-rails',          { 'for': ['ruby', 'eruby'] }
+Plug 'tpope/vim-rails' " ,          { 'for': ['ruby', 'eruby'] }
 Plug 'elixir-lang/vim-elixir',   { 'for': ['elixir', 'eelixir'] }
 Plug 'slashmili/alchemist.vim'
 Plug 'powerman/vim-plugin-AnsiEsc' " alchemist uses this for pretty docs
+Plug 'c-brenn/phoenix.vim'
+Plug 'tpope/vim-projectionist'
 
 Plug 'ElmCast/elm-vim'
 let g:elm_setup_keybindings = 0
@@ -74,18 +73,9 @@ let g:elm_setup_keybindings = 0
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'tpope/vim-markdown'
 
-" Haskell
-Plug 'neovimhaskell/haskell-vim'
-Plug 'eagletmt/neco-ghc'
-let g:haskellmode_completion_ghc = 0
-autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
-
 " Colours
-Plug 'junegunn/seoul256.vim'
-Plug 'morhetz/gruvbox'
-
-" Repls/Shell
-Plug '~/Documents/vim/repel.vim'
+Plug 'jnurmine/Zenburn'
+Plug 'itchyny/lightline.vim'
 call plug#end()
 
 syntax on
@@ -93,7 +83,6 @@ filetype plugin indent on
 
 set hidden
 set nocursorline
-set relativenumber
 set number
 
 set shiftround
@@ -229,38 +218,9 @@ autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 autocmd InsertLeave * match ExtraWhitespace /\s\+$/
 autocmd BufWinLeave * call clearmatches()
 
-function! ReadOnly()
-  if &readonly || !&modifiable
-    return ''
-  else
-    return ''
-endfunction
-
-function! GitInfo()
-  let git = fugitive#head()
-  if git != ''
-    return ' ['. git . ']'
-  else
-    return ''
-endfunction
-
-set laststatus=2
-
-set statusline=%n:
-set statusline+=%1*\ %{GitInfo()}%0*
-set statusline+=%0*
-set statusline+=\ %<-\ %t\ -\ %{ReadOnly()}\ %m
-set statusline+=\ %#warningmsg#
-set statusline+=%*
-set statusline+=%=
-set statusline+=%y
-set statusline+=%1*%3p%%\ \ %l:\ %3c\
-hi StatusLine ctermfg=236 ctermbg=66
-hi User1 cterm=inverse,bold ctermfg=236 ctermbg=167
-hi TabLineSel ctermbg=236 ctermfg=66
-
 " Neovim
 if has('nvim')
+  set inccommand=nosplit
   tnoremap <Esc> <C-\><C-n>
   augroup Terminal
     au WinEnter term://* startinsert
@@ -273,6 +233,5 @@ if has('nvim')
     autocmd BufWritePost *.rs Neomake
     autocmd BufWritePost *.ex Neomake
     autocmd BufWritePost *.hs Neomake
-    autocmd BufWritePost *.elm ElmMake
   augroup END
 endif

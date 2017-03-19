@@ -1,0 +1,197 @@
+filetype off
+runtime macros/matchit.vim
+
+if has('nvim')
+  let g:plugin_path='~/.config/nvim/plugged'
+else
+  set nocompatible
+  let g:plugin_path='~/.vim/plugged'
+endif
+
+call plug#begin(g:plugin_path)
+" GIT
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+
+" Editing
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'jiangmiao/auto-pairs'
+Plug 'junegunn/vim-easy-align'
+
+" Handy keybindings
+Plug 'tpope/vim-unimpaired'
+
+Plug 'junegunn/vim-slash'
+
+" Completion
+Plug 'Shougo/deoplete.nvim'
+
+" Async jobs
+Plug 'janko-m/vim-test'
+Plug 'skywind3000/asyncrun.vim'
+Plug 'benekastah/neomake'
+
+" Movement
+Plug 'unblevable/quick-scope'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  } | Plug 'junegunn/fzf.vim'
+
+" Languages support
+Plug 'elixir-lang/vim-elixir',   { 'for': ['elixir', 'eelixir'] }
+Plug 'slashmili/alchemist.vim'
+Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+Plug 'tpope/vim-markdown'
+
+" Aesthetics
+Plug 'jnurmine/Zenburn'
+Plug 'itchyny/lightline.vim'
+call plug#end()
+
+syntax on
+filetype plugin indent on
+
+set hidden
+set nocursorline
+set number
+
+set shiftround
+set whichwrap+=<,>,h,l
+
+set expandtab
+set smarttab
+set tabstop=2
+set shiftwidth=2
+
+set autoread
+set noswapfile
+set nowritebackup
+set nrformats-=octal
+
+set nohlsearch
+set incsearch
+set ignorecase
+set smartcase
+set infercase
+
+set noerrorbells
+set visualbell
+
+set tm=500
+set ttimeoutlen=50
+
+set splitright
+set splitbelow
+
+set scrolloff=20
+set sidescrolloff=20
+
+set tags+=./.tags
+
+set listchars=tab:»\ ,extends:›,trail:⋅
+set showbreak=›››
+set list
+
+set wildmenu
+set wildmode=longest:full,full
+set wildignore=*.o,*.obj,*~,*.pyc,*.so,*.swp,tmp/
+set wildignore+=*.pdf,*.jpg,*.dmg,*.zip,*.png,*.gif,*DS_Store*
+
+set complete+=kspell
+set completeopt=menu,menuone
+
+set showcmd
+
+set diffopt=vertical
+
+set switchbuf=useopen
+
+colorscheme zenburn
+set background=dark
+highlight ExtraWhitespace ctermbg=1 guibg=red
+match ExtraWhitespace /\s\+$/
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+autocmd BufWinLeave * call clearmatches()
+
+" Functions
+function! RenameCurrentFile()
+    let old_name = expand('%')
+    let new_name = input('New file name: ', expand('%'), 'file')
+    if new_name != '' && new_name != old_name
+        exec ':saveas ' . new_name
+        exec ':silent !rm ' . old_name
+        redraw!
+    endif
+endfunction
+
+function! TrimWhiteSpace()
+  let l = line('.')
+  let c = col('.')
+  %s/\s\+$//e
+  call cursor(l, c)
+endfunction
+
+" Keybinds
+let mapleader="\<Space>"
+
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
+cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
+
+map <C-h>  <C-w>h
+map <C-j>  <C-w>j
+map <C-k>  <C-w>k
+map <C-l>  <C-w>l
+
+map Y y$
+nnoremap Q <NOP>
+
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+
+let g:fzf_command_prefix = 'Fzf'
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+nnoremap <leader>ff :FzfFiles<cr>
+nnoremap <leader>fs :w<cr>
+nnoremap <leader>fr :call RenameCurrentFile()<cr>
+nnoremap <leader>bb :FzfBuffers<cr>
+nnoremap <leader>fc :FzfCommands<cr>
+nnoremap <leader>fr :call RenameCurrentFile()<cr>
+
+nnoremap <leader>tt :TestNearest<CR>
+nnoremap <leader>tf :TestFile<CR>
+nnoremap <leader>ta :TestSuite<CR>
+nnoremap <leader>tl :TestLast<CR>
+nnoremap <leader>tg :TestVisit<CR>
+
+nnoremap <leader>xw :call TrimWhiteSpace()<cr>
+
+" Plugin Config
+let g:deoplete#enable_at_startup = 1
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+let test#strategy="asyncrun"
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+
+if has('nvim')
+  set inccommand=nosplit
+  tnoremap <Esc> <C-\><C-n>
+  augroup Terminal
+    au WinEnter term://* startinsert
+  augroup END
+
+
+  augroup Neomake
+    autocmd!
+    autocmd BufWritePost *.rb Neomake
+    autocmd BufWritePost *.js Neomake
+    autocmd BufWritePost *.ex Neomake
+  augroup END
+endif
+
+" Commands
+command! -bar Reload exec 'source ' ConfigFilePath("vimrc")
+
