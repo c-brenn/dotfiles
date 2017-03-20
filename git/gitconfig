@@ -1,18 +1,15 @@
 [core]
   editor = nvim
-	excludesfile = ~/.gitignore
+	excludesfile = ~/.git/config/ignore
 [user]
 	email = brennc27@tcd.ie
-	name = c-brenn
+	name = Conor Brennan
 [alias]
 	undo-commit = reset --soft HEAD^
 	unstage = reset HEAD --
-	ctags = !.git/hooks/ctags
 [push]
 	default = current
 [pull]
 	default = current
-[init]
-	templatedir = ~/.git_template
 [url "https://"]
 	insteadOf = git://
