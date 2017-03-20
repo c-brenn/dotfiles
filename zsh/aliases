@@ -4,11 +4,3 @@ alias vim="nvim"
 
 # == tmux == #
 alias tm="tmux"
-
-# == elixir == #
-alias iem="iex -S mix"
-alias mps="mix phoenix.server"
-
-# == shell == #
-alias psg="ps aux | grep "
-alias es="exec $SHELL"
