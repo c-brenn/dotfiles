@@ -24,6 +24,3 @@ fzf_gb() {
 }
 
 fzf-gb-widget() LBUFFER+=$(fzf_gb | join-lines)
-zle -N fzf-gb-widget
-bindkey '^g^b' fzf-gb-widget
-

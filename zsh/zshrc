@@ -15,3 +15,6 @@ export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git/*"'
 [ -f /usr/local/etc/profile.d/autojump.sh  ] && source /usr/local/etc/profile.d/autojump.sh
 
 source $HOME/dotfiles/zsh/aliases
+
+zle -N fzf-gb-widget
+bindkey '^g^b' fzf-gb-widget
