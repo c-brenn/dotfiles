@@ -8,78 +8,52 @@ else
   let g:plugin_path='~/.vim/plugged'
 endif
 
-let mapleader="\<Space>"
-
 call plug#begin(g:plugin_path)
+" GIT
 Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+
+" Editing
 Plug 'tpope/vim-endwise'
-Plug 'jiangmiao/auto-pairs'
-Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
-
-Plug 'junegunn/vim-pseudocl' | Plug 'junegunn/vim-oblique'
+Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/vim-easy-align'
-xmap ga <Plug>(EasyAlign)
-nmap ga <Plug>(EasyAlign)
+Plug 'AndrewRadev/splitjoin.vim'
 
+" Handy keybindings
+Plug 'tpope/vim-unimpaired'
+
+Plug 'junegunn/vim-slash'
+
+" Completion
 Plug 'Shougo/deoplete.nvim'
-let g:deoplete#enable_at_startup = 1
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
-Plug 'airblade/vim-gitgutter'
-let g:gitgutter_realtime = 1
-let g:gitgutter_eager = 1
-set updatetime=250
-
-" Linting/Testing
+" Async jobs
+Plug 'janko-m/vim-test'
 Plug 'benekastah/neomake'
 
-Plug 'kassio/neoterm'
-Plug 'janko-m/vim-test'
-let test#strategy = "neoterm"
-
-
-" Searching
+" Movement
 Plug 'unblevable/quick-scope'
-let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
-let g:qs_first_occurrence_highlight_color = 155
-let g:qs_second_occurrence_highlight_color = 81
-
-" Navigation
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  } | Plug 'junegunn/fzf.vim'
-let g:fzf_command_prefix = 'Fzf'
-nnoremap <leader>ff :FzfFiles<cr>
-nnoremap <leader>fs :w<cr>
-nnoremap <leader>fr :call RenameCurrentFile()<cr>
-nnoremap <leader>bb :FzfBuffers<cr>
-nnoremap <leader>fc :FzfCommands<cr>
-imap <c-x><c-k> <plug>(fzf-complete-word)
-imap <c-x><c-f> <plug>(fzf-complete-path)
+Plug 'christoomey/vim-tmux-navigator'
 
-
-Plug 'vim-ruby/vim-ruby'
-Plug 'tpope/vim-rails' " ,          { 'for': ['ruby', 'eruby'] }
+" Languages support
 Plug 'elixir-lang/vim-elixir',   { 'for': ['elixir', 'eelixir'] }
-Plug 'slashmili/alchemist.vim'
-Plug 'powerman/vim-plugin-AnsiEsc' " alchemist uses this for pretty docs
-Plug 'c-brenn/phoenix.vim'
-Plug 'tpope/vim-projectionist'
-
-Plug 'ElmCast/elm-vim'
-let g:elm_setup_keybindings = 0
-
+Plug '~/Documents/vim/alchemist.vim'
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'tpope/vim-markdown'
 
-" Colours
+" Aesthetics
 Plug 'jnurmine/Zenburn'
 Plug 'itchyny/lightline.vim'
 call plug#end()
 
 syntax on
 filetype plugin indent on
+
+set clipboard=unnamed
 
 set hidden
 set nocursorline
@@ -113,18 +87,17 @@ set ttimeoutlen=50
 set splitright
 set splitbelow
 
-set scrolloff=10
-set sidescrolloff=10
+set scrolloff=20
+set sidescrolloff=20
 
 set tags+=./.tags
 
 set listchars=tab:»\ ,extends:›,trail:⋅
-set fillchars=stlnc:\-,vert:\|
 set showbreak=›››
 set list
 
 set wildmenu
-set wildmode=list:full,full
+set wildmode=longest:full,full
 set wildignore=*.o,*.obj,*~,*.pyc,*.so,*.swp,tmp/
 set wildignore+=*.pdf,*.jpg,*.dmg,*.zip,*.png,*.gif,*DS_Store*
 
@@ -137,17 +110,16 @@ set diffopt=vertical
 
 set switchbuf=useopen
 
+colorscheme zenburn
+set background=dark
+highlight ExtraWhitespace ctermbg=1 guibg=red
+match ExtraWhitespace /\s\+$/
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+autocmd BufWinLeave * call clearmatches()
+
 " Functions
-function! Load(path)
-  if filereadable(glob(a:path))
-    exec "source " . a:path
-  endif
-endfunction
-
-function! ConfigFilePath(file)
-  return "~/dotfiles/" . a:file
-endfunction
-
 function! RenameCurrentFile()
     let old_name = expand('%')
     let new_name = input('New file name: ', expand('%'), 'file')
@@ -165,26 +137,29 @@ function! TrimWhiteSpace()
   call cursor(l, c)
 endfunction
 
-" Commands
-command! -bar Reload exec 'source ' ConfigFilePath("vimrc")
+function! TestStrategy(cmd) abort
+  let opts = {'suffix': ' # vim-test'}
+
+  function! opts.close_terminal()
+    if bufnr(self.suffix) != -1
+      execute 'bdelete!' bufnr(self.suffix)
+    end
+  endfunction
+  call opts.close_terminal()
+
+  function! opts.on_exit(job_id, data)
+    if a:data == 0
+      call self.close_terminal()
+    endif
+  endfunction
+
+  vsplit new
+  call termopen(a:cmd . opts.suffix, opts)
+  wincmd p
+endfunction
 
 " Keybinds
-cnoremap <C-p> <Up>
-cnoremap <C-n> <Down>
-cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
-
-map <C-h>  <C-w>h
-map <C-j>  <C-w>j
-map <C-k>  <C-w>k
-map <C-l>  <C-w>l
-
-map Y y$
-
-nnoremap Q <NOP>
-command! Wq wq
-command! WQ wq
-command! W w
-command! Q q
+let mapleader="\<Space>"
 
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
@@ -196,42 +171,80 @@ map <C-k>  <C-w>k
 map <C-l>  <C-w>l
 
 map Y y$
-
 nnoremap Q <NOP>
-command! Wq wq
-command! WQ wq
-command! W w
-command! Q q
 
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
 
-" Leader keybinds (non-plugin)
+let g:fzf_command_prefix = 'Fzf'
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+
+" Buffers
+nnoremap <leader>bb :FzfBuffers<cr>
+nnoremap <leader>bd :bd!<cr>
+
+" Commands
+nnoremap <leader>cc :FzfCommands
+
+" Git
+nnoremap <leader>gs :Gstatus<cr>
+nnoremap <leader>gd :Gdiff<cr>
+nnoremap <leader>gm :FzfGFiles?<cr>
+
+" Help
+nnoremap <leader>hh :FzfHelptags<cr>
+
+" Files
+nnoremap <leader>ff :FzfFiles<cr>
+nnoremap <leader>fs :update<cr>
+nnoremap <leader>fr :call RenameCurrentFile()<cr>
+nnoremap <leader>fc :FzfCommands<cr>
+nnoremap <leader>fr :call RenameCurrentFile()<cr>
+
+" Search
+nnoremap <leader>s/ :Rg<cr>
+nnoremap <leader>ss :FzfLines<cr>
+nnoremap <leader>sb :FzfBLines<cr>
+
+" Tests
+nnoremap <leader>tt :TestNearest<CR>
+nnoremap <leader>tf :TestFile<CR>
+nnoremap <leader>ta :TestSuite<CR>
+nnoremap <leader>tl :TestLast<CR>
+nnoremap <leader>tg :TestVisit<CR>
+
 nnoremap <leader>xw :call TrimWhiteSpace()<cr>
 
-" Colours
-colorscheme gruvbox
-set background=dark
+" Plugin Config
+let g:deoplete#enable_at_startup = 1
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+let g:test#custom_strategies = {'mine': function('TestStrategy')}
+let g:test#strategy = 'mine'
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
-highlight ExtraWhitespace ctermbg=1 guibg=red
-match ExtraWhitespace /\s\+$/
-autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
-autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-autocmd InsertLeave * match ExtraWhitespace /\s\+$/
-autocmd BufWinLeave * call clearmatches()
-
-" Neovim
 if has('nvim')
   set inccommand=nosplit
   tnoremap <Esc> <C-\><C-n>
-  augroup Terminal
-    au WinEnter term://* startinsert
-  augroup END
-
 
   augroup Neomake
     autocmd!
     autocmd BufWritePost *.rb Neomake
-    autocmd BufWritePost *.rs Neomake
+    autocmd BufWritePost *.js Neomake
     autocmd BufWritePost *.ex Neomake
-    autocmd BufWritePost *.hs Neomake
   augroup END
 endif
+
+" Commands
+command! -bar Reload exec 'source ~/dotfiles/vimrc'
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
+highlight DocHeader ctermfg=cyan
+highlight DocSection ctermfg=red
+highlight CodeBlock ctermfg=cyan
+highlight Quoted ctermfg=cyan
