@@ -48,7 +48,8 @@ Plug 'ekalinin/Dockerfile.vim'
 
 " Aesthetics
 Plug 'jnurmine/Zenburn'
-Plug 'itchyny/lightline.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 call plug#end()
 
 syntax on
@@ -112,6 +113,7 @@ set switchbuf=useopen
 set termguicolors
 set background=dark
 colors zenburn
+let g:airline_theme='zenburn'
 
 highlight ExtraWhitespace ctermbg=1 guibg=red
 match ExtraWhitespace /\s\+$/
