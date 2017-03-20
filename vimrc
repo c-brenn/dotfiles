@@ -39,11 +39,12 @@ Plug 'unblevable/quick-scope'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  } | Plug 'junegunn/fzf.vim'
 Plug 'christoomey/vim-tmux-navigator'
 
-" Languages support
+" Language support
 Plug 'elixir-lang/vim-elixir',   { 'for': ['elixir', 'eelixir'] }
 Plug '~/Documents/vim/alchemist.vim'
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'tpope/vim-markdown'
+Plug 'ekalinin/Dockerfile.vim'
 
 " Aesthetics
 Plug 'jnurmine/Zenburn'
@@ -52,8 +53,6 @@ call plug#end()
 
 syntax on
 filetype plugin indent on
-
-set clipboard=unnamed
 
 set hidden
 set nocursorline
@@ -187,7 +186,7 @@ nnoremap <leader>bb :FzfBuffers<cr>
 nnoremap <leader>bd :bd!<cr>
 
 " Commands
-nnoremap <leader>cc :FzfCommands
+nnoremap <leader>cc :FzfCommands<cr>
 
 " Git
 nnoremap <leader>gs :Gstatus<cr>
