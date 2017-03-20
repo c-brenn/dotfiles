@@ -110,8 +110,10 @@ set diffopt=vertical
 
 set switchbuf=useopen
 
-colorscheme zenburn
+set termguicolors
 set background=dark
+colors zenburn
+
 highlight ExtraWhitespace ctermbg=1 guibg=red
 match ExtraWhitespace /\s\+$/
 autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
@@ -243,8 +245,3 @@ command! -bang -nargs=* Rg
   \   <bang>0 ? fzf#vim#with_preview('up:60%')
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
-
-highlight DocHeader ctermfg=cyan
-highlight DocSection ctermfg=red
-highlight CodeBlock ctermfg=cyan
-highlight Quoted ctermfg=cyan
