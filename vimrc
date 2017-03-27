@@ -28,7 +28,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'junegunn/vim-slash'
 
 " Completion
-Plug 'Shougo/deoplete.nvim'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 " Async jobs
 Plug 'janko-m/vim-test'
@@ -40,16 +40,17 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  } | Plug 'june
 Plug 'christoomey/vim-tmux-navigator'
 
 " Language support
-Plug 'elixir-lang/vim-elixir',   { 'for': ['elixir', 'eelixir'] }
-Plug '~/Documents/vim/alchemist.vim'
-Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
-Plug 'tpope/vim-markdown'
+Plug 'elixir-lang/vim-elixir',        { 'for': ['elixir', 'eelixir'] }
+Plug '~/Documents/vim/alchemist.vim', { 'for': ['elixir', 'eelixir'] }
+Plug 'pangloss/vim-javascript',       { 'for': 'javascript' }
+Plug 'tpope/vim-markdown',            { 'for': 'markdown' }
 Plug 'ekalinin/Dockerfile.vim'
 
 " Aesthetics
 Plug 'jnurmine/Zenburn'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'ntpeters/vim-better-whitespace'
 call plug#end()
 
 syntax on
@@ -92,7 +93,7 @@ set sidescrolloff=20
 
 set tags+=./.tags
 
-set listchars=tab:»\ ,extends:›,trail:⋅
+set listchars=tab:»\ ,extends:›
 set showbreak=›››
 set list
 
@@ -150,15 +151,20 @@ function! TestStrategy(cmd) abort
   endfunction
   call opts.close_terminal()
 
-  function! opts.on_exit(job_id, data)
-    if a:data == 0
+  function! opts.on_exit(job_id, exit_code)
+    if a:exit_code == 0
       call self.close_terminal()
     endif
   endfunction
 
-  vsplit new
-  call termopen(a:cmd . opts.suffix, opts)
+  let last_buffer = getreg("#")
+
+  let command = a:cmd . opts.suffix
+  vsplit +call\ termopen(command,opts) new
+  setlocal ft=elixir
   wincmd p
+
+  call setreg("#", last_buffer)
 endfunction
 
 " Keybinds
@@ -217,7 +223,7 @@ nnoremap <leader>ta :TestSuite<CR>
 nnoremap <leader>tl :TestLast<CR>
 nnoremap <leader>tg :TestVisit<CR>
 
-nnoremap <leader>xw :call TrimWhiteSpace()<cr>
+nnoremap <leader>xw :StripWhitespace<cr>
 
 " Plugin Config
 let g:deoplete#enable_at_startup = 1
@@ -232,11 +238,13 @@ if has('nvim')
 
   augroup Neomake
     autocmd!
-    autocmd BufWritePost *.rb Neomake
-    autocmd BufWritePost *.js Neomake
-    autocmd BufWritePost *.ex Neomake
+    autocmd BufWritePost * Neomake
+    autocmd BufReadPost * Neomake
   augroup END
 endif
+" Neomake
+let g:neomake_error_sign = { 'text': '❌' }
+let g:neomake_open_list = 2
 
 " Commands
 command! -bar Reload exec 'source ~/dotfiles/vimrc'
