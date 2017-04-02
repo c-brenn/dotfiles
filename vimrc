@@ -211,7 +211,6 @@ nnoremap <leader>hh :FzfHelptags<cr>
 nnoremap <leader>ff :FzfFiles<cr>
 nnoremap <leader>fs :update<cr>
 nnoremap <leader>fr :call RenameCurrentFile()<cr>
-nnoremap <leader>fc :FzfCommands<cr>
 nnoremap <leader>fr :call RenameCurrentFile()<cr>
 
 " Search
