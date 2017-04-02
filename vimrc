@@ -40,14 +40,16 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  } | Plug 'june
 Plug 'christoomey/vim-tmux-navigator'
 
 " Language support
-Plug 'elixir-lang/vim-elixir',        { 'for': ['elixir', 'eelixir'] }
-Plug '~/Documents/vim/alchemist.vim', { 'for': ['elixir', 'eelixir'] }
-Plug 'pangloss/vim-javascript',       { 'for': 'javascript' }
-Plug 'tpope/vim-markdown',            { 'for': 'markdown' }
-Plug 'ekalinin/Dockerfile.vim'
+Plug 'elixir-lang/vim-elixir',  { 'for': ['elixir', 'eelixir'] }
+Plug 'slashmili/alchemist.vim', { 'for': ['elixir', 'eelixir'] }
+Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+Plug 'tpope/vim-markdown',      { 'for': 'markdown' }
+Plug 'hdima/python-syntax',     { 'for': 'python' }
+Plug 'ekalinin/Dockerfile.vim', { 'for': 'Dockerfile'}
 
 " Aesthetics
 Plug 'jnurmine/Zenburn'
+Plug 'ayu-theme/ayu-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ntpeters/vim-better-whitespace'
@@ -112,9 +114,10 @@ set diffopt=vertical
 set switchbuf=useopen
 
 set termguicolors
-set background=dark
-colors zenburn
-let g:airline_theme='zenburn'
+let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
+
+let ayucolor="mirage"
+colorscheme ayu
 
 highlight ExtraWhitespace ctermbg=1 guibg=red
 match ExtraWhitespace /\s\+$/
@@ -239,12 +242,12 @@ if has('nvim')
   augroup Neomake
     autocmd!
     autocmd BufWritePost * Neomake
-    autocmd BufReadPost * Neomake
+    autocmd BufReadPost  * Neomake
   augroup END
 endif
-" Neomake
-let g:neomake_error_sign = { 'text': '❌' }
-let g:neomake_open_list = 2
+
+let g:neomake_highlight_lines=1
+highlight link NeomakeError SpellBad
 
 " Commands
 command! -bar Reload exec 'source ~/dotfiles/vimrc'
