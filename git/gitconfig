@@ -1,15 +1,26 @@
 [core]
   editor = nvim
-	excludesfile = ~/.git/config/ignore
+  excludesfile = ~/.git/config/ignore
+
 [user]
-	email = brennc27@tcd.ie
-	name = Conor Brennan
+  email = brennc27@tcd.ie
+  name = Conor Brennan
+
+[commit]
+  gpgsign = true
+
 [alias]
-	undo-commit = reset --soft HEAD^
-	unstage = reset HEAD --
+  undo-commit = reset --soft HEAD^
+  unstage = reset HEAD --
+
 [push]
-	default = current
+  default = current
+
 [pull]
-	default = current
+  default = current
+
 [url "https://"]
-	insteadOf = git://
+  insteadOf = git://
+
+[include]
+  path = ~/.config/git/gpg-config
