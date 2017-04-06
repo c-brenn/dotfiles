@@ -39,12 +39,12 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  } | Plug 'june
 Plug 'christoomey/vim-tmux-navigator'
 
 " Language support
-Plug 'elixir-lang/vim-elixir'
-Plug 'slashmili/alchemist.vim'
-Plug 'pangloss/vim-javascript'
-Plug 'tpope/vim-markdown'
-Plug 'hdima/python-syntax'
-Plug 'ekalinin/Dockerfile.vim'
+Plug 'elixir-lang/vim-elixir',  { 'for': ['elixir', 'eelixir'] }
+Plug 'slashmili/alchemist.vim', { 'for': ['elixir', 'eelixir'] }
+Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+Plug 'tpope/vim-markdown',      { 'for': 'markdown' }
+Plug 'hdima/python-syntax',     { 'for': 'python' }
+Plug 'ekalinin/Dockerfile.vim', { 'for': 'Dockerfile'}
 
 " Aesthetics
 Plug 'ayu-theme/ayu-vim'
@@ -196,7 +196,7 @@ nnoremap <leader>bd :bd!<cr>
 nnoremap <leader>cc :FzfCommands<cr>
 
 " Git
-nnoremap <leader>gs :Gstatus<cr><c-w>o
+nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gm :FzfGFiles?<cr>
 
