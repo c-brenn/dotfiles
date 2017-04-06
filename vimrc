@@ -148,7 +148,6 @@ function! TestStrategy(cmd) abort
 
   let command = a:cmd . opts.suffix
   vsplit +call\ termopen(command,opts) new
-  setlocal ft=elixir
   wincmd p
 
   call setreg("#", last_buffer)
@@ -173,6 +172,19 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
 let g:fzf_command_prefix = 'Fzf'
+let g:fzf_layout = { 'window': 'enew' }
+let g:fzf_colors =
+\ { 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Identifier'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
 imap <c-x><c-k> <plug>(fzf-complete-word)
 imap <c-x><c-f> <plug>(fzf-complete-path)
 
@@ -184,7 +196,7 @@ nnoremap <leader>bd :bd!<cr>
 nnoremap <leader>cc :FzfCommands<cr>
 
 " Git
-nnoremap <leader>gs :Gstatus<cr>
+nnoremap <leader>gs :Gstatus<cr><c-w>o
 nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gm :FzfGFiles?<cr>
 
@@ -214,9 +226,9 @@ nnoremap <leader>xw :StripWhitespace<cr>
 " Plugin Config
 let g:deoplete#enable_at_startup = 1
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+
 let g:test#custom_strategies = {'mine': function('TestStrategy')}
 let g:test#strategy = 'mine'
-let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
 if has('nvim')
   set inccommand=nosplit
