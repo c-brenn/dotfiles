@@ -1,0 +1,22 @@
+cask_args appdir: '/Applications'
+
+tap 'caskroom/cask'
+tap 'neovim/neovim'
+
+brew 'elixir'
+brew 'git'
+brew 'gnupg'
+brew 'neovim'
+brew 'pinentry-mac'
+brew 'reattach-to-user-namespace'
+brew 'ripgrep'
+brew 'tmux'
+
+cask 'alfred'
+cask 'firefox'
+cask 'google-chrome'
+cask 'slack'
+cask 'spotify'
+cask 'transmission'
+cask 'tunnelblick'
+cask 'vlc'
