@@ -1,9 +1,0 @@
-# == vim == #
-alias vi="nvim"
-alias vim="nvim"
-
-# == tmux == #
-alias tm="tmux"
-
-# == pathways == #
-alias e2e="docker-compose -f docker-compose.e2e.dev.yml -p integration run athloi;docker-compose -f docker-compose.e2e.dev.yml -p integration down"
