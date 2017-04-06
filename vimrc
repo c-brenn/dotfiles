@@ -35,20 +35,18 @@ Plug 'janko-m/vim-test'
 Plug 'benekastah/neomake'
 
 " Movement
-Plug 'unblevable/quick-scope'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install'  } | Plug 'junegunn/fzf.vim'
 Plug 'christoomey/vim-tmux-navigator'
 
 " Language support
-Plug 'elixir-lang/vim-elixir',  { 'for': ['elixir', 'eelixir'] }
-Plug 'slashmili/alchemist.vim', { 'for': ['elixir', 'eelixir'] }
-Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
-Plug 'tpope/vim-markdown',      { 'for': 'markdown' }
-Plug 'hdima/python-syntax',     { 'for': 'python' }
-Plug 'ekalinin/Dockerfile.vim', { 'for': 'Dockerfile'}
+Plug 'elixir-lang/vim-elixir'
+Plug 'slashmili/alchemist.vim'
+Plug 'pangloss/vim-javascript'
+Plug 'tpope/vim-markdown'
+Plug 'hdima/python-syntax'
+Plug 'ekalinin/Dockerfile.vim'
 
 " Aesthetics
-Plug 'jnurmine/Zenburn'
 Plug 'ayu-theme/ayu-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -119,13 +117,6 @@ let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
 let ayucolor="mirage"
 colorscheme ayu
 
-highlight ExtraWhitespace ctermbg=1 guibg=red
-match ExtraWhitespace /\s\+$/
-autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
-autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-autocmd InsertLeave * match ExtraWhitespace /\s\+$/
-autocmd BufWinLeave * call clearmatches()
-
 " Functions
 function! RenameCurrentFile()
     let old_name = expand('%')
@@ -135,13 +126,6 @@ function! RenameCurrentFile()
         exec ':silent !rm ' . old_name
         redraw!
     endif
-endfunction
-
-function! TrimWhiteSpace()
-  let l = line('.')
-  let c = col('.')
-  %s/\s\+$//e
-  call cursor(l, c)
 endfunction
 
 function! TestStrategy(cmd) abort
