@@ -10,6 +10,12 @@
   gpgsign = true
 
 [alias]
+  a = add
+  b = branch
+  c = commit --verbose
+  r = rebase
+  s = status
+  d = diff
   undo-commit = reset --soft HEAD^
   unstage = reset HEAD --
 
@@ -19,8 +25,8 @@
 [pull]
   default = current
 
-[url "https://"]
-  insteadOf = git://
+[status]
+  showUntrackedFiles = all
 
 [include]
   path = ~/.config/git/gpg-config
