@@ -2232,9 +2232,9 @@
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>330 318 620 392 0 0 1280 800 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>27 273 796 473 0 0 1280 777 </string>
+	<string>27 365 770 381 0 0 1280 777 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>242 230 745 427 0 0 1280 777 </string>
+	<string>242 225 570 427 0 0 1280 777 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
 	<string>430 101 570 452 0 0 1280 777 </string>
 	<key>NeverWarnAboutShortLivedSessions_BC580448-E277-4D79-BEA7-D0E5C99A98AE</key>
@@ -2978,7 +2978,7 @@
 			<key>Shortcut</key>
 			<string></string>
 			<key>Silence Bell</key>
-			<false/>
+			<true/>
 			<key>Smart Cursor Color</key>
 			<false/>
 			<key>Smart Selection Rules</key>
