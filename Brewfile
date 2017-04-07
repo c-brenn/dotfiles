@@ -3,7 +3,6 @@ cask_args appdir: '/Applications'
 tap 'caskroom/cask'
 tap 'neovim/neovim'
 
-brew 'autojump'
 brew 'git'
 brew 'gnupg'
 brew 'neovim'

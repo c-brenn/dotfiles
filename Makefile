@@ -5,7 +5,7 @@ all:
 	@printf "Description: \n"
 	@printf "\tInstalls everything!\n"
 
-install: homebrew brews prezto dotfiles vim iterm
+install: homebrew brews zplug dotfiles vim iterm
 
 homebrew:
 	@printf "Installing Homebrew..."
@@ -16,11 +16,9 @@ brews:
 	brew tap Homebrew/bundle
 	brew bundle
 
-vim:
-	@printf "Configuring vim"
-	curl -fLo $(HOME)/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-	pip3 install neovim
-	nvim -c PlugInstall -c quitall
+zplug:
+	chsh -s /bin/zsh
+	curl -sL --proto-redir -all,https https://zplug.sh/installer | zsh
 
 dotfiles:
 	@printf "Linking dotfiles..."
@@ -32,6 +30,12 @@ dotfiles:
 	ln -sf $(ROOT_DIR)/zsh/zshenv    $(HOME)/.zshenv
 	ln -sf $(ROOT_DIR)/tmux.conf     $(HOME)/.tmux.conf
 	touch $(HOME)/.hushlogin
+
+vim:
+	@printf "Configuring vim"
+	curl -fLo $(HOME)/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	pip3 install neovim
+	nvim -c PlugInstall -c quitall
 
 iterm:
 	cp $(ROOT_DIR)/terminal/Sauce Code Pro Nerd Font Complete Mono.ttf $(HOME)/Library/Fonts/
