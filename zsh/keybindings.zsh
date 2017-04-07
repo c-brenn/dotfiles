@@ -10,7 +10,7 @@
   for key command in ${(@kv)widgets}; do
     eval "fzf-git-$command-widget() { local result=\$(git_$command | join-lines); zle reset-prompt; LBUFFER+=\$result }"
     eval "zle -N fzf-git-$command-widget"
-    eval "bindkey '^g^$key' fzf-git-$command-widget"
+    eval "bindkey -e '^g^$key' fzf-git-$command-widget"
   done
 }
 
