@@ -1,13 +1,13 @@
+# == Shell == #
+alias ls='ls -Gp'
+alias l='ls -1A'
+
 # == vim == #
-alias vi="nvim"
-alias vim="nvim"
+alias vi='nvim'
+alias vim='nvim'
 
 # == tmux == #
-alias tm="tmux"
+alias tm='tmux'
 
 # == git == #
-alias ga="git add"
-alias gb="git branch"
-alias gc="git commit"
-alias gr="git rebase"
-alias gs="git status"
+alias g='git'
