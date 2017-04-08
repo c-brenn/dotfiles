@@ -5,7 +5,7 @@ all:
 	@printf "Description: \n"
 	@printf "\tInstalls everything!\n"
 
-install: homebrew brews zplug dotfiles vim iterm
+install: homebrew brews zplug dotfiles vim iterm tmux
 
 homebrew:
 	@printf "Installing Homebrew..."
@@ -40,3 +40,6 @@ vim:
 iterm:
 	cp $(ROOT_DIR)/terminal/Sauce Code Pro Nerd Font Complete Mono.ttf $(HOME)/Library/Fonts/
 	cp -f $(ROOT_DIR)/terminal/com.googlecode.iterm2.plist $(HOME)/Library/Preferences
+
+tmux:
+	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
