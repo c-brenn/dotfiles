@@ -43,13 +43,12 @@ Plug 'elixir-lang/vim-elixir',  { 'for': ['elixir', 'eelixir'] }
 Plug 'slashmili/alchemist.vim', { 'for': ['elixir', 'eelixir'] }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'tpope/vim-markdown',      { 'for': 'markdown' }
+Plug 'tmux-plugins/vim-tmux',   { 'for': 'tmux' }
 Plug 'hdima/python-syntax',     { 'for': 'python' }
 Plug 'ekalinin/Dockerfile.vim', { 'for': 'Dockerfile'}
 
 " Aesthetics
 Plug 'ayu-theme/ayu-vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'ntpeters/vim-better-whitespace'
 call plug#end()
 
@@ -116,6 +115,41 @@ let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
 
 let ayucolor="mirage"
 colorscheme ayu
+
+function! ReadOnly()
+  if &readonly || !&modifiable
+    return ' '
+  else
+    return ''
+endfunction
+
+function! GitInfo()
+  let git = fugitive#head()
+  if git != ''
+    return ' '.fugitive#head()
+  else
+    return ''
+endfunction
+
+set laststatus=2
+set statusline=
+set statusline+=%1*\ [%n]
+set statusline+=%2*\ %f
+set statusline+=%3*\ %{ReadOnly()}
+set statusline+=%4*\ %m
+set statusline+=%1*\ %{GitInfo()}
+set statusline+=%0*\ %=
+set statusline+=%1*\ %y
+set statusline+=\ %5*\ %3p%%\ \ %l:\ %3c
+
+highlight VertSplit guibg=#212732 guifg=white
+highlight StatusLine guibg=#212732
+highlight StatusLineNC guibg=#212732
+highlight User1 guibg=#212732 guifg=#95e6cb
+highlight User2 guibg=#212732 guifg=#ffcc66
+highlight User3 guibg=#212732 guifg=#95e6cb
+highlight User4 guibg=#212732 guifg=#95e6cb
+highlight User5 guibg=#3e4b59 guifg=white
 
 " Functions
 function! RenameCurrentFile()
