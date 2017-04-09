@@ -35,13 +35,13 @@ zplug:
 
 dotfiles:
 	@printf "Linking dotfiles..."
-	mkdir -p $(HOME)/.config/git     $(HOME)/.config/nvim
-	ln -sf $(ROOT_DIR)/vimrc         $(HOME)/.config/nvim/init.vim
-	ln -sf $(ROOT_DIR)/git/config    $(HOME)/.config/git/config
-	ln -sf $(ROOT_DIR)/git/ignore    $(HOME)/.config/git/ignore
-	ln -sf $(ROOT_DIR)/zsh/zshrc     $(HOME)/.zshrc
-	ln -sf $(ROOT_DIR)/zsh/zshenv    $(HOME)/.zshenv
-	ln -sf $(ROOT_DIR)/tmux.conf     $(HOME)/.tmux.conf
+	mkdir -p $(HOME)/.config/git      $(HOME)/.config/nvim
+	ln -sf $(ROOT_DIR)/vim/vimrc      $(HOME)/.config/nvim/init.vim
+	ln -sf $(ROOT_DIR)/git/config     $(HOME)/.config/git/config
+	ln -sf $(ROOT_DIR)/git/ignore     $(HOME)/.config/git/ignore
+	ln -sf $(ROOT_DIR)/zsh/zshrc      $(HOME)/.zshrc
+	ln -sf $(ROOT_DIR)/zsh/zshenv     $(HOME)/.zshenv
+	ln -sf $(ROOT_DIR)/tmux/tmux.conf $(HOME)/.tmux.conf
 	touch  $(HOME)/.hushlogin
 
 vim:
