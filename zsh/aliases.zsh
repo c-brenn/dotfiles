@@ -10,4 +10,13 @@ alias vim='nvim'
 alias tm='tmux'
 
 # == git == #
-alias g='git'
+alias gl="git log"
+alias gr="git rebase"
+alias gc="git commit --verbose"
+alias gca="git commit --verbose --amend"
+alias gco="git checkout"
+alias gia="git add"
+alias gws="git status --short"
+alias gwd="git diff"
+alias gb="git branch"
+alias gm="git merge"
