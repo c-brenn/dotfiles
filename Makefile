@@ -29,7 +29,7 @@ dotfiles:
 	ln -sf $(ROOT_DIR)/zsh/zshrc     $(HOME)/.zshrc
 	ln -sf $(ROOT_DIR)/zsh/zshenv    $(HOME)/.zshenv
 	ln -sf $(ROOT_DIR)/tmux.conf     $(HOME)/.tmux.conf
-	touch $(HOME)/.hushlogin
+	touch  $(HOME)/.hushlogin
 
 vim:
 	@printf "Configuring vim"
