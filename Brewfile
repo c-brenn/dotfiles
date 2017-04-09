@@ -19,7 +19,7 @@ brew 'git'
 brew 'gnupg'
 brew 'neovim'
 brew 'pinentry-mac'
-brew 'python3'
+brew 'python3' # This is only needed for some nvim plugins
 brew 'reattach-to-user-namespace'
 brew 'ripgrep'
 brew 'tmux'
