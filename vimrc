@@ -135,21 +135,23 @@ set laststatus=2
 set statusline=
 set statusline+=%1*\ [%n]
 set statusline+=%2*\ %f
-set statusline+=%3*\ %{ReadOnly()}
+set statusline+=%3*%{ReadOnly()}
 set statusline+=%4*\ %m
 set statusline+=%1*\ %{GitInfo()}
 set statusline+=%0*\ %=
 set statusline+=%1*\ %y
-set statusline+=\ %5*\ %3p%%\ \ %l:\ %3c
+set statusline+=\ %5*\ %3l\ :%3c\ %3p%%\ 
 
-highlight VertSplit guibg=#212732 guifg=white
-highlight StatusLine guibg=#212732
-highlight StatusLineNC guibg=#212732
-highlight User1 guibg=#212732 guifg=#95e6cb
-highlight User2 guibg=#212732 guifg=#ffcc66
-highlight User3 guibg=#212732 guifg=#95e6cb
-highlight User4 guibg=#212732 guifg=#95e6cb
-highlight User5 guibg=#3e4b59 guifg=white
+highlight VertSplit    guibg=#212732 guifg=white
+highlight StatusLine   guibg=#272d38
+highlight StatusLineNC guibg=#272d38
+highlight User1        guibg=#272d38 guifg=#95e6cb
+highlight User2        guibg=#272d38 guifg=#ffcc66
+highlight User3        guibg=#272d38 guifg=#95e6cb
+highlight User4        guibg=#272d38 guifg=#f07178
+highlight User5        guibg=#3e4b59 guifg=white
+
+highlight ExtraWhitespace guibg=#ff3333
 
 " Functions
 function! RenameCurrentFile()
