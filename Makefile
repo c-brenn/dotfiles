@@ -5,7 +5,11 @@ all:
 	@printf "Description: \n"
 	@printf "\tInstalls everything!\n"
 
-install: homebrew brews zplug dotfiles vim iterm tmux asdf
+install: brewery managers dotfiles vim iterm
+
+brewery: homebrew brews
+
+managers: asdf tpm zplug
 
 homebrew:
 	@printf "Installing Homebrew..."
@@ -16,7 +20,16 @@ brews:
 	brew tap Homebrew/bundle
 	brew bundle
 
+asdf:
+	@printf "Installing asdf..."
+	git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.3.0
+
+tpm:
+	@printf "Installing tpm..."
+	git clone https://github.com/tmux-plugins/tpm $(HOME)/.tmux/plugins/tpm
+
 zplug:
+	@printf "Installing zplug and switching shell to zsh..."
 	chsh -s /bin/zsh
 	curl -sL --proto-redir -all,https https://zplug.sh/installer | zsh
 
@@ -32,17 +45,12 @@ dotfiles:
 	touch  $(HOME)/.hushlogin
 
 vim:
-	@printf "Configuring vim"
+	@printf "Configuring Vim..."
 	curl -fLo $(HOME)/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 	pip3 install neovim
 	nvim -c PlugInstall -c quitall
 
 iterm:
+	@printf "Configuring iTerm..."
 	cp $(ROOT_DIR)/terminal/Sauce Code Pro Nerd Font Complete Mono.ttf $(HOME)/Library/Fonts/
 	cp -f $(ROOT_DIR)/terminal/com.googlecode.iterm2.plist $(HOME)/Library/Preferences
-
-tmux:
-	git clone https://github.com/tmux-plugins/tpm $(HOME)/.tmux/plugins/tpm
-
-asdf:
-	git clone https://github.com/asdf-vm/asdf.git $(HOME)/.asdf --branch v0.3.0
