@@ -22,8 +22,8 @@ bindkey -e "^f" forward-char
 bindkey -e "^b" backward-char
 bindkey -e "^k" kill-line
 bindkey -e "^d" delete-char
-bindkey -e "^p" history-search-backward
-bindkey -e "^n" history-search-forward
+bindkey -e "^p" history-substring-search-up
+bindkey -e "^n" history-substring-search-down
 bindkey -e "^y" accept-and-hold
 bindkey -e "^w" backward-kill-word
 bindkey -e "^u" backward-kill-line
