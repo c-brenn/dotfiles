@@ -16,11 +16,11 @@ fi
 
 zplug load
 
-source $HOME/dotfiles/zsh/aliases.zsh
-source $HOME/dotfiles/zsh/functions.zsh
-source $HOME/dotfiles/zsh/fzf.zsh
-source $HOME/dotfiles/zsh/history.zsh
-source $HOME/dotfiles/zsh/keybindings.zsh
+source "$HOME/dotfiles/zsh/aliases.zsh"
+source "$HOME/dotfiles/zsh/functions.zsh"
+source "$HOME/dotfiles/zsh/fzf.zsh"
+source "$HOME/dotfiles/zsh/history.zsh"
+source "$HOME/dotfiles/zsh/keybindings.zsh"
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+[ -s "$HOME/.asdf/asdf.sh" ] &&  . "$HOME/.asdf/asdf.sh"
+[ -s "$HOME/.asdf/completions/asdf.bash" ] && . "$HOME/.asdf/completions/asdf.bash"

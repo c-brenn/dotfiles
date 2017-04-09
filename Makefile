@@ -5,7 +5,7 @@ all:
 	@printf "Description: \n"
 	@printf "\tInstalls everything!\n"
 
-install: homebrew brews zplug dotfiles vim iterm tmux
+install: homebrew brews zplug dotfiles vim iterm tmux asdf
 
 homebrew:
 	@printf "Installing Homebrew..."
@@ -42,4 +42,7 @@ iterm:
 	cp -f $(ROOT_DIR)/terminal/com.googlecode.iterm2.plist $(HOME)/Library/Preferences
 
 tmux:
-	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+	git clone https://github.com/tmux-plugins/tpm $(HOME)/.tmux/plugins/tpm
+
+asdf:
+	git clone https://github.com/asdf-vm/asdf.git $(HOME)/.asdf --branch v0.3.0
