@@ -84,9 +84,6 @@ set visualbell
 set tm=500
 set ttimeoutlen=50
 
-set splitright
-set splitbelow
-
 set scrolloff=20
 set sidescrolloff=20
 
