@@ -13,6 +13,15 @@
   undo-commit = reset --soft HEAD^
   unstage = reset HEAD --
 
+[merge]
+  tool = fugitive
+
+[mergetool]
+  keepBackup = false
+
+[mergetool "fugitive"]
+  cmd = nvim -f -c \"Gdiff\" \"$MERGED\"
+
 [push]
   default = current
 
