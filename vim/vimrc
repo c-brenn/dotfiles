@@ -274,6 +274,11 @@ if has('nvim')
   augroup END
 endif
 
+augroup FileTypeSpecific
+  autocmd!
+  autocmd FileType gitcommit setlocal spell
+augroup END
+
 let g:neomake_highlight_lines=1
 highlight link NeomakeError SpellBad
 
