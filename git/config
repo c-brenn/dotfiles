@@ -1,17 +1,16 @@
-[core]
-  editor = nvim
-  excludesfile = ~/.git/config/ignore
-
-[user]
-  email = brennc27@tcd.ie
-  name = Conor Brennan
+[alias]
+  undo-commit = reset --soft HEAD^
+  unstage = reset HEAD --
 
 [commit]
   gpgsign = true
 
-[alias]
-  undo-commit = reset --soft HEAD^
-  unstage = reset HEAD --
+[core]
+  editor = nvim
+  excludesfile = ~/.git/config/ignore
+
+[include]
+  path = ~/.config/git/gpg-config
 
 [merge]
   tool = fugitive
@@ -22,14 +21,18 @@
 [mergetool "fugitive"]
   cmd = nvim -f -c \"Gdiff\" \"$MERGED\"
 
+[pull]
+  default = current
+
 [push]
   default = current
 
-[pull]
-  default = current
+[rebase]
+  autosquash = true
 
 [status]
   showUntrackedFiles = all
 
-[include]
-  path = ~/.config/git/gpg-config
+[user]
+  email = brennc27@tcd.ie
+  name = Conor Brennan
