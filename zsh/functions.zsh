@@ -1,7 +1,7 @@
 cr() {
   local dir
   dir=$(find $cdpath -path '*/\.*' -prune \
-                  -o -type d -print 2> /dev/null | fzf +m -q "$1") &&
+                  -o -type d -print 2> /dev/null | fzf -q "$1") &&
   cd "$dir"
 }
 
