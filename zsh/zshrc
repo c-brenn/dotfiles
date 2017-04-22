@@ -26,3 +26,5 @@ source "$HOME/dotfiles/zsh/history.zsh"
 source "$HOME/dotfiles/zsh/keybindings.zsh"
 source "$HOME/dotfiles/zsh/navigation.zsh"
 source "$HOME/dotfiles/zsh/fzf.zsh"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

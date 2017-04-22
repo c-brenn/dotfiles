@@ -7,7 +7,7 @@
 
 [core]
   editor = nvim
-  excludesfile = ~/.git/config/ignore
+  excludesfile = ~/.config/git/ignore
 
 [include]
   path = ~/.config/git/gpg-config
