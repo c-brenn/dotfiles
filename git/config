@@ -2,15 +2,8 @@
   undo-commit = reset --soft HEAD^
   unstage = reset HEAD --
 
-[commit]
-  gpgsign = true
-
 [core]
-  editor = nvim
   excludesfile = ~/.config/git/ignore
-
-[include]
-  path = ~/.config/git/gpg-config
 
 [merge]
   tool = fugitive
