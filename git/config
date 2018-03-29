@@ -4,6 +4,7 @@
 
 [core]
   excludesfile = ~/.config/git/ignore
+  editor = nvim
 
 [merge]
   tool = fugitive
@@ -27,5 +28,5 @@
   showUntrackedFiles = all
 
 [user]
-  email = brennc27@tcd.ie
+  email = conor@butternutbox.com
   name = Conor Brennan

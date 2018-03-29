@@ -10,10 +10,12 @@ endif
 
 call plug#begin(g:plugin_path)
 Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-vinegar'
 
 " GIT
 Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
+Plug 'junegunn/gv.vim'
+Plug 'tpope/vim-rhubarb'
 
 " Editing
 Plug 'tpope/vim-endwise'
@@ -27,12 +29,21 @@ Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-unimpaired'
 
 Plug 'junegunn/vim-slash'
+Plug 'mhinz/vim-grepper'
 
 " Completion
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
 
 " Async jobs
 Plug 'w0rp/ale'
+Plug 'janko-m/vim-test'
+Plug 'kassio/neoterm'
 
 " Movement
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } | Plug 'junegunn/fzf.vim'
@@ -40,18 +51,27 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } | Plug 'junegu
 " Language support
 Plug 'elixir-lang/vim-elixir',  { 'for': ['elixir', 'eelixir'] }
 Plug 'slashmili/alchemist.vim', { 'for': ['elixir', 'eelixir'] }
-Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
 Plug 'tpope/vim-markdown',      { 'for': 'markdown' }
+Plug 'kchmck/vim-coffee-script'
+Plug 'tpope/vim-rails'
 
 " Aesthetics
-Plug 'altercation/vim-colors-solarized'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'dracula/vim'
+Plug 'junegunn/seoul256.vim'
+Plug 'itchyny/lightline.vim'
 Plug 'ntpeters/vim-better-whitespace'
 call plug#end()
 
 syntax on
 filetype plugin indent on
+
+set guioptions=
+set guifont=Monaco:h13
+set laststatus=2
+
+set mouse=a
 
 set hidden
 set nocursorline
@@ -84,6 +104,7 @@ set ttimeoutlen=50
 
 set scrolloff=20
 set sidescrolloff=20
+set splitright
 
 set tags+=./.tags
 
@@ -106,7 +127,8 @@ set diffopt=vertical
 set switchbuf=useopen
 
 set background=dark
-colorscheme solarized
+colorscheme seoul256
+let g:lightline = { 'colorscheme': 'seoul256' }
 
 " Keybinds
 let mapleader="\<Space>"
@@ -121,35 +143,48 @@ nnoremap Q <NOP>
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
-let g:fzf_command_prefix = 'Fzf'
-
 imap <c-x><c-k> <plug>(fzf-complete-word)
 imap <c-x><c-f> <plug>(fzf-complete-path)
 
 " Buffers
-nnoremap <leader>bb :FzfBuffers<cr>
+nnoremap <leader>bb :Buffers<cr>
 nnoremap <leader>bd :bd!<cr>
 
 " Commands
-nnoremap <leader>cc :FzfCommands<cr>
+nnoremap <leader>cc :Commands<cr>
+nnoremap <leader>ch :History:<cr>
 
 " Git
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gd :Gdiff<cr>
-nnoremap <leader>gm :FzfGFiles?<cr>
+nnoremap <leader>gm :GFiles?<cr>
 
 " Help
-nnoremap <leader>hh :FzfHelptags<cr>
+nnoremap <leader>hh :Helptags<cr>
+
+" Projects
+nnoremap <leader>pf :GFiles<cr>
+
+" Windows
+nnoremap <leader>ww :Windows<cr>
 
 " Files
-nnoremap <leader>ff :FzfFiles<cr>
+nnoremap <leader>ff :Files<cr>
+nnoremap <leader>fh :History<cr>
 nnoremap <leader>fs :update<cr>
 nnoremap <leader>fr :call RenameCurrentFile()<cr>
 nnoremap <leader>fr :call RenameCurrentFile()<cr>
 
 " Search
-nnoremap <leader>ss :FzfLines<cr>
-nnoremap <leader>sb :FzfBLines<cr>
+nnoremap <leader>/  :Ripgrep<space>
+nnoremap <leader>*  :Ripgrep <C-R><C-W>
+
+" Tests
+nnoremap <leader>tt :TestNearest<cr>
+nnoremap <leader>tf :TestFile<cr>
+nnoremap <leader>ta :TestSuite<cr>
+nnoremap <leader>tl :TestLast<cr>
+nnoremap <leader>tg :TestVisit<cr>
 
 nnoremap <leader>xw :StripWhitespace<cr>
 
@@ -157,10 +192,19 @@ nnoremap <leader>xw :StripWhitespace<cr>
 let g:deoplete#enable_at_startup = 1
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
-let g:gitgutter_sign_added = '+'
-let g:gitgutter_sign_modified = '*'
-let g:gitgutter_sign_removed = '-'
-let g:gitgutter_sign_modified_removed = '~'
+let test#strategy = 'neoterm'
+
+let g:neoterm_default_mods = ['vertical']
+let g:neoterm_autoscroll = 1
+
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_set_highlights = 0
+let g:ale_javascript_standard_options = '--parser babel-eslint --plugin flowtype'
+
+let g:jsx_ext_required = 0
+
+" center search matches
+noremap <plug>(slash-after) zz
 
 highlight ExtraWhitespace ctermbg=red
 
@@ -177,7 +221,16 @@ endif
 augroup FileTypeSpecific
   autocmd!
   autocmd FileType gitcommit setlocal spell
+  autocmd Filetype help nnoremap <buffer> q :close<CR>
+  autocmd BufNewFile,BufRead *.js.flow setlocal ft=javascript
 augroup END
 
 " Commands
+command! -bang -nargs=* Ripgrep
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
 command! -bar Reload exec 'source ~/dotfiles/vim/vimrc'
