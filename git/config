@@ -2,6 +2,9 @@
   undo-commit = reset --soft HEAD^
   unstage = reset HEAD --
 
+[commit]
+  gpgsign = true
+
 [core]
   excludesfile = ~/.config/git/ignore
   editor = nvim
@@ -30,3 +33,4 @@
 [user]
   email = conor@butternutbox.com
   name = Conor Brennan
+  signingkey = 4ECFC6544CB5B3BE
