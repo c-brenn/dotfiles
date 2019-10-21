@@ -1,6 +1,17 @@
 [alias]
   undo-commit = reset --soft HEAD^
   unstage = reset HEAD --
+  br = branch
+  co = checkout
+  cf = commit --amend --reuse-message=HEAD
+  mg = merge
+  mt = mergetool
+  pl = pull
+  ps = push
+  rb = rebase
+
+[branch]
+  autosetupmerge = always
 
 [commit]
   gpgsign = true
@@ -33,4 +44,4 @@
 [user]
   email = conor@butternutbox.com
   name = Conor Brennan
-  signingkey = 4ECFC6544CB5B3BE
+  signingkey = 36E21DE81770F5A4D71F0D553FD3D17265F63A62

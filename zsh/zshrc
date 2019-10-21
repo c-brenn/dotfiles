@@ -1,12 +1,13 @@
-export ZPLUG_HOME=/usr/local/opt/zplug
+export ZPLUG_HOME=~/.zplug
 source $ZPLUG_HOME/init.zsh
 
-zplug "zsh-users/zsh-history-substring-search"
 zplug "zsh-users/zsh-completions"
 zplug "modules/completion", from:prezto
 zplug "zsh-users/zsh-syntax-highlighting"
 zplug "zsh-users/zsh-autosuggestions", use:"zsh-autosuggestions.zsh"
 zplug "themes/minimal", from:oh-my-zsh
+zplug "zsh-users/zsh-history-substring-search"
+zplug "plugins/gpg-agent", from:oh-my-zsh
 
 if ! zplug check --verbose; then
     printf "Install zplug plugins? [y/N]: "
@@ -28,3 +29,12 @@ source "$HOME/dotfiles/zsh/navigation.zsh"
 source "$HOME/dotfiles/zsh/fzf.zsh"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+eval "$(rbenv init -)"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
+. $HOME/.asdf/asdf.sh
+
+. $HOME/.asdf/completions/asdf.bash

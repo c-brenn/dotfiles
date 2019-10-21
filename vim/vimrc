@@ -1,6 +1,16 @@
 filetype off
 runtime macros/matchit.vim
 
+function! BuildComposer(info)
+  if a:info.status != 'unchanged' || a:info.force
+    if has('nvim')
+      !cargo build --release
+    else
+      !cargo build --release --no-default-features --features json-rpc
+    endif
+  endif
+endfunction
+
 if has('nvim')
   let g:plugin_path='~/.config/nvim/plugged'
 else
@@ -24,6 +34,9 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/vim-easy-align'
+Plug 'machakann/vim-highlightedyank'
+" Plug 'SirVer/ultisnips'
+" Plug 'honza/vim-snippets'
 
 " Handy keybindings
 Plug 'tpope/vim-unimpaired'
@@ -31,17 +44,13 @@ Plug 'tpope/vim-unimpaired'
 Plug 'junegunn/vim-slash'
 Plug 'mhinz/vim-grepper'
 
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 " Completion
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 " Async jobs
-Plug 'w0rp/ale'
+" Plug 'w0rp/ale'
 Plug 'janko-m/vim-test'
 Plug 'kassio/neoterm'
 
@@ -54,21 +63,26 @@ Plug 'slashmili/alchemist.vim', { 'for': ['elixir', 'eelixir'] }
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'tpope/vim-markdown',      { 'for': 'markdown' }
+" Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
 Plug 'kchmck/vim-coffee-script'
 Plug 'tpope/vim-rails'
+Plug 'tpope/vim-dadbod'
+Plug 'christoomey/vim-rfactory'
+Plug 'ElmCast/elm-vim', { 'for': 'elm' }
 
 " Aesthetics
+Plug 'nanotech/jellybeans.vim'
 Plug 'dracula/vim'
 Plug 'junegunn/seoul256.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'Yggdroot/indentLine'
 call plug#end()
 
 syntax on
 filetype plugin indent on
 
 set guioptions=
-set guifont=Monaco:h13
 set laststatus=2
 
 set mouse=a
@@ -126,9 +140,11 @@ set diffopt=vertical
 
 set switchbuf=useopen
 
+set tags^=./.git/tags
+
 set background=dark
-colorscheme seoul256
-let g:lightline = { 'colorscheme': 'seoul256' }
+colorscheme jellybeans
+let g:lightline = { 'colorscheme': 'jellybeans' }
 
 " Keybinds
 let mapleader="\<Space>"
@@ -149,6 +165,11 @@ imap <c-x><c-f> <plug>(fzf-complete-path)
 " Buffers
 nnoremap <leader>bb :Buffers<cr>
 nnoremap <leader>bd :bd!<cr>
+nnoremap <leader>bl :BLines<cr>
+
+" Lines
+nnoremap <leader>ll :Lines<cr>
+nnoremap <leader>lb :BLines<cr>
 
 " Commands
 nnoremap <leader>cc :Commands<cr>
@@ -189,19 +210,56 @@ nnoremap <leader>tg :TestVisit<cr>
 nnoremap <leader>xw :StripWhitespace<cr>
 
 " Plugin Config
-let g:deoplete#enable_at_startup = 1
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+
+let g:elm_setup_keybindings = 0
+
+" Language Server
+inoremap <silent><expr> <TAB>
+  \ pumvisible() ? "\<C-n>" :
+  \ <SID>check_back_space() ? "\<TAB>" :
+  \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
 
 let test#strategy = 'neoterm'
 
-let g:neoterm_default_mods = ['vertical']
+let g:neoterm_default_mod = 'botright'
 let g:neoterm_autoscroll = 1
 
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_set_highlights = 0
-let g:ale_javascript_standard_options = '--parser babel-eslint --plugin flowtype'
+let g:ale_linters = {
+\   'javascript': ['standard', 'flow'],
+\   'elixir': ['elixir-ls']
+\}
+
+let g:ale_fixers = {
+\   'elixir': ['mix_format']
+\}
+let g:ale_javascript_standard_executable = 'standard --parser babel-eslint'
+let g:ale_elixir_elixir_ls_release = '/Users/conor/Documents/github/elixir-ls/rel'
+let g:ale_elixir_elixir_ls_config = {
+\   'elixirLS': {
+\     'dialyzerEnabled': v:false,
+\   },
+\}
 
 let g:jsx_ext_required = 0
+
+let g:javascript_plugin_flow = 1
 
 " center search matches
 noremap <plug>(slash-after) zz

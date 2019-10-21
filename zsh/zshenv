@@ -1,6 +1,5 @@
 typeset -gU cdpath fpath mailpath path
 
-export EDITOR='nvim'
 export PAGER='less'
 export ERL_AFLAGS="-kernel shell_history enabled"
 
@@ -15,10 +14,13 @@ fi
 cdpath=(
   $cdpath
   $HOME/dotfiles
-  $HOME/Documents/fourth
+  /Users/conor/Documents/github/
 )
 
 path=(
-  /usr/local/{bin,sbin}
   $path
+  $HOME/.rvm/bin
+  $HOME/.local/bin
+  $HOME/.cargo/bin
+  $HOME/.nvm/versions/node/v8.10.0/bin
 )
