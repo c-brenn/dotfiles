@@ -3,4 +3,6 @@ tags
 .DS_Store
 vendor/bundle
 .projections.json
-
+.env.local
+.projections.json
+.elixir_ls/

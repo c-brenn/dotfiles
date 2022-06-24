@@ -1,16 +1,6 @@
 filetype off
 runtime macros/matchit.vim
 
-function! BuildComposer(info)
-  if a:info.status != 'unchanged' || a:info.force
-    if has('nvim')
-      !cargo build --release
-    else
-      !cargo build --release --no-default-features --features json-rpc
-    endif
-  endif
-endfunction
-
 if has('nvim')
   let g:plugin_path='~/.config/nvim/plugged'
 else
@@ -34,49 +24,33 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/vim-easy-align'
-Plug 'machakann/vim-highlightedyank'
-" Plug 'SirVer/ultisnips'
-" Plug 'honza/vim-snippets'
 
 " Handy keybindings
 Plug 'tpope/vim-unimpaired'
 
 Plug 'junegunn/vim-slash'
-Plug 'mhinz/vim-grepper'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-" Completion
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'dense-analysis/ale'
 
 " Async jobs
-" Plug 'w0rp/ale'
 Plug 'janko-m/vim-test'
 Plug 'kassio/neoterm'
 
 " Movement
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } | Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-projectionist'
 
 " Language support
 Plug 'elixir-lang/vim-elixir',  { 'for': ['elixir', 'eelixir'] }
-Plug 'slashmili/alchemist.vim', { 'for': ['elixir', 'eelixir'] }
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
 Plug 'tpope/vim-markdown',      { 'for': 'markdown' }
-" Plug 'euclio/vim-markdown-composer', { 'do': function('BuildComposer') }
-Plug 'kchmck/vim-coffee-script'
-Plug 'tpope/vim-rails'
-Plug 'tpope/vim-dadbod'
-Plug 'christoomey/vim-rfactory'
-Plug 'ElmCast/elm-vim', { 'for': 'elm' }
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+" Plug 'fatih/vim-go'
 
 " Aesthetics
 Plug 'nanotech/jellybeans.vim'
-Plug 'dracula/vim'
-Plug 'junegunn/seoul256.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'ntpeters/vim-better-whitespace'
-Plug 'Yggdroot/indentLine'
 call plug#end()
 
 syntax on
@@ -88,6 +62,12 @@ set laststatus=2
 set mouse=a
 
 set hidden
+set nobackup
+set nowritebackup
+set cmdheight=2
+set updatetime=300
+set shortmess+=c
+set signcolumn=yes
 set nocursorline
 set number
 
@@ -176,9 +156,10 @@ nnoremap <leader>cc :Commands<cr>
 nnoremap <leader>ch :History:<cr>
 
 " Git
-nnoremap <leader>gs :Gstatus<cr>
+nnoremap <leader>gs :Git<cr>
 nnoremap <leader>gd :Gdiff<cr>
 nnoremap <leader>gm :GFiles?<cr>
+nnoremap <leader>gb :Git blame<cr>
 
 " Help
 nnoremap <leader>hh :Helptags<cr>
@@ -193,8 +174,6 @@ nnoremap <leader>ww :Windows<cr>
 nnoremap <leader>ff :Files<cr>
 nnoremap <leader>fh :History<cr>
 nnoremap <leader>fs :update<cr>
-nnoremap <leader>fr :call RenameCurrentFile()<cr>
-nnoremap <leader>fr :call RenameCurrentFile()<cr>
 
 " Search
 nnoremap <leader>/  :Ripgrep<space>
@@ -228,10 +207,24 @@ endfunction
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
 
-nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> <C-]> <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+nmap <silent> ]g <Plug>(ale_next)
+nmap <silent> [g <Plug>(ale_previous)
+
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+command! -nargs=0 Format :call CocAction('format')
 
 
 let test#strategy = 'neoterm'
@@ -239,27 +232,7 @@ let test#strategy = 'neoterm'
 let g:neoterm_default_mod = 'botright'
 let g:neoterm_autoscroll = 1
 
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_set_highlights = 0
-let g:ale_linters = {
-\   'javascript': ['standard', 'flow'],
-\   'elixir': ['elixir-ls']
-\}
-
-let g:ale_fixers = {
-\   'elixir': ['mix_format']
-\}
-let g:ale_javascript_standard_executable = 'standard --parser babel-eslint'
-let g:ale_elixir_elixir_ls_release = '/Users/conor/Documents/github/elixir-ls/rel'
-let g:ale_elixir_elixir_ls_config = {
-\   'elixirLS': {
-\     'dialyzerEnabled': v:false,
-\   },
-\}
-
-let g:jsx_ext_required = 0
-
-let g:javascript_plugin_flow = 1
+let g:ale_linters = { 'elixir': [] }
 
 " center search matches
 noremap <plug>(slash-after) zz
@@ -281,7 +254,10 @@ augroup FileTypeSpecific
   autocmd FileType gitcommit setlocal spell
   autocmd Filetype help nnoremap <buffer> q :close<CR>
   autocmd BufNewFile,BufRead *.js.flow setlocal ft=javascript
+  " autocmd BufWrite *.tsx call CocAction('format')
 augroup END
+
+au TextYankPost * silent! lua vim.highlight.on_yank()
 
 " Commands
 command! -bang -nargs=* Ripgrep

@@ -1,4 +1,4 @@
-export ZPLUG_HOME=~/.zplug
+export ZPLUG_HOME=/usr/local/opt/zplug
 source $ZPLUG_HOME/init.zsh
 
 zplug "zsh-users/zsh-completions"
@@ -18,9 +18,6 @@ fi
 
 zplug load
 
-[ -s "$HOME/.asdf/asdf.sh" ] &&  . "$HOME/.asdf/asdf.sh"
-[ -s "$HOME/.asdf/completions/asdf.bash" ] && . "$HOME/.asdf/completions/asdf.bash"
-
 source "$HOME/dotfiles/zsh/aliases.zsh"
 source "$HOME/dotfiles/zsh/functions.zsh"
 source "$HOME/dotfiles/zsh/history.zsh"
@@ -30,11 +27,8 @@ source "$HOME/dotfiles/zsh/fzf.zsh"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-eval "$(rbenv init -)"
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-
 . $HOME/.asdf/asdf.sh
 
-. $HOME/.asdf/completions/asdf.bash
+# Added by serverless binary installer
+export PATH="$HOME/.serverless/bin:$PATH"
+eval "$(direnv hook zsh)"

@@ -14,13 +14,14 @@ fi
 cdpath=(
   $cdpath
   $HOME/dotfiles
-  /Users/conor/Documents/github/
+  # $HOME/Documents/github/
+  # $HOME/Documents/sketch/
+  $HOME/Documents/
 )
 
 path=(
   $path
-  $HOME/.rvm/bin
   $HOME/.local/bin
-  $HOME/.cargo/bin
-  $HOME/.nvm/versions/node/v8.10.0/bin
+  $GOPATH/bin
 )
+. "$HOME/.cargo/env"

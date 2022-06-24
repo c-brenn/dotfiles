@@ -11,3 +11,6 @@ alias tm='tmux'
 
 # == ruby == #
 alias be='bundle exec'
+
+# == docker == #
+alias dc='docker-compose'
