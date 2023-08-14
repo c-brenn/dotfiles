@@ -11,7 +11,7 @@
   rb = rebase
 
 [branch]
-  autosetupmerge = always
+  autoSetupMerge = simple
 
 [core]
   excludesfile = ~/.config/git/ignore
@@ -31,7 +31,8 @@
 	ff = only
 
 [push]
-  default = current
+  default = simple
+  autosetupremote = true
 
 [rebase]
   autosquash = true
@@ -39,29 +40,9 @@
 [status]
   showUntrackedFiles = all
 
-[interactive]
-    diffFilter = delta --color-only --features=interactive
-
-[delta]
-    features = decorations
-
-[delta "interactive"]
-    keep-plus-minus-markers = false
-
-[delta "decorations"]
-    commit-decoration-style = blue ol
-    commit-style = raw
-    file-style = omit
-    hunk-header-decoration-style = blue box
-    hunk-header-file-style = red
-    hunk-header-line-number-style = "#067a00"
-    hunk-header-style = file line-number syntax
-
 [user]
   email = conor@sketch.com
 	name = c-brenn
-[url "git@github.com:"]
-	insteadOf = https://github.com/
 [url "ssh://git@github.com/sketch-hq"]
 	insteadOf = https://github.com/sketch-hq
 [url "https://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@github.com/sketch-hq"]
