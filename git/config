@@ -43,8 +43,8 @@
 [user]
   email = conor@sketch.com
 	name = c-brenn
-[url "ssh://git@github.com/sketch-hq"]
-	insteadOf = https://github.com/sketch-hq
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/
 [url "https://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@github.com/sketch-hq"]
 	insteadOf = https://github.com/sketch-hq
 [url "https://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@github.com/sketch-hq"]
