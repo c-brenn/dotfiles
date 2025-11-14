@@ -6,3 +6,8 @@ vendor/bundle
 .env.local
 .projections.json
 .elixir_ls/
+notes.local.md
+GEMINI.md
+.elixir-tools/
+
+**/.claude/settings.local.json

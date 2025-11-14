@@ -28,7 +28,7 @@
 
 [pull]
   default = current
-	ff = only
+  ff = only
 
 [push]
   default = simple
@@ -42,10 +42,12 @@
 
 [user]
   email = conor@sketch.com
-	name = c-brenn
-[url "ssh://git@github.com/"]
-	insteadOf = https://github.com/
-[url "https://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@github.com/sketch-hq"]
-	insteadOf = https://github.com/sketch-hq
-[url "https://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@github.com/sketch-hq"]
-	insteadOf = https://github.com/sketch-hq
+  name = c-brenn
+  signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHdJQdQ/0shwkvf+YgY2dFM4+yFkW6FREn458W4tV6ZT
+[gpg]
+  format = ssh
+[gpg "ssh"]
+  program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+  allowedSignersFile = /Users/conor/.config/git/allowed_signers
+[commit]
+  gpgsign = true

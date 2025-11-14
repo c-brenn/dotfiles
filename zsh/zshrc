@@ -1,4 +1,4 @@
-export ZPLUG_HOME=/usr/local/opt/zplug
+export ZPLUG_HOME="$HOME/.zplug"
 source $ZPLUG_HOME/init.zsh
 
 zplug "zsh-users/zsh-completions"
@@ -6,8 +6,7 @@ zplug "modules/completion", from:prezto
 zplug "zsh-users/zsh-syntax-highlighting"
 zplug "zsh-users/zsh-autosuggestions", use:"zsh-autosuggestions.zsh"
 zplug "themes/minimal", from:oh-my-zsh
-zplug "zsh-users/zsh-history-substring-search"
-zplug "plugins/gpg-agent", from:oh-my-zsh
+zplug "zsh-users/zsh-history-substring-search", as:plugin
 
 if ! zplug check --verbose; then
     printf "Install zplug plugins? [y/N]: "
@@ -18,17 +17,30 @@ fi
 
 zplug load
 
-source "$HOME/dotfiles/zsh/aliases.zsh"
-source "$HOME/dotfiles/zsh/functions.zsh"
-source "$HOME/dotfiles/zsh/history.zsh"
-source "$HOME/dotfiles/zsh/keybindings.zsh"
-source "$HOME/dotfiles/zsh/navigation.zsh"
-source "$HOME/dotfiles/zsh/fzf.zsh"
+bindkey -e
+
+bindkey -M main '^[OA' history-substring-search-up
+bindkey -M main '^[OB' history-substring-search-down
+bindkey -M main '^[[A' history-substring-search-up
+bindkey -M main '^[[B' history-substring-search-up
+
+alias vim=nvim
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-. $HOME/.asdf/asdf.sh
+# bun completions
+[ -s "/Users/conor/.bun/_bun" ] && source "/Users/conor/.bun/_bun"
 
-# Added by serverless binary installer
-export PATH="$HOME/.serverless/bin:$PATH"
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH"
 eval "$(direnv hook zsh)"
+
+# mise
+eval "$(mise activate zsh)"
+
+# local tools (e.g. claude)
+export PATH="$HOME/.local/bin:$PATH"
+
+# llvm
+export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
